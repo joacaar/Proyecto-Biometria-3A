@@ -16,5 +16,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Comentario para modificar algo del ui -->
+    <!-- Comentario para modificar algo del ui -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
