@@ -13,6 +13,13 @@ local.properties
 # Signing files
 .signing/
 
+# User-specific stuff:
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/dictionaries
+.idea/vcs.xml
+.idea/jsLibraryMappings.xml
+
 # User-specific configurations
 .idea/libraries/
 .idea/workspace.xml
