@@ -1,0 +1,92 @@
+/*
+*
+*
+*    Autor: Adrián Heras Reche
+*
+*    Fecha de creación: 29/10/2019
+*
+*    Última actualización: 29/10/2019
+*
+*
+*
+* ==========================================
+* CSS personalizado
+* ==========================================
+*
+*
+*
+*
+*   Color primario:                     #00B49A
+*   Color resaltado primario:           #00957f
+*   Color secundario:                   #393946
+*   Color resaltado secundario:         #515160
+*   Color terciario:                    #F0F0F0
+*   Color de fondo:                     #FAFAFA
+*   Texto sobre oscuro:                 #FFFFFF
+*   Texto sobre claro:                  #000000
+*
+*/
+
+
+/*                   Login                      */
+
+body {
+    background-color: #FAFAFA;
+}
+
+
+.loginImg {
+    margin-top: 10%;
+}
+
+@media (min-width:576px) {
+    .loginForm {
+        padding-left: 0 !important;
+        padding-right: 0;
+    }
+}
+
+.loginForm.col-12 {
+    padding-left: 1em;
+    padding-right: 0;
+}
+
+.loginLabel {
+    margin: 8px 0 0 0;
+}
+
+.loginButton {
+    background-color: #00B49A;
+    border: none;
+}
+
+.loginButton:hover {
+    background-color: #00957f;
+    border: none;
+}
+
+.loginButton:focus,
+.loginButton.focus {
+    background-color: #00957f !important;
+    border: none;
+}
+
+.loginButton:active {
+    background-color: #00957f;
+    border: none;
+}
+
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
+}
