@@ -1,16 +1,16 @@
-package com.example.envirometrics.ui.send;
+package com.example.envirometrics.ui.perfil;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class SendViewModel extends ViewModel {
+public class PerfilViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public SendViewModel() {
+    public PerfilViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is send fragment");
+        mText.setValue("This is gallery fragment");
     }
 
     public LiveData<String> getText() {

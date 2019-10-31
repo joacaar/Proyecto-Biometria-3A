@@ -34,10 +34,10 @@ public class LoginActivity extends AppCompatActivity {
         if(Hawk.count() >0){
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(i);
+            this.finish();
         }
 
         iniciarSesion();
-
     }
 
     public void iniciarSesion (){
@@ -61,8 +61,15 @@ public class LoginActivity extends AppCompatActivity {
                                         + codigo + " cuerpo=" + cuerpo);
 
                                 if(cuerpo.contains("true")){
+
+                                    //Almacenamos los datos del usuario en la app
+                                    Hawk.put("email", email);
+                                    Hawk.put("password", password);
+
                                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(i);
+                                    finishActivity();
+
                                 }else {
                                     textoError.setText("Email o contraseña incorrecta");
                                 } //if-else
@@ -78,6 +85,11 @@ public class LoginActivity extends AppCompatActivity {
         Intent i = new Intent(LoginActivity.this, RegistroActivity.class);
         startActivity(i);
     }
+
+    public void finishActivity(){
+        this.finish();
+    }
+
 
 
 }

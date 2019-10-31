@@ -1,4 +1,4 @@
-package com.example.envirometrics.ui.tools;
+package com.example.envirometrics.ui.perfil;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,15 +14,15 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.envirometrics.R;
 
-public class ToolsFragment extends Fragment {
+public class PerfilFragment extends Fragment {
 
-    private ToolsViewModel toolsViewModel;
+    private PerfilViewModel perfilViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        toolsViewModel =
-                ViewModelProviders.of(this).get(ToolsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_tools, container, false);
+        perfilViewModel =
+                ViewModelProviders.of(this).get(PerfilViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_perfil, container, false);
 
         return root;
     }

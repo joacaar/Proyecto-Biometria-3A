@@ -94,6 +94,9 @@ public class RegistroActivity extends Activity {
 
                                             Intent i = new Intent(RegistroActivity.this, MainActivity.class);
                                             startActivity(i);
+
+                                            getParent().finish();
+
                                         }else {
                                             textoError.setText("Esta cuenta ya existe");
                                         }

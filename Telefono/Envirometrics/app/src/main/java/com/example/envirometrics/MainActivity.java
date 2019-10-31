@@ -20,6 +20,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     public LogicaFake laLogicaFake;
     public ReceptorBLE receptorBle;
     private BluetoothAdapter bluetoothAdapter;
+    private String value;
 
     private AppBarConfiguration mAppBarConfiguration;
 
@@ -37,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Hawk.init(this).build();
 
         //----------------------------------------------------
         //                  Beacon
@@ -62,43 +67,13 @@ public class MainActivity extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_map, R.id.nav_perfil, R.id.nav_slideshow,
-                R.id.nav_ajustes, R.id.nav_cerrar_sesion, R.id.nav_send)
+                R.id.nav_map, R.id.nav_perfil, R.id.nav_ajustes, R.id.nav_cerrar_sesion)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        /* NO FUNCIONA SI ESTA TODO EN EL MAIN, HAY QUE HACER QUE MIDA DE MANERA AUTOMATICA SIN DEPENDER DE UN BOTON
-        //Cuando se pulsa el boton epieza a escanear llamando a la funcion obtenerCO()
-        Button scanBoton = findViewById(R.id.scan);
-        scanBoton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Log.e("--- DEBUG BT ---", "Boton escanear pulsado");
-                receptorBle.obtenerCO();
-                Log.e("--- DEBUG BT ---", "Despues de la llamada a obtenerCO()");
-                //new EscanerSegundoPlano().execute(receptorBle);//Ejecutamos la tarea asincrona para buscar dispositivos
-                Log.e("--- DEBUG BT ---", "A ver cuando se ejecuta esto");
-            }
-        });
-
-        //Cuando se pulsa el boton para de escanear llamando a la funcion stopScan()
-        Button stopBoton = findViewById(R.id.stop);
-        stopBoton.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Log.d("---BT---", "Boton de stop pulsado");
-                receptorBle.stopScan();
-            }
-        });
-
-        Button anunciarCo = findViewById(R.id.anunciarCO);
-        anunciarCo.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                anunciarCO();
-            }
-        });
-*/
 
     }
 
@@ -108,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart (){
         super.onStart();
-
 
         //Comprobamos el estado del bluetooth y pedimos al usuario que se active si este no lo esta
         //En el resultado comprobaremos la decision del usuario y activaremos la posibilidad de
@@ -127,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void pedirPermisoGPS(){
         if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.READ_CONTACTS)
+                Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this,
                     new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
@@ -170,6 +144,16 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
+        //Obtener datos del usuario registrado
+        String emailUsuario = Hawk.get("email");
+
+        TextView nombreUsuarioNav = findViewById(R.id.nombreUsuarioNav);
+        TextView emailUsuarioNav = findViewById(R.id.emailUsuarioNav);
+
+        nombreUsuarioNav.setText(emailUsuario);
+        emailUsuarioNav.setText(emailUsuario);
+
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
