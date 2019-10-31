@@ -1,16 +1,16 @@
-package com.example.envirometrics.ui.share;
+package com.example.envirometrics.ui.cerrraSesion;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class ShareViewModel extends ViewModel {
+public class CerrarSesionViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public ShareViewModel() {
+    public CerrarSesionViewModel() {
         mText = new MutableLiveData<>();
-        mText.setValue("This is share fragment");
+        mText.setValue("This is send fragment");
     }
 
     public LiveData<String> getText() {
