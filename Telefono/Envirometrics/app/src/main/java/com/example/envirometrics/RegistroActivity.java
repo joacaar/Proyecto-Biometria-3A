@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.orhanobut.hawk.Hawk;
+
 public class RegistroActivity extends Activity {
 
     private String email;
@@ -30,6 +32,7 @@ public class RegistroActivity extends Activity {
         btnRegistrarme = findViewById(R.id.btnRegistrarse);
         textoError = findViewById(R.id.textoError2);
         laLogica = new LogicaFake();
+        Hawk.init(this).build();
         registrarse();
 
     }
@@ -69,7 +72,10 @@ public class RegistroActivity extends Activity {
 
                         //Creo un usuario y se lo envio al servidor para que lo guarde en la bd
                         Usuario nuevoUsuario = new Usuario(email, telefono, password);
-
+/*
+                        Hawk.put("email", email);
+                        Hawk.put("password", password);
+*/
                         //Dar alta usuario
                         laLogica.darAltaUsuario( nuevoUsuario,
                                 new PeticionarioREST.Callback () {
@@ -81,6 +87,11 @@ public class RegistroActivity extends Activity {
 
 
                                         if(cuerpo.contains("OK")){
+
+                                            //Almacenamos los datos del usuario en la app
+                                            Hawk.put("email", email);
+                                            Hawk.put("password", password);
+
                                             Intent i = new Intent(RegistroActivity.this, MainActivity.class);
                                             startActivity(i);
                                         }else {
