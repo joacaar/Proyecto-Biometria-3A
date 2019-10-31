@@ -82,6 +82,8 @@ public class RegistroActivity extends Activity {
                                     @Override
                                     public void respuestaRecibida( int codigo, String cuerpo ) {
 
+                                        //Si hay error con el Hawk del if del "OK", descomentar la linea de abajo
+                                        //Hawk.init(this).build;
                                         Log.e("RESPUESTA RECIBIDA", "Logica.darAltaUsuario() respuestaRecibida: codigo = "
                                                 + codigo + " cuerpo=" + cuerpo);
 
