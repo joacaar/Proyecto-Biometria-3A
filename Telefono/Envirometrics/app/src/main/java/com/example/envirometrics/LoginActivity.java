@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.orhanobut.hawk.Hawk;
+
 public class LoginActivity extends AppCompatActivity {
 
     private String email;
@@ -27,6 +29,13 @@ public class LoginActivity extends AppCompatActivity {
         laLogica = new LogicaFake();
         btnIniciarSesion = findViewById(R.id.btnLog);
         textoError = findViewById(R.id.textoError);
+
+        Hawk.init(this).build();
+        if(Hawk.count() >0){
+            Intent i = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(i);
+        }
+
         iniciarSesion();
 
     }
