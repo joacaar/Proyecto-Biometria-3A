@@ -43,9 +43,19 @@ describe( "TEST 2: DAR DE ALTA UN USUARIO", function() {
        password: "1234", telefono: "646601542"
      })
 
+     var haRegistradoElUsuario = await laLogica.darAltaUsuario({
+       email: "emilioxeraco@gmail.com",
+       password: "1234", telefono: "646601542"
+     })
+
+     assert.equal(haRegistradoElUsuario, false)
+
+     var elUsuarioExiste = await laLogica.elUsuarioExiste("emilioxeraco@gmail.com")
+
+     assert.equal(elUsuarioExiste, true)
+
      //BUSCO AL USUARIO POR SU EMAIL
      var res = await laLogica.buscarUsuarioPorEmail("emilioxeraco@gmail.com")
-     console.log(res)
 
      // COMPRUEBO QUE ES ESE USUARIO
      assert.equal( res.idUsuario, 1, "El ID usuario es: " + res.idUsuario)

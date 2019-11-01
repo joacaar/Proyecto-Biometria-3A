@@ -5,6 +5,8 @@
 // ReglasREST.js
 // .....................................................................
 
+const path = require('path')
+
 module.exports.cargar = function( servidorExpress, laLogica ) {
 
 // .......................................................
@@ -146,16 +148,12 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
         // supuesto procesamiento
         console.log(peticion.body);
 
-        // llamamos al método de la lógica que se encarga de insertar medida
-        var res = await laLogica.darAltaUsuario(datos);
+        // llamamos al método de la lógica que se encarga de registrar usuario
+        var seHaRegistradoElUsuario = await laLogica.darAltaUsuario(datos);
 
-        if( res == "Ya existe" ){
-          // enviarmos una respuesta que demuestra que todo ha salido correctamente
-          respuesta.status(404).send( {laRespuesta: "Ya existe"} );
-        }
+        console.log(seHaRegistradoElUsuario)
 
-        // enviarmos una respuesta que demuestra que todo ha salido correctamente
-        respuesta.status(200).send( {laRespuesta: "OK"} );
+        respuesta.send(seHaRegistradoElUsuario)
 
         console.log("Peticion POST darAltaUsuario recibido");
     }) // post / darAltaUsuario
@@ -176,7 +174,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
         await laLogica.insertarSensor(datos);
 
         // enviarmos una respuesta que demuestra que todo ha salido correctamente
-        respuesta.status(200).send( {laRespuesta: "OK"} );
+        respuesta.send("OK");
         console.log("Peticion POST insertarSensor recibido");
     }) // post / insertarSensor
 
@@ -196,7 +194,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
         await laLogica.insertarTipoSensor(datos);
 
         // enviarmos una respuesta que demuestra que todo ha salido correctamente
-        respuesta.status(200).send( {laRespuesta: "OK"} );
+        respuesta.send( {laRespuesta: "OK"} );
         console.log("Peticion POST insertarSensor recibido");
     }) // post / insertarTipoSensor
 
@@ -274,8 +272,8 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
   servidorExpress.get('/ux/:pagina', function( peticion, respuesta ){
       console.log( " servint html normal: " + peticion.params.pagina )
 
-      var dir = 'C:/Users/EMILIO/Documents/GitHub/Proyecto-Biometria-3A/Servidor/ux/'
-      respuesta.sendFile( dir + peticion.params.pagina);
+      var elPath = path.join(__dirname, '..', 'ux');
+      respuesta.sendFile( elPath + "/" + peticion.params.pagina);
   });
 
 } // cargar()

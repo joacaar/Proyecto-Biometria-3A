@@ -166,6 +166,28 @@ buscarUsuarioPorEmail( email ){
     })
 }
 
+//-------------------------------------------------------------------
+// email:Texto -->
+// elUsuarioExiste()
+// --> V/F
+//-------------------------------------------------------------------
+async elUsuarioExiste(email){
+
+  var res = await this.buscarUsuarioPorEmail(email);
+
+  return new Promise( ( resolver, rechazar ) => {
+    try {
+      if( res.email != email ){
+        resolver(true)
+      }
+
+      resolver(true)
+    } catch (error) {
+      resolver(false)
+    }
+  })
+}
+
 // .................................................................
 // -->{email:Texto, telefono:Texto, password:Texto, idUsuario:Texto}
 // darAltaUsuario()
@@ -174,29 +196,29 @@ async darAltaUsuario( datos ){
   var textoSQL =
   'insert into Usuarios values ( $email, $password, $idUsuario, $telefono );'
 
-  var res = await this.getUltimoIDUsuario();
+  var ultimaIdUsuario = await this.getUltimoIDUsuario();
 
-  var res = await this.buscarUsuarioPorEmail(datos.email)
+  var elUsuarioExiste = await this.elUsuarioExiste(datos.email)
 
   // encriptamos la contraseña con el email.
   var laPasswordEncriptada = sjcl.encrypt(datos.email, datos.password)
 
   var valoresParaSQL = {
-     $idUsuario: res + 1, $email: datos.email, $password: laPasswordEncriptada, $telefono: datos.telefono
+     $idUsuario: ultimaIdUsuario + 1, $email: datos.email, $password: laPasswordEncriptada,
+      $telefono: datos.telefono
   }
 
   return new Promise( ( resolver, rechazar ) => {
-    this.laConexion.run( textoSQL, valoresParaSQL, function( err ) {
-        if( err ){
-            rechazar(err)
+    if( !elUsuarioExiste ){
+      this.laConexion.run( textoSQL, valoresParaSQL, function( err ) {
+        if(err){
+          rechazar(err)
         }
-        if( res == undefined ){
-          resolver()
-        }
-        else{
-          resolver("Ya existe")
-        }
-    })
+        resolver(true)
+      })
+    } else{
+      resolver(false)
+    }
   })
 }
 
@@ -283,11 +305,27 @@ buscarSensor( idSensor ){
     })
 }
 
-// --------------------------------------------------------------
+// --------------------------------------------------------
+// --> nombre:Texto
+// buscarUsuarioAdmin()
+// {nombre:Texto, password:Texto}
+// --------------------------------------------------------
+buscarUsuarioAdmin( nombre ){
+  var textoSQL = "select * from UsuariosAdmin where nombre=$nombre";
+  var valoresParaSQL = { $nombre: nombre }
+  return new Promise( ( resolver, rechazar ) => {
+    this.laConexion.all( textoSQL, valoresParaSQL,
+      ( err, res ) => {
+        ( err ? rechazar( err ) : resolver( res[0] ) )
+      })
+    })
+}
+
+// --------------------------------------------------------
 // {email:Texto, password:Texto}
-// --> iniciarSesion()
+// iniciarSesion()
 // --> V/F
-// --------------------------------------------------------------
+// --------------------------------------------------------
 async iniciarSesion(datos){
 
   var res = await this.buscarUsuarioPorEmail(datos.email);
