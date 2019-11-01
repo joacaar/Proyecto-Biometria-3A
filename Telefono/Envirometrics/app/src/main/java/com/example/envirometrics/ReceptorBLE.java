@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import java.util.Date;
+
 import static android.content.Context.BLUETOOTH_SERVICE;
 
 public class ReceptorBLE {
@@ -88,6 +90,23 @@ public class ReceptorBLE {
     //almacenando en un objeto medidion todos los datos
     //por ultimo llama a un metodo para que envie la informacion al servidor
     public void actualizarMediciones( TramaIBeacon trama){
+
+        Date date = new Date();
+        long dateTimeFinal = date.getTime() + 300000;
+
+        //Controlamos que hay almenos una ubicacion actual, en caso contrario no se enviarian las medidiones debidoa que se habrian realizado en interior
+        if(!localizador.hayUltimaPosicion()){
+            while(date.getTime() < dateTimeFinal){
+                if(localizador.hayUltimaPosicion()){
+                   break ;
+                }
+            }
+            if(date.getTime() > dateTimeFinal)
+                stopScan();
+                return;
+        }
+
+        stopScan();
 
         medicion.setMedidaCO(Utilidades.bytesToInt(trama.getMajor()));
         medicion.setFecha(Medicion.averiguarFecha());
