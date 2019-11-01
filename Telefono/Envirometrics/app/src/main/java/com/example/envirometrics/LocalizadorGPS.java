@@ -39,6 +39,12 @@ public class LocalizadorGPS {
     public LocalizadorGPS(Context mContext){
         this.mContext = mContext;
         mLocMgr = (LocationManager) this.mContext.getSystemService(LOCATION_SERVICE);
+        if(ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
+                ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
+        {
+            ultimaPosicionMedida = mLocMgr.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+        }
         /*
         if(!mLocMgr.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER )) {
             Intent myIntent = new Intent(  );
@@ -87,6 +93,13 @@ public class LocalizadorGPS {
         return ultimaPosicionMedida.getLongitude();
         else
             return 0.0;
+    }
+
+    public boolean hayUltimaPosicion(){
+        if(ultimaPosicionMedida == null)
+            return true;
+
+        return false;
     }
 
 
