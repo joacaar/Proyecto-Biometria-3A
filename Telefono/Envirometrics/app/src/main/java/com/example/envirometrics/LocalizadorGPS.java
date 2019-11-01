@@ -29,7 +29,7 @@ public class LocalizadorGPS {
     private Location ultimaPosicionMedida;
 
     //Minimo tiempo para updates en Milisegundos
-    private static final long MIN_CAMBIO_DISTANCIA_PARA_UPDATES = 100; // 10 metros
+    private static final long MIN_CAMBIO_DISTANCIA_PARA_UPDATES = 0; // 10 metros
     //Minimo tiempo para updates en Milisegundos
     private static final long MIN_TIEMPO_ENTRE_UPDATES = 1000 * 60 * 1; // 1 minuto
 
@@ -48,7 +48,7 @@ public class LocalizadorGPS {
 
     /*
     Metodo que sera llamado al iniciar la aplicacion y posteriormente se actualizara la medicion
-    cada 100m o 10 min
+    cada cierto tiempo y distancia definido
      */
     public void ObtenerMiPosicionGPS (){
 
