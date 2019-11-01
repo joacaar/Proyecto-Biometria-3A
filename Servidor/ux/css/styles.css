@@ -5,7 +5,7 @@
 *
 *    Fecha de creación: 29/10/2019
 *
-*    Última actualización: 29/10/2019
+*    Última actualización: 01/11/2019
 *
 *
 *
@@ -28,13 +28,13 @@
 */
 
 
-/*                   Login                      */
-
 body {
     background-color: #FAFAFA;
 }
 
 
+
+/*                   Login                      */
 .loginImg {
     margin-top: 10%;
 }
@@ -90,3 +90,151 @@ body {
         font-size: 3.5rem;
     }
 }
+
+
+
+/*                 Sidebar                     */
+.vertical-nav {
+    min-width: 17rem;
+    width: 17rem;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+div#sidebar {
+    background-color: #393946;
+}
+
+.indexImg {
+    margin: 15%;
+    margin-bottom: 0;
+}
+
+.nav-item:hover {
+    background-color: #515160;
+}
+
+.indexSidebar {
+    color: #FFFFFF;
+    font-size: 20px;
+}
+
+.indexSidebar:hover {
+    color: #FFFFFF;
+}
+
+.indexIcon {
+    color: #FFFFFF;
+    width: 1em;
+    height: 1em;
+    margin-right: 1em;
+}
+
+
+
+/*                 Searchbar                     */
+
+.searchbar {
+    background-color: #F0F0F0;
+    text-align: right;
+    padding: 1em 0.5em;
+    width: 100%;
+}
+
+.searchIcon {
+    color: #000000;
+    margin: 0 0.25em;
+}
+
+#content {
+    background-color: #FAFAFA;
+    color: #000000;
+}
+
+
+
+/*                 Cuadrados centrales                     */
+.page-content {
+    width: calc(100% - 17rem);
+    margin-left: 17rem;
+    transition: all 0.4s;
+}
+
+.dashboard {
+    padding: 0 1em;
+}
+
+.informacionCentral div.col-4 {
+    padding: 2em;
+    margin-top: 2em;
+}
+
+.cuadradoCentral {
+    background-color: #00B49A;
+    padding: 1em;
+    color: #FFFFFF;
+    height: 10em;
+    text-align: right;
+}
+
+.cuadradoCentral div {
+    height: 2em;
+}
+
+.cuadradoCentral p {
+    text-align: left;
+}
+
+span.numero {
+    display: inline-block;
+    margin-top: 1em;
+    margin-right: 0.5em;
+    font-size: 32px;
+}
+
+/*                 Tabla de últimas medidas                     */
+
+.tabla {
+    padding: 2em;
+}
+
+.tabla p {
+    font-size: 32px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
