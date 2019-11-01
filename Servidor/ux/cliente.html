@@ -28,13 +28,11 @@
 
             if (res == true) {
                 /*window.location.replace("http://www.google.com");*/
-                console.log(res)
-                document.cookie = json;
+                document.cookie = JSON.stringify(json);
             } else {
-                console.log(res)
                 alert("Credenciales erróneas")
             }
-
+            console.log(res)
         })
 
         console.log("Voy a iniciarSesion")
@@ -42,7 +40,7 @@
     }
 
     async function iniciarSesionOnLoad() {
-        var laCookie = document.cookie
+        var laCookie = JSON.parse(document.cookie)
         var nombre = laCookie.nombre;
         var password = laCookie.password;
         await iniciarSesion(nombre, password)
