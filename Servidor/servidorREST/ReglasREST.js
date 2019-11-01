@@ -276,6 +276,36 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
       respuesta.sendFile( elPath + "/" + peticion.params.pagina);
   });
 
+  //-----------------------------------------------------------------------------
+  // GET /ux/html/<pagina>
+  //-----------------------------------------------------------------------------
+  servidorExpress.get('/ux/html/:pagina', function( peticion, respuesta ){
+      console.log( " servint html normal: " + peticion.params.pagina )
+
+      var elPath = path.join(__dirname, '..', 'ux', 'html');
+      respuesta.sendFile( elPath + "/" + peticion.params.pagina);
+  });
+
+  //-----------------------------------------------------------------------------
+  // GET /ux/css/<estilos>
+  //-----------------------------------------------------------------------------
+  servidorExpress.get('/ux/css/:estilos', function( peticion, respuesta ){
+      console.log( " servint css: " + peticion.params.estilos )
+
+      var elPath = path.join(__dirname, '..', 'ux', 'css');
+      respuesta.sendFile( elPath + "/" + peticion.params.estilos);
+  });
+
+  //-----------------------------------------------------------------------------
+  // GET /ux/images/<imagen>
+  //-----------------------------------------------------------------------------
+  servidorExpress.get('/ux/images/:imagen', function( peticion, respuesta ){
+      console.log( " servint imagenes: " + peticion.params.imagen )
+
+      var elPath = path.join(__dirname, '..', 'ux', 'images');
+      respuesta.sendFile( elPath + "/" + peticion.params.imagen);
+  });
+
 } // cargar()
 
 // .....................................................................
