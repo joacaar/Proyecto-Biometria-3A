@@ -101,7 +101,10 @@ CSS
         <!-- Search Bar -->
         <div class="searchbar">
             <i class="fa fa-bell fa-3x searchIcon"></i>
-            <i class="fa fa-user fa-3x searchIcon"></i>
+
+            <a href="#" onclick="logOut()">
+                <i class="fa fa-user fa-3x searchIcon"></i>
+            </a>
         </div>
 
         <!-- Content -->
@@ -236,7 +239,7 @@ CSS
 
     <script>
         var elProxy = new Proxy();
-        
+
         function getUltimaMedidaDeUnUsuario() {
             elProxy.getUltimaMedidaDeUnUsuario(1, function(res) {
                 document.getElementById("medida").innerHTML = res.valorMedida;
@@ -246,6 +249,11 @@ CSS
 
         function getUltimaMedidaDeUnUsuarioOnLoad() {
             getUltimaMedidaDeUnUsuario();
+        }
+
+        function logOut() {
+            document.cookie = "";
+            window.location.replace('login.html');
         }
 
     </script>
