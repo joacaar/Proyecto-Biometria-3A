@@ -102,12 +102,12 @@
 
             <div class="form-label-group">
                 <label for="inputEmail" class="loginLabel">Email address</label>
-                <input type="text" id="inputEmail" class="loginInput" placeholder="Email address" required="" autofocus="">
+                <input type="text" id="inputEmail" class="form-control loginInput" placeholder="Email address" required="" autofocus="">
             </div>
 
             <div class="form-label-group">
                 <label for="inputPassword" class="loginLabel">Password</label>
-                <input type="password" id="inputPassword" class="loginInput" placeholder="Password" required="">
+                <input type="password" id="inputPassword" class="form-control loginInput" placeholder="Password" required="">
             </div>
 
             <div class="checkbox mb-3 loginLabel">
@@ -156,7 +156,9 @@
         elProxy.iniciarSesion(json, function(res) {
 
             if (res == true) {
-                document.cookie = JSON.stringify(json);
+                if (document.getElementById("remember-me").checked) {
+                    document.cookie = JSON.stringify(json);
+                }
                 window.location.replace('admin.html');
             } else {
                 alert("Credenciales erróneas")
@@ -169,11 +171,9 @@
     }
 
     async function iniciarSesionOnLoad() {
-        if (document.getElementById("remember-me").checked) {
-            var laCookie = JSON.parse(document.cookie)
-            var nombre = laCookie.nombre;
-            var password = laCookie.password;
-        }
+        var laCookie = JSON.parse(document.cookie)
+        var nombre = laCookie.nombre;
+        var password = laCookie.password;
         await iniciarSesion(nombre, password)
     }
 
