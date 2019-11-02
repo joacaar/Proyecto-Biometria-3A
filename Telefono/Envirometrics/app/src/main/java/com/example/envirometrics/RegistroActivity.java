@@ -8,7 +8,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.orhanobut.hawk.Hawk;
 
 public class RegistroActivity extends Activity {
@@ -21,8 +23,6 @@ public class RegistroActivity extends Activity {
     private TextView textoError;
 
     public LogicaFake laLogica;
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,11 +37,23 @@ public class RegistroActivity extends Activity {
 
     }
 
+    //---------------------------------------------------------
+    //                  registrarse()
+    //---------------------------------------------------------
     public void registrarse (){
 
         btnRegistrarme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                btnRegistrarme.setText("");
+
+                //Empieza la animación de cargar
+                final CircularProgressView progressView = (CircularProgressView) findViewById(R.id.progress_view2);
+                progressView.setVisibility(View.VISIBLE);
+                progressView.startAnimation();
+
+                //Guardo los valores de los editText en Strings
                 EditText emailEditText = findViewById(R.id.editTextEmail);
                 email = emailEditText.getText().toString();
 
@@ -72,11 +84,8 @@ public class RegistroActivity extends Activity {
 
                         //Creo un usuario y se lo envio al servidor para que lo guarde en la bd
                         Usuario nuevoUsuario = new Usuario(email, telefono, password);
-/*
-                        Hawk.put("email", email);
-                        Hawk.put("password", password);
-*/
-                        //Dar alta usuario
+
+                        //Dar alta usuario de la logicaFake
                         laLogica.darAltaUsuario( nuevoUsuario,
                                 new PeticionarioREST.Callback () {
                                     @Override
@@ -87,7 +96,16 @@ public class RegistroActivity extends Activity {
                                         Log.e("RESPUESTA RECIBIDA", "Logica.darAltaUsuario() respuestaRecibida: codigo = "
                                                 + codigo + " cuerpo=" + cuerpo);
 
+                                        //No se puede conectar al servidor
+                                        if(codigo==0){
+                                            Toast.makeText(getBaseContext(),"Error de conexión", Toast.LENGTH_SHORT).show();
+                                            progressView.stopAnimation();
+                                            progressView.setVisibility(View.INVISIBLE);
 
+                                            btnRegistrarme.setText("Registrarse");
+                                        }
+
+                                        //Todo correcto con el servidor
                                         if(cuerpo.contains("OK")){
 
                                             //Almacenamos los datos del usuario en la app
@@ -97,11 +115,21 @@ public class RegistroActivity extends Activity {
                                             Intent i = new Intent(RegistroActivity.this, MainActivity.class);
                                             startActivity(i);
 
+                                            progressView.stopAnimation();
+                                            progressView.setVisibility(View.INVISIBLE);
+
+                                            btnRegistrarme.setText("Registrarse");
+
                                             getParent().finish();
 
-                                        }else {
+                                        } else {
+                                            progressView.stopAnimation();
+                                            progressView.setVisibility(View.INVISIBLE);
+
+                                            btnRegistrarme.setText("Registrarse");
+
                                             textoError.setText("Esta cuenta ya existe");
-                                        }
+                                        }//if-else
                                     }
                                 }
                         );
@@ -112,6 +140,9 @@ public class RegistroActivity extends Activity {
         });
     }
 
+    //---------------------------------------------------------
+    //                  linkIniciarSesion()
+    //---------------------------------------------------------
     public void linkIniciarSesion (View view){
         Intent MainIntent = new Intent(RegistroActivity.this, LoginActivity.class);
         startActivity(MainIntent);
