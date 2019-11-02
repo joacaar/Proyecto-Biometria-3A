@@ -46,13 +46,6 @@ public class RegistroActivity extends Activity {
             @Override
             public void onClick(View view) {
 
-                btnRegistrarme.setText("");
-
-                //Empieza la animación de cargar
-                final CircularProgressView progressView = (CircularProgressView) findViewById(R.id.progress_view2);
-                progressView.setVisibility(View.VISIBLE);
-                progressView.startAnimation();
-
                 //Guardo los valores de los editText en Strings
                 EditText emailEditText = findViewById(R.id.editTextEmail);
                 email = emailEditText.getText().toString();
@@ -81,6 +74,14 @@ public class RegistroActivity extends Activity {
                     }
                     //Todo correcto
                     else {
+
+                        textoError.setText("");
+                        btnRegistrarme.setText("");
+
+                        //Empieza la animación de cargar
+                        final CircularProgressView progressView = (CircularProgressView) findViewById(R.id.progress_view2);
+                        progressView.setVisibility(View.VISIBLE);
+                        progressView.startAnimation();
 
                         //Creo un usuario y se lo envio al servidor para que lo guarde en la bd
                         Usuario nuevoUsuario = new Usuario(email, telefono, password);
@@ -117,7 +118,6 @@ public class RegistroActivity extends Activity {
 
                                             progressView.stopAnimation();
                                             progressView.setVisibility(View.INVISIBLE);
-
                                             btnRegistrarme.setText("Registrarse");
 
                                             getParent().finish();
@@ -125,7 +125,6 @@ public class RegistroActivity extends Activity {
                                         } else {
                                             progressView.stopAnimation();
                                             progressView.setVisibility(View.INVISIBLE);
-
                                             btnRegistrarme.setText("Registrarse");
 
                                             textoError.setText("Esta cuenta ya existe");
