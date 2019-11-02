@@ -29,9 +29,21 @@
 
 
 body {
+    height: 100%;
     background-color: #FAFAFA;
 }
 
+/*                   Main                      */
+div.mapa {
+    width: 100%;
+    height: 89vh;
+}
+
+iframe.mapa {
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
 
 
 /*                   Login                      */
@@ -114,6 +126,10 @@ div#sidebar {
 }
 
 .nav-item:hover {
+    background-color: #515160;
+}
+
+.nav-item.current {
     background-color: #515160;
 }
 
@@ -208,37 +224,3 @@ span.numero {
 .tabla p {
     font-size: 32px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
