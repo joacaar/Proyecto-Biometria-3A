@@ -133,8 +133,7 @@ CSS
                         <div>
                             <p>Taxistas contratados</p>
                         </div>
-                        <span class="numero" id="taxistas">
-                            3
+                        <span class="numero" id="numeroTaxistas">
                         </span>
                     </div>
                 </div>
@@ -253,8 +252,38 @@ CSS
             })
         }
 
+        function getCuantosUsuariosHay() {
+          elProxy.getUsuarios(function(res){
+                document.getElementById("numeroTaxistas").innerHTML = res.length;
+          })
+        }
+
         function getUltimaMedidaDeUnUsuarioOnLoad() {
             getUltimaMedidaDeUnUsuario();
+            getCuantosUsuariosHay()
+        }
+
+        function usuariosSinMedidasEn24H() {
+          elProxy.getUsuarios(function (listaUsuarios){
+            for( var i = 0; i < listaUsuarios.length; i++ ){
+              elProxy.getUltimaMedidaDeUnUsuario( listaUsuarios[i].idUsuario, function(medida){
+                var now = Date.now();
+                if( (now - medida.tiempo) > 86400000 ){
+                  console.log(medida.idUsuario);
+                }
+              })
+            }
+          })
+        }
+
+        function getUltimaMedidaDeTodosLosUsuarios() {
+          elProxy.getUsuarios(function (listaUsuarios){
+            for( var i = 0; i < listaUsuarios.length; i++ ){
+              elProxy.getUltimaMedidaDeUnUsuario( listaUsuarios[i].idUsuario, function(medida){
+                console.log(medida)
+              })
+            }
+          })
         }
 
         function logOut() {
