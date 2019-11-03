@@ -24,6 +24,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.util.Log;
 import android.view.Menu;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -204,5 +205,11 @@ public class MainActivity extends AppCompatActivity {
 
         // show it
         alertDialog.show();
+    }
+
+    //Iniciar actividad de la cámara
+    public void onClickFab (View view){
+        Intent i = new Intent(this, FotoActivity.class);
+        startActivity(i);
     }
 }

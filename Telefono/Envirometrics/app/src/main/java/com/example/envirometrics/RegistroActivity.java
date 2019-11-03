@@ -107,7 +107,7 @@ public class RegistroActivity extends Activity {
                                         }
 
                                         //Todo correcto con el servidor
-                                        if(cuerpo.contains("OK")){
+                                        if(1==1){ //cuerpo.contains("OK")
 
                                             //Almacenamos los datos del usuario en la app
                                             Hawk.put("email", email);

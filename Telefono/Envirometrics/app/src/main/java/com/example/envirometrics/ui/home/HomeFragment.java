@@ -14,6 +14,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.envirometrics.MainActivity;
 import com.example.envirometrics.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.orhanobut.hawk.Hawk;
 
 public class HomeFragment extends Fragment {
@@ -33,7 +34,6 @@ public class HomeFragment extends Fragment {
                 textView.setText(s);
             }
         });
-
 
         return root;
     }
