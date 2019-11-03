@@ -1,7 +1,7 @@
 // .....................................................................
 // Autor: Emilio Esteve Peiró
 // Fecha inicio: 24/10/2019
-// Última actualización: 24/10/2019
+// Última actualización: 3/11/2019
 // Logica.js
 // .....................................................................
 const sjcl = require('sjcl')

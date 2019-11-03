@@ -1,7 +1,7 @@
 // .....................................................................
 // Autor: Emilio Esteve Peiró
 // Fecha inicio: 24/10/2019
-// Última actualización: 24/10/2019
+// Última actualización: 3/11/2019
 // ReglasREST.js
 // .....................................................................
 
@@ -58,7 +58,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
     }) // get /medidasPorIdUsuario/<idUsuario>
 
     // .......................................................
-    // GET /medidasPorIdUsuario/<idMedida>
+    // GET /ultimaMedida/<idUsuario>
     // .......................................................
     servidorExpress.get('/ultimaMedida/:idUsuario',
       async function( peticion, respuesta ){
@@ -78,7 +78,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
       }) // get /medida/<idMedida>
 
     // .......................................................
-    // GET /medidasPorIdUsuario/<idMedida>
+    // GET /buscarSensor/<idSensor>
     // .......................................................
     servidorExpress.get('/buscarSensor/:idSensor',
       async function( peticion, respuesta ){
@@ -98,7 +98,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
       }) // get /medida/<idMedida>
 
       // .......................................................
-      // GET /medidasPorIdUsuario/<idMedida>
+      // GET /usuarios
       // .......................................................
       servidorExpress.get('/usuarios',
         async function( peticion, respuesta ){
@@ -179,7 +179,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
     }) // post / insertarSensor
 
     //-----------------------------------------------------------------------------
-    // POST /insertarSensor
+    // POST /insertarTipoSensor
     // peticion.body --> JSON
     // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
     //-----------------------------------------------------------------------------
@@ -194,7 +194,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
         await laLogica.insertarTipoSensor(datos);
 
         // enviarmos una respuesta que demuestra que todo ha salido correctamente
-        respuesta.send( {laRespuesta: "OK"} );
+        respuesta.send("OK");
         console.log("Peticion POST insertarSensor recibido");
     }) // post / insertarTipoSensor
 
