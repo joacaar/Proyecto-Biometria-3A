@@ -110,7 +110,7 @@ CSS
                 </div>
             </div>
         </div>
-        
+
         <!-- TOAST -->
         <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
@@ -256,8 +256,13 @@ CSS
     <script type="text/javascript" src="proxy.js"></script>
 
     <script>
+
+        // creamos el Proxy
         var elProxy = new Proxy();
 
+        // ------------------------------------------------------------------
+        // getUltimaMedidaDeUnUsuario()
+        // ------------------------------------------------------------------
         function getUltimaMedidaDeUnUsuario() {
             elProxy.getUltimaMedidaDeUnUsuario(1, function(res) {
                 document.getElementById("medida").innerHTML = res.valorMedida;
@@ -265,18 +270,27 @@ CSS
             })
         }
 
+        // ------------------------------------------------------------------
+        // getCuantosUsuariosHay()
+        // ------------------------------------------------------------------
         function getCuantosUsuariosHay() {
             elProxy.getUsuarios(function(res) {
                 document.getElementById("numeroTaxistas").innerHTML = res.length;
             })
         }
 
+        // ------------------------------------------------------------------
+        // getOnLoad()
+        // ------------------------------------------------------------------
         function getOnLoad() {
             getUltimaMedidaDeUnUsuario();
             getCuantosUsuariosHay();
             usuariosSinMedidasEn24H();
         }
 
+        // ------------------------------------------------------------------
+        // usuariosSinMedidasEn24H()
+        // ------------------------------------------------------------------
         function usuariosSinMedidasEn24H() {
             elProxy.getUsuarios(function(listaUsuarios) {
                 for (var i = 0; i < listaUsuarios.length; i++) {
@@ -290,13 +304,15 @@ CSS
                             //alert(string);
                             document.getElementById("toast-body").innerHTML = string;
                             $('.toast').toast();
-                            
                         }
                     })
                 }
             })
         }
 
+        // ------------------------------------------------------------------
+        // getUltimaMedidaDeUnUsuario()
+        // ------------------------------------------------------------------
         function getUltimaMedidaDeTodosLosUsuarios() {
             elProxy.getUsuarios(function(listaUsuarios) {
                 for (var i = 0; i < listaUsuarios.length; i++) {
@@ -307,6 +323,10 @@ CSS
             })
         }
 
+        // ------------------------------------------------------------------
+        // logOut()
+        // --> Cookie
+        // ------------------------------------------------------------------
         function logOut() {
             document.cookie = "";
             window.location.replace('login.html');
