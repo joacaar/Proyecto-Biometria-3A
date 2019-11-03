@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //Pedimos los permisos al inicio para poder activar el servicio
-        pedirPermisoGPS();
+        //pedirPermisoGPS();
 
         Hawk.init(this).build();
 
@@ -63,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
         // creamos la intencion que nos ejecutara el servicio y la notificacion en primer plano
         intencion = new Intent(MainActivity.this, Servicio.class);
         //startService(intencion);
+
+        pedirPermisoGPS();
 
         //----------------------------------------------------
         //              NAVIGATION DRAWER
@@ -90,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart (){
         super.onStart();
-
     }
 //Funcion para comprobar y pedir los permisos de GPS y en caso de tenerlos, pedir los del BT
     public void pedirPermisoGPS(){
@@ -117,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             if(grantResult.length > 0 && PackageManager.PERMISSION_DENIED == grantResult[0]){
-                avisarPermisos(); //No se porque se ejecuta antes de recibir una respuesta
+                avisarPermisos();
             }
         }
 
