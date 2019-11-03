@@ -1,7 +1,9 @@
 package com.example.envirometrics;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -19,6 +21,8 @@ import com.orhanobut.hawk.Hawk;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+
+import android.util.Log;
 import android.view.Menu;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +36,8 @@ public class MainActivity extends AppCompatActivity {
     private BluetoothAdapter bluetoothAdapter;
     private String value;
 
+    private boolean activarServicio;
+
     private AppBarConfiguration mAppBarConfiguration;
 
     private Intent intencion;
@@ -40,14 +46,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Pedimos los permisos al inicio para poder activar el servicio
+        pedirPermisoGPS();
 
         Hawk.init(this).build();
 
         //----------------------------------------------------
         //                  Beacon
         //----------------------------------------------------
-        //Se piden los permisoso de localizacion o se comprueban que la app disponga de ellos
-        pedirPermisoGPS();
+        activarServicio = false;
 
         //Inicializamos el receptor bluetooth para comprobar si el bt esta activo
         receptorBle = new ReceptorBLE(this);
@@ -55,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         // creamos la intencion que nos ejecutara el servicio y la notificacion en primer plano
         intencion = new Intent(MainActivity.this, Servicio.class);
-        startService(intencion);
+        //startService(intencion);
 
         //----------------------------------------------------
         //              NAVIGATION DRAWER
@@ -84,38 +91,36 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart (){
         super.onStart();
 
-        //Comprobamos el estado del bluetooth y pedimos al usuario que se active si este no lo esta
-        //En el resultado comprobaremos la decision del usuario y activaremos la posibilidad de
-        //ejecutar el servicio o no
-        if(receptorBle.btActived() != null) {
-            startActivityForResult(receptorBle.btActived(), REQUEST_BLUETOOTH);
-        }
-
-        // Comprobamos el bluetooth para activar, o no, los botones
-        if(receptorBle.checkBtOn()){
-            startService(intencion);
-        }
     }
-
+//Funcion para comprobar y pedir los permisos de GPS y en caso de tenerlos, pedir los del BT
     public void pedirPermisoGPS(){
-        if (ContextCompat.checkSelfPermission(this,
-                Manifest.permission.ACCESS_FINE_LOCATION )
-                != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,
-                    new  String[]{Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION},
-                    3);
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int respuesta, String[] permissions, int[]grantResult){
-        if(respuesta==3){
-            if(grantResult.length > 0 && grantResult[0] == PackageManager.PERMISSION_GRANTED){
-
-            }else{
-                finish();
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED //&&
+                /*ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED*/) {
+            ActivityCompat.requestPermissions(this, new  String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 3);
+        }else{
+            if(receptorBle.btActived() != null) {
+                startActivityForResult(receptorBle.btActived(), REQUEST_BLUETOOTH);
             }
         }
+    }
+
+    //Respuesta de la peticion de permisos del GPS
+    @Override
+    public void onRequestPermissionsResult(int respuesta, String[] permissions, int[]grantResult){
+        super.onRequestPermissionsResult(respuesta, permissions, grantResult);
+
+        if(respuesta==3){
+            if(grantResult.length > 0 && grantResult[0] == PackageManager.PERMISSION_GRANTED){
+                activarServicio = true;
+                if(receptorBle.btActived() != null) {
+                    startActivityForResult(receptorBle.btActived(), REQUEST_BLUETOOTH);
+                }
+            }
+            if(grantResult.length > 0 && PackageManager.PERMISSION_DENIED == grantResult[0]){
+                avisarPermisos(); //No se porque se ejecuta antes de recibir una respuesta
+            }
+        }
+
     }
 
     // REsultado de la peticion de activacion de bluetooth, si es activado activaremos los botones
@@ -127,8 +132,14 @@ public class MainActivity extends AppCompatActivity {
         {
             //resultcode puede ser 0 si no se ha activado BT o -1 si este ha sido activado
             if(resultCode == -1){
-
+                if(receptorBle.checkBtOn()){
+                    if(activarServicio){
+                        startService(intencion);
+                    }
+                }
+                return;
             }
+            avisarPermisos();
         }
     }
 
@@ -154,5 +165,43 @@ public class MainActivity extends AppCompatActivity {
 
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    // Funcion que mostrara un dialogo de aviso para recordar que sin el GPS o el Bluetooth
+    // la aplicacion no dinpondra de todas sus funcionalidades
+    public void avisarPermisos(){
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                this);
+
+        // set title
+        alertDialogBuilder.setTitle("Aviso!");
+
+        // set dialog message
+        alertDialogBuilder
+                .setMessage("La aplicación no funcionara correctamente sin los permisos." + "\n" +
+                        "Desea aceptar los permisos?")
+                .setCancelable(false)
+                .setPositiveButton("SI",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, close
+                        // current activity
+                        pedirPermisoGPS();
+
+                    }
+                })
+                .setNegativeButton("NO",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, just close
+                        // the dialog box and do nothing
+                        dialog.cancel();
+                    }
+                });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
     }
 }
