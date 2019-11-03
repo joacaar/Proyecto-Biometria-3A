@@ -29,7 +29,6 @@
 
 
 body {
-    height: 100%;
     background-color: #FAFAFA;
 }
 
@@ -160,6 +159,19 @@ div#sidebar {
     width: 100%;
 }
 
+.searchbar-dark {
+    background-color: #393946;
+    text-align: right;
+    padding: 1em 0.5em;
+    width: 100%;
+}
+
+
+.searchIcon-dark {
+    color: #FFFFFF;
+    margin: 0 0.25em;
+}
+
 .searchIcon {
     color: #000000;
     margin: 0 0.25em;
@@ -176,11 +188,25 @@ div.dropdown {
 
 
 
+/*                 Toast                                 */
+div.toast {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+
+
 /*                 Cuadrados centrales                     */
 .page-content {
     width: calc(100% - 17rem);
     margin-left: 17rem;
     transition: all 0.4s;
+}
+
+.page-content.index {
+    margin: 0;
+    width: 100%;
 }
 
 .dashboard {
