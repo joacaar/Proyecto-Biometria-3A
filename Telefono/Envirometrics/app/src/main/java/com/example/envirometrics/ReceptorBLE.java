@@ -19,7 +19,7 @@ public class ReceptorBLE {
 
     private TramaIBeacon laTrama;
     LogicaFake myLogic ;
-    private Medicion medicion;
+    private Medida medicion;
     private LocalizadorGPS localizador;
 
     // Stops scanning after 10 seconds.
@@ -35,9 +35,9 @@ public class ReceptorBLE {
 
         this.mContext = context_;
         //mHandler = new Handler();
-        myLogic = new LogicaFake();
+        myLogic = new LogicaFake(context_);
 
-        medicion = new Medicion();
+        medicion = new Medida();
 
         localizador = new LocalizadorGPS(mContext);
         localizador.ObtenerMiPosicionGPS();
@@ -109,8 +109,6 @@ public class ReceptorBLE {
         stopScan();
 
         medicion.setMedidaCO(Utilidades.bytesToInt(trama.getMajor()));
-        medicion.setFecha(Medicion.averiguarFecha());
-        medicion.setHora(Medicion.averiguarHora());
         medicion.setLatitud(localizador.getLatitud());
         medicion.setLongitud(localizador.getLongitud());
 

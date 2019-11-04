@@ -13,6 +13,9 @@ import android.widget.Toast;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.orhanobut.hawk.Hawk;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class RegistroActivity extends Activity {
 
     private String email;
@@ -31,7 +34,7 @@ public class RegistroActivity extends Activity {
 
         btnRegistrarme = findViewById(R.id.btnRegistrarse);
         textoError = findViewById(R.id.textoError2);
-        laLogica = new LogicaFake();
+        laLogica = new LogicaFake(this);
         Hawk.init(this).build();
         registrarse();
 
@@ -107,11 +110,18 @@ public class RegistroActivity extends Activity {
                                         }
 
                                         //Todo correcto con el servidor
-                                        if(1==1){ //cuerpo.contains("OK")
+                                        if(cuerpo.contains("true")){
 
                                             //Almacenamos los datos del usuario en la app
                                             Hawk.put("email", email);
                                             Hawk.put("password", password);
+
+                                            try {
+                                                JSONObject jsonObject = new JSONObject(cuerpo);
+                                                Hawk.put("id", jsonObject.get("idUsuario"));
+                                            }catch (JSONException err){
+                                                Log.d("Error", err.toString());
+                                            }
 
                                             Intent i = new Intent(RegistroActivity.this, MainActivity.class);
                                             startActivity(i);

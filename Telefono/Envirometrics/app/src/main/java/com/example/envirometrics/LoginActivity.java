@@ -14,6 +14,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.orhanobut.hawk.Hawk;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class LoginActivity extends AppCompatActivity {
 
     private String email;
@@ -28,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
 
-        laLogica = new LogicaFake();
+        laLogica = new LogicaFake(this);
         btnIniciarSesion = findViewById(R.id.btnLog);
         textoError = findViewById(R.id.textoError);
 
@@ -90,9 +93,17 @@ public class LoginActivity extends AppCompatActivity {
                                 //Login correcto
                                 if(cuerpo.contains("true")){
 
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(cuerpo);
+                                        Hawk.put("id", jsonObject.get("idUsuario"));
+                                    }catch (JSONException err){
+                                        Log.d("Error", err.toString());
+                                    }
+
                                     //Almacenamos los datos del usuario en la app
                                     Hawk.put("email", email);
                                     Hawk.put("password", password);
+
 
                                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(i);
