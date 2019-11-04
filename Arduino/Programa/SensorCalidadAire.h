@@ -43,12 +43,13 @@ class SensorCalidadAire
         //Se le envia al sensor \r para que envie una tanda de datos
         Serial1.print('\r');
         sensorData[i] = Serial1.parseInt();
+        //Serial.println(sensorData[i]);
       }
 
       //Por alguna razón al comentar el codigo de abajo que solo muestra la informacion que le llega
       //  el array cambia de ser [1] a ser [2] para que pase el PPB. No estoy seguro de porqué, pero
       //   funciona así
-      medida = sensorData[2];
+      medida = sensorData[1];
       Serial.println(medida);
 
       //Descomentar si se quiere mostrar toda la información por el monitor serie
