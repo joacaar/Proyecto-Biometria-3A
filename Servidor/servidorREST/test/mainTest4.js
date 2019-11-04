@@ -22,8 +22,7 @@ describe( "Test 4 : Probamos insertar y buscar medidas", function() {
     var datosMedida = {
       valorMedida : 74, tiempo : 350,
       latitud : 0.0, longitud: 0.0,
-      idMedida: 99, idUsuario: 1,
-      idTipoMedida: 1
+      idUsuario: 1, idTipoMedida: 1
     }
     request.post(
       { url : IP_PUERTO+"/insertarMedida",

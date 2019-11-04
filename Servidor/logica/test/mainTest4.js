@@ -43,14 +43,12 @@ describe( "TEST 4: INSERTAR UNA MEDICIÓN", function() {
       valorMedida: 15, tiempo: 100,
       latitud: 0.0, longitud: 0.0,
       idUsuario: 1, idTipoMedida: 1,
-      idMedida: 1
     })
 
       await laLogica.insertarMedida({
         valorMedida: 45, tiempo: 100,
         latitud: 0.0, longitud: 0.0,
         idUsuario: 1, idTipoMedida: 1,
-        idMedida: 2
       })
 
       var res = await laLogica.getUltimaMedidaDeUnUsuario( 1 );

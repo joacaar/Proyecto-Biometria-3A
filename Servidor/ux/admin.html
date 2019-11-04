@@ -101,9 +101,9 @@ CSS
         <!-- Search Bar -->
         <div class="searchbar">
             <img src="images/bell-regular.svg" alt="" class="searchIcon">
-            
+
             <button class="buttonLogOut btn btn-outline-dark" onclick="logOut()">Log Out</button>
-            <!--     Se ha preferido un boton pero se conservará el codigo para hacer algo similar con el sistema de alarmas 
+            <!--     Se ha preferido un boton pero se conservará el codigo para hacer algo similar con el sistema de alarmas
             <div class="dropdown">
                 <i class="fa fa-user fa-3x searchIcon" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
 
@@ -267,10 +267,12 @@ CSS
         // getUltimaMedidaDeUnUsuario()
         // ------------------------------------------------------------------
         function getUltimaMedidaDeUnUsuario() {
-            elProxy.getUltimaMedidaDeUnUsuario(1, function(res) {
+          elProxy.getUsuarios(function(listaUsuarios){
+            elProxy.getUltimaMedidaDeUnUsuario(listaUsuarios.length, function(res) {
                 document.getElementById("medida").innerHTML = res.valorMedida;
                 console.log(res)
             })
+          })
         }
 
         // ------------------------------------------------------------------

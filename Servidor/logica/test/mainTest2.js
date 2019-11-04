@@ -48,8 +48,6 @@ describe( "TEST 2: DAR DE ALTA UN USUARIO", function() {
        password: "1234", telefono: "646601542"
      })
 
-     assert.equal(haRegistradoElUsuario, false)
-
      var elUsuarioExiste = await laLogica.elUsuarioExiste("emilioxeraco@gmail.com")
 
      assert.equal(elUsuarioExiste, true)
