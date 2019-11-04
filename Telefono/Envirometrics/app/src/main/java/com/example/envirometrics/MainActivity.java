@@ -22,6 +22,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
@@ -47,8 +48,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
+
         //Pedimos los permisos al inicio para poder activar el servicio
-        //pedirPermisoGPS();
+        pedirPermisoGPS();
 
         Hawk.init(this).build();
 
@@ -58,14 +62,15 @@ public class MainActivity extends AppCompatActivity {
         activarServicio = false;
 
         //Inicializamos el receptor bluetooth para comprobar si el bt esta activo
-        receptorBle = new ReceptorBLE(this);
+        if(receptorBle == null){
+            receptorBle = new ReceptorBLE(this);
+
+        }
         laLogicaFake = new LogicaFake(this);
 
         // creamos la intencion que nos ejecutara el servicio y la notificacion en primer plano
         intencion = new Intent(MainActivity.this, Servicio.class);
         //startService(intencion);
-
-        pedirPermisoGPS();
 
 
     }
@@ -99,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-
     }
 //Funcion para comprobar y pedir los permisos de GPS y en caso de tenerlos, pedir los del BT
     public void pedirPermisoGPS(){
@@ -107,6 +111,9 @@ public class MainActivity extends AppCompatActivity {
                 /*ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED*/) {
             ActivityCompat.requestPermissions(this, new  String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 3);
         }else{
+            if(receptorBle == null){
+                receptorBle = new ReceptorBLE(this);
+            }
             if(receptorBle.btActived() != null) {
                 startActivityForResult(receptorBle.btActived(), REQUEST_BLUETOOTH);
             }
