@@ -175,6 +175,55 @@ div#sidebar {
 .searchIcon {
     color: #000000;
     margin: 0 0.25em;
+    height: 2.5em;
+    width: 2.5em;
+}
+
+p.empresa {
+    color: #FFFFFF;
+    font-size: 32px;
+    margin-left: 1em;
+}
+
+p.empresaIndex {
+    display: inline;
+    position: absolute;
+    top: 0;
+    left: 0;
+    color: #FFFFFF;
+    font-size: 32px;
+    margin-top: 0.25em;
+    margin-left: 1em;
+}
+
+.buttonLogIn {
+    margin: 0 0.5em 0 0.25em;
+    color: #F0F0F0;
+    background-color: #00B49A;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #00B49A;
+}
+
+.buttonLogIn:hover {
+    color: #F0F0F0;
+    background-color: #00957f;
+    border-color: #00957f;
+}
+
+.buttonLogOut {
+    margin: 0 0.5em 0 0.25em;
+    color: #393946;
+    background-color: #F0F0F0;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #393946;
+}
+
+.buttonLogOut:hover {
+    color: #F0F0F0;
+    background-color: #393946;
+    border-color: #515160;
 }
 
 #content {
@@ -224,6 +273,7 @@ div.toast {
     color: #FFFFFF;
     height: 10em;
     text-align: right;
+    border-radius: 5px;
 }
 
 .cuadradoCentral div {
