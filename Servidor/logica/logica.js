@@ -1,7 +1,7 @@
 // .....................................................................
 // Autor: Emilio Esteve Peiró
 // Fecha inicio: 24/10/2019
-// Última actualización: 3/11/2019
+// Última actualización: 24/10/2019
 // Logica.js
 // .....................................................................
 const sjcl = require('sjcl')
@@ -63,13 +63,14 @@ async borrarFilasDeTodasLasTablas() {
 // -->
 // insertarMedida() -->
 // .................................................................
-insertarMedida( datos ) {
+async insertarMedida( datos ) {
   var textoSQL =
   'insert into Medidas values( $valorMedida, $tiempo, $latitud, $longitud, $idMedida, $idUsuario, $idTipoMedida );'
+  var res = await this.getUltimoIdMedida();
   var valoresParaSQL = {
     $valorMedida: datos.valorMedida, $tiempo: datos.tiempo, $latitud: datos.latitud,
     $longitud: datos.longitud, $idUsuario: datos.idUsuario,
-    $idTipoMedida: datos.idTipoMedida, $idMedida: datos.idMedida
+    $idTipoMedida: datos.idTipoMedida, $idMedida: res + 1
    }
   return new Promise( ( resolver, rechazar ) => {
     this.laConexion.run( textoSQL, valoresParaSQL, function( err ) {
@@ -147,6 +148,30 @@ async getUltimaMedidaDeUnUsuario( idUsuario ){
       rechazar( null )
     }
   })
+
+}
+
+// .................................................................
+// getUltimoIdMedida()
+// --> N
+// .................................................................
+async getUltimoIdMedida( ){
+
+  var textoSQL = "select * from Medidas";
+  var valoresParaSQL = {}
+  return new Promise( ( resolver, rechazar ) => {
+    this.laConexion.all( textoSQL, valoresParaSQL,
+      ( err, res ) => {
+        if( err ){
+          rechazar(err)
+        }
+        if( res.length == 0 ){
+          resolver(0)
+        } else{
+          resolver(res[res.length - 1].idMedida)
+        }
+      })
+    })
 
 }
 

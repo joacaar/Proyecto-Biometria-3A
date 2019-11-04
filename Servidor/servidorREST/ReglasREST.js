@@ -1,7 +1,7 @@
 // .....................................................................
 // Autor: Emilio Esteve Peiró
 // Fecha inicio: 24/10/2019
-// Última actualización: 3/11/2019
+// Última actualización: 24/10/2019
 // ReglasREST.js
 // .....................................................................
 
@@ -58,7 +58,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
     }) // get /medidasPorIdUsuario/<idUsuario>
 
     // .......................................................
-    // GET /ultimaMedida/<idUsuario>
+    // GET /medidasPorIdUsuario/<idMedida>
     // .......................................................
     servidorExpress.get('/ultimaMedida/:idUsuario',
       async function( peticion, respuesta ){
@@ -78,7 +78,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
       }) // get /medida/<idMedida>
 
     // .......................................................
-    // GET /buscarSensor/<idSensor>
+    // GET /medidasPorIdUsuario/<idMedida>
     // .......................................................
     servidorExpress.get('/buscarSensor/:idSensor',
       async function( peticion, respuesta ){
@@ -98,7 +98,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
       }) // get /medida/<idMedida>
 
       // .......................................................
-      // GET /usuarios
+      // GET /medidasPorIdUsuario/<idMedida>
       // .......................................................
       servidorExpress.get('/usuarios',
         async function( peticion, respuesta ){
@@ -151,9 +151,15 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
         // llamamos al método de la lógica que se encarga de registrar usuario
         var seHaRegistradoElUsuario = await laLogica.darAltaUsuario(datos);
 
+        var res = await laLogica.buscarUsuarioPorEmail(datos.email)
+
         console.log(seHaRegistradoElUsuario)
 
-        respuesta.send(seHaRegistradoElUsuario)
+        if(seHaRegistradoElUsuario){
+          respuesta.send({respuesta:seHaRegistradoElUsuario, idUsuario:res.idUsuario})
+        }
+
+        respuesta.send({respuesta:seHaRegistradoElUsuario})
 
         console.log("Peticion POST darAltaUsuario recibido");
     }) // post / darAltaUsuario
@@ -179,7 +185,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
     }) // post / insertarSensor
 
     //-----------------------------------------------------------------------------
-    // POST /insertarTipoSensor
+    // POST /insertarSensor
     // peticion.body --> JSON
     // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
     //-----------------------------------------------------------------------------
@@ -194,7 +200,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
         await laLogica.insertarTipoSensor(datos);
 
         // enviarmos una respuesta que demuestra que todo ha salido correctamente
-        respuesta.send("OK");
+        respuesta.send( {laRespuesta: "OK"} );
         console.log("Peticion POST insertarSensor recibido");
     }) // post / insertarTipoSensor
 
@@ -212,13 +218,14 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
 
         // llamamos al método de la lógica que se encarga de insertar medida
         var res = await laLogica.iniciarSesion(datos);
+        var res2 = await laLogica.buscarUsuarioPorEmail(datos.email)
         console.log(res)
 
         if( res ){
-          respuesta.send(true);
+          respuesta.send({respuesta:true, idUsuario:res2.idUsuario});
         }
 
-        respuesta.send(false);
+        respuesta.send({respuesta:false});
 
 
         console.log("Peticion POST insertarSensor recibido");
