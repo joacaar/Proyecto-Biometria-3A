@@ -70,8 +70,8 @@ CSS
             <div class="media d-flex align-items-center">
                 <img src="images/icn_envirometrics.png" alt="Logo de la empresa" height="70%" width="70%" class="indexImg">
             </div>
+            <p class="empresa">Envirometrics</p>
         </div>
-
         <!-- Sidebar -->
         <ul class="nav flex-column mb-0">
             <li class="nav-item current">
@@ -100,8 +100,10 @@ CSS
 
         <!-- Search Bar -->
         <div class="searchbar">
-            <i class="fa fa-bell fa-3x searchIcon"></i>
-
+            <img src="images/bell-regular.svg" alt="" class="searchIcon">
+            
+            <button class="buttonLogOut btn btn-outline-dark" onclick="logOut()">Log Out</button>
+            <!--     Se ha preferido un boton pero se conservará el codigo para hacer algo similar con el sistema de alarmas 
             <div class="dropdown">
                 <i class="fa fa-user fa-3x searchIcon" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
 
@@ -109,8 +111,9 @@ CSS
                     <a class="dropdown-item" href="#" onclick="logOut()">Log Out</a>
                 </div>
             </div>
+            -->
         </div>
-        
+
         <!-- TOAST -->
         <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
@@ -256,8 +259,13 @@ CSS
     <script type="text/javascript" src="proxy.js"></script>
 
     <script>
+
+        // creamos el Proxy
         var elProxy = new Proxy();
 
+        // ------------------------------------------------------------------
+        // getUltimaMedidaDeUnUsuario()
+        // ------------------------------------------------------------------
         function getUltimaMedidaDeUnUsuario() {
             elProxy.getUltimaMedidaDeUnUsuario(1, function(res) {
                 document.getElementById("medida").innerHTML = res.valorMedida;
@@ -265,18 +273,27 @@ CSS
             })
         }
 
+        // ------------------------------------------------------------------
+        // getCuantosUsuariosHay()
+        // ------------------------------------------------------------------
         function getCuantosUsuariosHay() {
             elProxy.getUsuarios(function(res) {
                 document.getElementById("numeroTaxistas").innerHTML = res.length;
             })
         }
 
+        // ------------------------------------------------------------------
+        // getOnLoad()
+        // ------------------------------------------------------------------
         function getOnLoad() {
             getUltimaMedidaDeUnUsuario();
             getCuantosUsuariosHay();
             usuariosSinMedidasEn24H();
         }
 
+        // ------------------------------------------------------------------
+        // usuariosSinMedidasEn24H()
+        // ------------------------------------------------------------------
         function usuariosSinMedidasEn24H() {
             elProxy.getUsuarios(function(listaUsuarios) {
                 for (var i = 0; i < listaUsuarios.length; i++) {
@@ -290,13 +307,15 @@ CSS
                             //alert(string);
                             document.getElementById("toast-body").innerHTML = string;
                             $('.toast').toast();
-                            
                         }
                     })
                 }
             })
         }
 
+        // ------------------------------------------------------------------
+        // getUltimaMedidaDeUnUsuario()
+        // ------------------------------------------------------------------
         function getUltimaMedidaDeTodosLosUsuarios() {
             elProxy.getUsuarios(function(listaUsuarios) {
                 for (var i = 0; i < listaUsuarios.length; i++) {
@@ -307,9 +326,13 @@ CSS
             })
         }
 
+        // ------------------------------------------------------------------
+        // logOut()
+        // --> Cookie
+        // ------------------------------------------------------------------
         function logOut() {
             document.cookie = "";
-            window.location.replace('login.html');
+            window.location.replace('index.html');
         }
 
     </script>

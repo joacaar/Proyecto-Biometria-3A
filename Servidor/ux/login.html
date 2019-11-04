@@ -134,14 +134,24 @@
 <!-- SCRIPTS -->
 <script type="text/javascript" src="../ux/proxy.js"></script>
 <script>
+
+    //creamos el Proxy
     var elProxy = new Proxy();
 
+    // ------------------------------------------------------------------
+    // quanEsCarrega()
+    // ------------------------------------------------------------------
     function quanEsCarrega() {
 
         console.log("Plana UX carregada.")
 
     }
 
+    // ------------------------------------------------------------------
+    // nombre:Texto, password:Texto -->
+    // iniciarSesion()
+    // Cookie
+    // ------------------------------------------------------------------
     async function iniciarSesion(_nombre, _password) {
 
         console.log(_nombre + " " + _password);
@@ -170,6 +180,9 @@
 
     }
 
+    // ------------------------------------------------------------------
+    // iniciarSesionOnLoad()
+    // ------------------------------------------------------------------
     async function iniciarSesionOnLoad() {
         var laCookie = JSON.parse(document.cookie)
         var nombre = laCookie.nombre;
@@ -177,6 +190,9 @@
         await iniciarSesion(nombre, password)
     }
 
+    // ------------------------------------------------------------------
+    // iniciarSesionOnClickButton()
+    // ------------------------------------------------------------------
     async function iniciarSesionOnClickButton() {
         var nombre = document.getElementById("inputEmail").value;
         var password = document.getElementById("inputPassword").value;
