@@ -1,0 +1,96 @@
+<!--
+
+// TODO: Añadir numero de alertas en la campana. Código robado de la pagina Toys r us:
+
+
+<div class="nav-cart"> //carrito de la compra
+		<div class="mini-cart-icon"> //icono
+		    <img src="/_ui/responsive/common/images/carritohead.svg" class="birhcman-mini-cart-image" width="32" height="32">
+		</div>
+		<div class="mini-cart-count js-mini-cart-count">
+		    <span class="nav-items-total"> //utilizan un span para hacer la cuenta de objetos comprados
+		        0
+		    <span class="items-desktop hidden-xs hidden-sm hidden-md hidden-lg">
+		        &nbsp;Artículos
+		    </span>
+		    </span>
+		</div>
+</div>
+
+CSS
+@media (max-width: 639px)
+.navigation--middle .nav-cart .mini-cart-link .nav-items-total {
+    display: inline-block;
+    background-color: #f01446;
+    border-radius: 50%;
+    height: 20px;
+    width: 20px;
+    color: #fff;
+    line-height: 20px;
+}
+
+-->
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!--Autor: -->
+    <meta name="author" content="<Adrián Heras Reche y contribuidores de Bootstrap como Jason Doe">
+
+    <!--Descripcion: -->
+    <meta name="description" content="Página web de envirometrics SA, creada para curso 3A de GTI">
+    <title>Página de administración</title>
+
+
+    <!-- Bootstrap core CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- CSS del Nav Bar -->
+    <link rel="stylesheet" href="css/styles.css">
+
+</head>
+
+
+<!------------------------------------------------------------>
+<!--    Body    -->
+<!------------------------------------------------------------>
+
+<body onload="getUltimaMedidaDeUnUsuarioOnLoad()">
+
+    <!-- Contenido -->
+    <div class="page-content index" id="content">
+
+        <!-- Search Bar -->
+        <div class="searchbar-dark">
+            <div class="dropdown">
+                <i class="fa fa-user fa-3x searchIcon-dark" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
+
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                    <a class="dropdown-item" href="./login.html">Log In</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div class="mapa">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d23399.939299594967!2d-0.18384565189124724!3d38.980588622284145!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd61e8342d59bcdb%3A0x841e6f90d6486771!2sGand%C3%ADa%2C%20Valencia!5e1!3m2!1ses!2ses!4v1572717971178!5m2!1ses!2ses" class="mapa" allowfullscreen=""></iframe>
+        </div>
+
+    </div>
+
+
+    <!--        Scripts         -->
+
+    <!-- JQuery -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <!-- Popper -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <!-- Bootstrap.js -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</body></html>
