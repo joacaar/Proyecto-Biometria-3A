@@ -31,7 +31,7 @@ public class RegistroActivity extends Activity {
 
         btnRegistrarme = findViewById(R.id.btnRegistrarse);
         textoError = findViewById(R.id.textoError2);
-        laLogica = new LogicaFake();
+        laLogica = new LogicaFake(this);
         Hawk.init(this).build();
         registrarse();
 

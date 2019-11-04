@@ -59,13 +59,28 @@ public class MainActivity extends AppCompatActivity {
 
         //Inicializamos el receptor bluetooth para comprobar si el bt esta activo
         receptorBle = new ReceptorBLE(this);
-        laLogicaFake = new LogicaFake();
+        laLogicaFake = new LogicaFake(this);
 
         // creamos la intencion que nos ejecutara el servicio y la notificacion en primer plano
         intencion = new Intent(MainActivity.this, Servicio.class);
         //startService(intencion);
 
         pedirPermisoGPS();
+
+
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // onStart ()
+    //----------------------------------------------------------------------------------------------
+    @Override
+    protected void onStart (){
+        super.onStart();
+        if(receptorBle.checkBtOn()){
+            if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION ) == PackageManager.PERMISSION_GRANTED){
+                startService(intencion);
+            }
+        }
 
         //----------------------------------------------------
         //              NAVIGATION DRAWER
@@ -86,14 +101,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
-    //----------------------------------------------------------------------------------------------
-    // onStart ()
-    //----------------------------------------------------------------------------------------------
-    @Override
-    protected void onStart (){
-        super.onStart();
-    }
 //Funcion para comprobar y pedir los permisos de GPS y en caso de tenerlos, pedir los del BT
     public void pedirPermisoGPS(){
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED //&&
@@ -110,9 +117,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int respuesta, String[] permissions, int[]grantResult){
         super.onRequestPermissionsResult(respuesta, permissions, grantResult);
+        Log.d("---PERMISOS---", "--- ID Permiso: " + respuesta);
 
         if(respuesta==3){
             if(grantResult.length > 0 && grantResult[0] == PackageManager.PERMISSION_GRANTED){
+                Log.d("---PERMISOS---", "---Permiso concedido---");
                 activarServicio = true;
                 if(receptorBle.btActived() != null) {
                     startActivityForResult(receptorBle.btActived(), REQUEST_BLUETOOTH);

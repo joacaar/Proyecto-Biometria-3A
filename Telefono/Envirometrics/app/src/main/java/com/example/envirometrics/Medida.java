@@ -1,35 +1,38 @@
 package com.example.envirometrics;
 
 import java.util.Calendar;
+import java.util.Date;
 
 /*
 Clase POJO para almacenar toda la infromacion relevante de una medida.
 Esta clase solo consta de dos constructores y los metodos getters and setters.
  */
 
-public class Medicion {
+public class Medida {
 
-    private String hora;
-    private String fecha;
+
+    private long tiempo;
     private int medidaCO;
     private double latitud;
     private double longitud;
+    private int idTipoMedida;
 
 
-    public Medicion(){
+    public Medida(){
 
     }
     //-----------------------------------
-    // Z, Texto, Texto --> Medicion()
+    // Z, Texto, Texto --> Medida()
     //-----------------------------------
-    public Medicion(int _medidaCO, String _hora, String _fecha, double latitud, double longitud){
+    public Medida(int _medidaCO, double latitud, double longitud){
+
+        Date date = new Date();
 
         this.medidaCO = _medidaCO;
-        this.hora = _hora;
-        this.fecha = _fecha;
-
+        this.tiempo = date.getTime();
         this.latitud = latitud;
         this.longitud = longitud;
+        this.idTipoMedida = 1;
     }
 
     //-----------------------------------
@@ -94,26 +97,48 @@ public class Medicion {
         this.longitud = longitud;
     }
 
+    public long getTiempo() {
+        return tiempo;
+    }
+
+    public void setTiempo(long tiempo) {
+        this.tiempo = tiempo;
+    }
+
+    public int getIdTipoMedida() {
+        return idTipoMedida;
+    }
+
+    public void setIdTipoMedida(int idTipoMedida) {
+        this.idTipoMedida = idTipoMedida;
+    }
+
     //-----------------------------------
     // getHora() --> Texto
     //-----------------------------------
-    public String getHora() {
+    /*public String getHora() {
         return hora;
     }
+
+     */
 
     //-----------------------------------
     // getFecha() --> Texto
     //-----------------------------------
-    public String getFecha() {
+    /*public String getFecha() {
         return fecha;
     }
+
+     */
 
     //-----------------------------------
     // Texto --> setFecha()
     //-----------------------------------
-    public void setHora(String hora) {
+    /*public void setHora(String hora) {
         this.hora = hora;
     }
+
+     */
 
     //-----------------------------------
     // Z --> setMedidaCO()
@@ -125,7 +150,9 @@ public class Medicion {
     //-----------------------------------
     // Texto --> setFecha()
     //-----------------------------------
-    public void setFecha(String fecha) {
+    /*public void setFecha(String fecha) {
         this.fecha = fecha;
     }
+
+     */
 }
