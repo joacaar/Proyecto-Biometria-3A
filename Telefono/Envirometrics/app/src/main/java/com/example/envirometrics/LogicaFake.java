@@ -22,7 +22,7 @@ public class LogicaFake {
 
         // -------------------------------------------------------------------------------
         // -------------------------------------------------------------------------------
-        private String urlServidor = "http://192.168.137.241:8080/";
+        private String urlServidor = "http://172.20.10.8:8080/";
 
         public LogicaFake(Context context){
             Hawk.init(context).build();
@@ -36,7 +36,7 @@ public class LogicaFake {
 
         Map<String, String> params = new HashMap<String, String>();
         params.put("idUsuario", String.valueOf(Hawk.get("id")));
-        params.put("idTipoMedida", String.valueOf(medicion.getIdTipoMedida()));
+        params.put("idTipoMedida", String.valueOf(1));
         params.put("valorMedida", String.valueOf(medicion.getMedidaCO()));
         params.put("tiempo", String.valueOf(medicion.getTiempo()));
         params.put("latitud", String.valueOf(medicion.getLatitud()));
