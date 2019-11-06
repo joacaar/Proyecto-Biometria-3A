@@ -16,12 +16,75 @@
 
 
     <!-- CSS personalizado -->
-    <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="css/styles.css">
+
+    <!--<style>
+        body {
+            background-color: #FAFAFA;
+        }
+
+
+        .loginImg {
+            margin-top: 10%;
+        }
+
+        @media (min-width:576px) {
+            .loginForm {
+                padding-left: 0 !important;
+                padding-right: 0;
+            }
+        }
+
+        .loginForm.col-12 {
+            padding-left: 1em;
+            padding-right: 0;
+        }
+
+        .loginLabel {
+            margin: 8px 0 0 0;
+        }
+
+        .loginButton {
+            background-color: #00B49A;
+            border: none;
+        }
+
+        .loginButton:hover {
+            background-color: #00957f;
+            border: none;
+        }
+
+        .loginButton:focus,
+        .loginButton.focus {
+            background-color: #00957f !important;
+            border: none;
+        }
+
+        .loginButton:active {
+            background-color: #00957f;
+            border: none;
+        }
+
+        .bd-placeholder-img {
+            font-size: 1.125rem;
+            text-anchor: middle;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+        }
+
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+    </style>-->
 
 
     <!-- Custom styles for this template -->
     <!-- <link href="floating-labels.css" rel="stylesheet"> -->
-
 
 </head>
 
@@ -31,15 +94,15 @@
             <!-- Para propositos de responsive-->
         </div>
 
-        <form class="form-signin col-sm-4 col-12 loginForm">
+        <form class=" col-sm-4 col-12 loginForm">
             <div class="text-center mb-4">
-                <img class="mb-4 loginImg" src="../images/ic_envirometrics_grande.png" alt="Imagen del logo" width="40%" height="40%">
+                <img class="mb-4 loginImg" src="images/ic_envirometrics_grande.png" alt="Imagen del logo" width="40%" height="40%">
                 <h1 class="h3 mb-3 font-weight-normal">Envirometrics</h1>
             </div>
 
             <div class="form-label-group">
                 <label for="inputEmail" class="loginLabel">Email address</label>
-                <input type="email" id="inputEmail" class="form-control loginInput" placeholder="Email address" required="" autofocus="">
+                <input type="text" id="inputEmail" class="form-control loginInput" placeholder="Email address" required="" autofocus="">
             </div>
 
             <div class="form-label-group">
@@ -49,10 +112,11 @@
 
             <div class="checkbox mb-3 loginLabel">
                 <label>
-                    <input type="checkbox" value="remember-me"> Remember me
+                    <input type="checkbox" value="remember-me" id="remember-me"> Remember me
                 </label>
             </div>
-            <button class="btn btn-lg btn-primary btn-block loginButton" type="submit" onclick="iniciarSesionOnClickButton()">Sign in</button>
+            <input type="button" class="btn btn-lg btn-primary btn-block loginButton" type="submit" onclick="iniciarSesionOnClickButton()" value="Sign in">
+            <!--<button class="btn btn-lg btn-primary btn-block loginButton" type="submit" onclick="iniciarSesionOnClickButton()">Sign in</button>-->
             <p class="mt-5 mb-3 text-muted text-center">© 2019 GTI</p>
         </form>
 
@@ -66,50 +130,28 @@
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-<script src="../proxy.js"></script>
 
-<script language="javascript">
-    /*
-    function recogerInputs() {
+<!-- SCRIPTS -->
+<script type="text/javascript" src="../ux/proxy.js"></script>
+<script>
 
-        var emailInput = document.getElementById('inputEmail'),
-            passwordInput = document.getElementById('inputPassword');
-        var email = emailInput.value,
-            password = passwordInput.value;
-        var jsonObj;
-        var logica = new Proxy();
-
-
-        if (email) {
-
-            if (password) {
-
-                var json = '{ "email":' + '"' + email + '"' + ', "password":' + '"' + password + '"' + '}';
-
-                jsonObj = JSON.parse(json);
-
-                logica.iniciarSesion(jsonObj);
-
-            } else {
-                alert('Please enter a password!');
-                input.focus();
-            }
-
-        } else {
-            alert('Please enter an email!');
-            input.focus();
-        }
-
-    }*/
-
+    //creamos el Proxy
     var elProxy = new Proxy();
 
+    // ------------------------------------------------------------------
+    // quanEsCarrega()
+    // ------------------------------------------------------------------
     function quanEsCarrega() {
 
         console.log("Plana UX carregada.")
 
     }
 
+    // ------------------------------------------------------------------
+    // nombre:Texto, password:Texto -->
+    // iniciarSesion()
+    // Cookie
+    // ------------------------------------------------------------------
     async function iniciarSesion(_nombre, _password) {
 
         console.log(_nombre + " " + _password);
@@ -124,8 +166,10 @@
         elProxy.iniciarSesion(json, function(res) {
 
             if (res == true) {
-                /*window.location.replace("http://www.google.com");*/
-                document.cookie = JSON.stringify(json);
+                if (document.getElementById("remember-me").checked) {
+                    document.cookie = JSON.stringify(json);
+                }
+                window.location.replace('admin.html');
             } else {
                 alert("Credenciales erróneas")
             }
@@ -136,6 +180,9 @@
 
     }
 
+    // ------------------------------------------------------------------
+    // iniciarSesionOnLoad()
+    // ------------------------------------------------------------------
     async function iniciarSesionOnLoad() {
         var laCookie = JSON.parse(document.cookie)
         var nombre = laCookie.nombre;
@@ -143,22 +190,13 @@
         await iniciarSesion(nombre, password)
     }
 
+    // ------------------------------------------------------------------
+    // iniciarSesionOnClickButton()
+    // ------------------------------------------------------------------
     async function iniciarSesionOnClickButton() {
-        var nombre = document.getElementById('inputEmail').value;
-        var password = document.getElementById('inputPassword').value;
+        var nombre = document.getElementById("inputEmail").value;
+        var password = document.getElementById("inputPassword").value;
         await iniciarSesion(nombre, password)
-    }
-
-    function getUsuarios() {
-        elProxy.getUsuarios(function(res) {
-            console.log(res)
-        });
-    }
-
-    function getUltimaMedidaDeUnUsuario() {
-        elProxy.getUltimaMedidaDeUnUsuario(1, function(res) {
-            console.log(res)
-        })
     }
 
 </script>

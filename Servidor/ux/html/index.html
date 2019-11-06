@@ -29,6 +29,19 @@ CSS
     line-height: 20px;
 }
 
+
+TODO: function comprobarClave(){
+    clave1 = document.f1.clave1.value
+    clave2 = document.f1.clave2.value
+
+    if (clave1 == clave2)
+       alert("Las dos claves son iguales...\nRealizaríamos las acciones del caso positivo")
+    else
+       alert("Las dos claves son distintas...\nRealizaríamos las acciones del caso negativo")
+}
+
+TODO: https://bootsnipp.com/snippets/402bQ
+
 -->
 
 <!DOCTYPE html>
@@ -67,13 +80,8 @@ CSS
 
         <!-- Search Bar -->
         <div class="searchbar-dark">
-            <div class="dropdown">
-                <i class="fa fa-user fa-3x searchIcon-dark" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></i>
-
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
-                    <a class="dropdown-item" href="./login.html">Log In</a>
-                </div>
-            </div>
+            <p class="empresaIndex">Envirometrics</p>
+            <button class="buttonLogIn btn btn-outline-light" onclick="logIn()">Log In</button>
         </div>
 
         <!-- Content -->
@@ -93,4 +101,12 @@ CSS
     <!-- Bootstrap.js -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-</body></html>
+    <script>
+        function logIn() {
+            window.location.replace("login.html");
+        }
+
+    </script>
+</body>
+
+</html>
