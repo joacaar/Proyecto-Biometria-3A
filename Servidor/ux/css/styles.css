@@ -44,11 +44,81 @@ iframe.mapa {
     border: 0;
 }
 
+/*                   Modal                     */
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Modal Header */
+.modal-header {
+    padding: 10px 16px;
+    background-color: #393946;
+    color: white;
+}
+
+.modal-header .titulo {
+    margin: 0;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 5% auto;
+    width: 40%;
+    text-align: right;
+    border: none;
+    animation-name: animatetop;
+    animation-duration: 0.4s;
+}
+
+.modal-body {
+    padding: 20px;
+}
+
+@media (max-width:992px) {
+    .modal-content {
+        width: 80%;
+    }
+}
+
+.close {
+    color: #FFFFFF;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #F0F0F0;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+
+@keyframes animatetop {
+    from {
+        top: -300px;
+        opacity: 0
+    }
+
+    to {
+        top: 0;
+        opacity: 1
+    }
+}
+
+
 
 /*                   Login                      */
-.loginImg {
-    margin-top: 10%;
-}
+.loginImg {}
 
 @media (min-width:576px) {
     .loginForm {
@@ -58,8 +128,8 @@ iframe.mapa {
 }
 
 .loginForm.col-12 {
-    padding-left: 1em;
-    padding-right: 0;
+    padding: 0;
+    text-align: left;
 }
 
 .loginLabel {
