@@ -400,9 +400,29 @@ async iniciarSesionAdmin(datos){
 // getTodasLasMedidas()
 // --> [{{valorMedida:R, tiempo:N: latitud:R, longitud:R, idMedida:N, idUsuario:N, idTipoMedida:N}}]
 // .................................................................
-getTodasLasMedidas( email ){
+getTodasLasMedidas( ){
   var textoSQL = "select * from Medidas";
   var valoresParaSQL = {}
+  return new Promise( ( resolver, rechazar ) => {
+    this.laConexion.all( textoSQL, valoresParaSQL,
+      ( err, res ) => {
+        ( err ? rechazar( err ) : resolver( res ) )
+      })
+    })
+}
+
+// .................................................................
+// email:Texto -->
+// getTodasLasMedidasDeUnUsuarioPorEmail()
+// --> [{{valorMedida:R, tiempo:N: latitud:R, longitud:R, idMedida:N, idUsuario:N, idTipoMedida:N}}]
+// .................................................................
+async getTodasLasMedidasDeUnUsuarioPorEmail( email ){
+
+  var usuario = await this.buscarUsuarioPorEmail(email)
+
+  var textoSQL = "select * from Medidas where idUsuario=$idUsuario";
+
+  var valoresParaSQL = {$idUsuario: usuario.idUsuario}
   return new Promise( ( resolver, rechazar ) => {
     this.laConexion.all( textoSQL, valoresParaSQL,
       ( err, res ) => {

@@ -120,18 +120,38 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
         // .......................................................
         servidorExpress.get('/getTodasLasMedidas',
           async function( peticion, respuesta ){
-            console.log( " * GET /usuarios " )
-            // averiguo la fecha
+            console.log( " * GET /getTodasLasMedidas " )
+
             var res = await laLogica.getTodasLasMedidas()
             // si no hay resultados...
             if( res.length == 0 ) {
               // 404: not found
-              respuesta.status(404).send( "No encontré usuarios" )
+              respuesta.status(404).send( "No encontré medidas" )
               return
             }
             // todo ok
             respuesta.send( JSON.stringify( res ) )
-          }) // get /usuarios
+          }) // get /getTodasLasMedidas
+
+          // .......................................................
+          // GET /getTodasLasMedidasDeUnUsuarioPorEmail/<email>
+          // .......................................................
+          servidorExpress.get('/getTodasLasMedidasDeUnUsuarioPorEmail/:email',
+            async function( peticion, respuesta ){
+              console.log( " * GET /getTodasLasMedidasDeUnUsuarioPorEmail " )
+
+              var email = peticion.params.email
+          
+              var res = await laLogica.getTodasLasMedidasDeUnUsuarioPorEmail(email)
+              // si no hay resultados...
+              if( res.length == 0 ) {
+                // 404: not found
+                respuesta.status(404).send( "No encontré medidas" )
+                return
+              }
+              // todo ok
+              respuesta.send( JSON.stringify( res ) )
+            }) // get /getTodasLasMedidas
 
 
     //-----------------------------------------------------------------------------

@@ -7,7 +7,7 @@
 
 <body>
 
-    <button type="button" onclick="getTodasLasMedidas()">Try it</button>
+    <button type="button" onclick="getTodasLasMedidasDeUnUsuarioPorEmail()">Try it</button>
 
     <script>
         var elProxy = new Proxy();
@@ -15,6 +15,12 @@
         function getTodasLasMedidas(){
           elProxy.getTodasLasMedidas(function(res){
             console.log(res)
+          })
+        }
+
+        function getTodasLasMedidasDeUnUsuarioPorEmail(){
+          elProxy.getTodasLasMedidasDeUnUsuarioPorEmail( "emilioxeraco@gmail.com", function(res){
+            console.log(res);
           })
         }
 

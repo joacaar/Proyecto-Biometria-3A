@@ -13,7 +13,7 @@ const sjcl = require ('sjcl')
 // main ()
 // ........................................................
 
-describe( "TEST 7: get TODOS LAS MEDIDAS", function() {
+describe( "TEST 7: get TODOS LAS MEDIDAS DE UN USUARIO", function() {
 // ....................................................
 // ....................................................
 
@@ -36,10 +36,10 @@ describe( "TEST 7: get TODOS LAS MEDIDAS", function() {
 // ....................................................
 // ....................................................
 
-  it( "getTodasLasMedidas me da todas las medidas",
+  it( "getTodasLasMedidasDeUnUsuarioPorEmail me da todos las medidas de ese usuario",
   async function() {
 
-    var res = await laLogica.getTodasLasMedidas();
+    var res = await laLogica.getTodasLasMedidasDeUnUsuarioPorEmail("emilioxeraco@gmail.com");
 
     assert.equal(res.length, 2)
 

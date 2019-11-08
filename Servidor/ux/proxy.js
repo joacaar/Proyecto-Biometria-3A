@@ -15,7 +15,7 @@ class Proxy {
   }
 
   //---------------------------------------------------------------------------
-  // datos:{valorMedida: R} -> insertarMedida() ->
+  // datos:{usuario:Texto, password:Texto} -> iniciarSesion() -> V/F
   //----------------------------------------------------------------------------
   iniciarSesion( datos, callback ){
 
@@ -40,7 +40,9 @@ class Proxy {
     }
 
   //----------------------------------------------------------------------------
-  // Texto --> getMedicionesPorFecha() --> JSON{ medidaCO: R, hora: Texto, fecha: Texto }
+  // idUsuario:N --> getUltimaMedidaDeUnUsuario()
+  //  --> JSON{ valorMedida: R, latitud:R, longitud:R, tiempo:N, idMedida:N,
+  // idTipoMedida:N, idUsuario:N }
   //----------------------------------------------------------------------------
   getUltimaMedidaDeUnUsuario( idUsuario, callback ){
 
@@ -63,7 +65,7 @@ class Proxy {
   }
 
   //----------------------------------------------------------------------------
-  // getMedicionesPorFecha() -->
+  // getUsuarios() -->
   //[JSON{email:Texto, password:Texto, telefono:Texto, idUsuario:N}]
   //----------------------------------------------------------------------------
   getUsuarios( callback ){
@@ -87,8 +89,9 @@ class Proxy {
   }
 
   //----------------------------------------------------------------------------
-  // getMedicionesPorFecha() -->
-  //[JSON{email:Texto, password:Texto, telefono:Texto, idUsuario:N}]
+  // getTodasLasMedidas() -->
+  // [JSON{ valorMedida: R, latitud:R, longitud:R, tiempo:N, idMedida:N,
+  // idTipoMedida:N, idUsuario:N }]
   //----------------------------------------------------------------------------
   getTodasLasMedidas( callback ){
 
@@ -101,6 +104,32 @@ class Proxy {
 
 
     fetch(IP_PUERTO+"/getTodasLasMedidas", myInit)
+    .then((res)=>{
+      return res.json();
+    })
+    .then((data)=>{
+      callback(data);
+    })
+
+  }
+
+  //----------------------------------------------------------------------------
+  // email:Texto -->
+  // getTodasLasMedidasDeUnUsuarioPorEmail() -->
+  // [JSON{ valorMedida: R, latitud:R, longitud:R, tiempo:N, idMedida:N,
+  // idTipoMedida:N, idUsuario:N }]
+  //----------------------------------------------------------------------------
+  getTodasLasMedidasDeUnUsuarioPorEmail( email, callback ){
+
+    var myInit = { method: 'GET',
+                   headers: {
+                     'User-Agent' : 'jordi', 'Content-Type' : 'application/json'
+                   },
+                   mode: 'cors',
+                   cache: 'default' };
+
+
+    fetch(IP_PUERTO+"/getTodasLasMedidasDeUnUsuarioPorEmail/" + email, myInit)
     .then((res)=>{
       return res.json();
     })
