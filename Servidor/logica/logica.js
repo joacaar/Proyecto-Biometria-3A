@@ -396,6 +396,20 @@ async iniciarSesionAdmin(datos){
 
 }
 
+// .................................................................
+// getTodasLasMedidas()
+// --> [{{valorMedida:R, tiempo:N: latitud:R, longitud:R, idMedida:N, idUsuario:N, idTipoMedida:N}}]
+// .................................................................
+getTodasLasMedidas( email ){
+  var textoSQL = "select * from Medidas";
+  var valoresParaSQL = {}
+  return new Promise( ( resolver, rechazar ) => {
+    this.laConexion.all( textoSQL, valoresParaSQL,
+      ( err, res ) => {
+        ( err ? rechazar( err ) : resolver( res ) )
+      })
+    })
+}
 
 // .................................................................
 // cerrar() -->

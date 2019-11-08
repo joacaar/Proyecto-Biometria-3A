@@ -98,7 +98,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
       }) // get /medida/<idMedida>
 
       // .......................................................
-      // GET /medidasPorIdUsuario/<idMedida>
+      // GET /usuarios
       // .......................................................
       servidorExpress.get('/usuarios',
         async function( peticion, respuesta ){
@@ -114,6 +114,24 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
           // todo ok
           respuesta.send( JSON.stringify( res ) )
         }) // get /usuarios
+
+        // .......................................................
+        // GET /getTodasLasMedidas
+        // .......................................................
+        servidorExpress.get('/getTodasLasMedidas',
+          async function( peticion, respuesta ){
+            console.log( " * GET /usuarios " )
+            // averiguo la fecha
+            var res = await laLogica.getTodasLasMedidas()
+            // si no hay resultados...
+            if( res.length == 0 ) {
+              // 404: not found
+              respuesta.status(404).send( "No encontré usuarios" )
+              return
+            }
+            // todo ok
+            respuesta.send( JSON.stringify( res ) )
+          }) // get /usuarios
 
 
     //-----------------------------------------------------------------------------
