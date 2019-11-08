@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script type="text/javascript" src="../proxy.js"></script>
+</head>
+
+<body>
+
+    <button type="button" onclick="getTodasLasMedidas()">Try it</button>
+
+    <script>
+        var elProxy = new Proxy();
+
+        function getTodasLasMedidas(){
+          elProxy.getTodasLasMedidas(function(res){
+            console.log(res)
+          })
+        }
+
+    </script>
+
+</body>
+
+</html>

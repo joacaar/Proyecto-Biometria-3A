@@ -86,5 +86,29 @@ class Proxy {
 
   }
 
+  //----------------------------------------------------------------------------
+  // getMedicionesPorFecha() -->
+  //[JSON{email:Texto, password:Texto, telefono:Texto, idUsuario:N}]
+  //----------------------------------------------------------------------------
+  getTodasLasMedidas( callback ){
+
+    var myInit = { method: 'GET',
+                   headers: {
+                     'User-Agent' : 'jordi', 'Content-Type' : 'application/json'
+                   },
+                   mode: 'cors',
+                   cache: 'default' };
+
+
+    fetch(IP_PUERTO+"/getTodasLasMedidas", myInit)
+    .then((res)=>{
+      return res.json();
+    })
+    .then((data)=>{
+      callback(data);
+    })
+
+  }
+
 
 }
