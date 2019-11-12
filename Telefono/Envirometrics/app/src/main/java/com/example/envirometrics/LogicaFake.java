@@ -104,19 +104,15 @@ public class LogicaFake {
     // -------------------------------------------------------------------------------
     //                              obt()
     // -------------------------------------------------------------------------------
-    public void getTodasLasMedidas(String email, String password, PeticionarioREST.Callback elCallback) {
+    public void getTodasLasMedidas(PeticionarioREST.Callback elCallback) {
 
         PeticionarioREST elPeticionario = new PeticionarioREST();
 
-
         Map<String, String> params = new HashMap<String, String>();
-        params.put("email", email);
-        params.put("password", password);
-
 
         JSONObject eljson = new JSONObject(params);
 
-        elPeticionario.hacerPeticionREST("POST", this.urlServidor + "iniciarSesion", eljson.toString(), elCallback,
+        elPeticionario.hacerPeticionREST("GET", this.urlServidor + "getTodasLasMedidas", eljson.toString(), elCallback,
                 "application/json; charset=utf-8"
         );
     }

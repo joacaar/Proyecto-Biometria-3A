@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
-import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
@@ -15,7 +14,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
-import com.google.gson.JsonObject;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
 
 import org.json.JSONArray;
@@ -28,7 +26,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import com.google.maps.android.heatmaps.WeightedLatLng;
-import com.orhanobut.hawk.Hawk;
 
 public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
 
@@ -38,13 +35,9 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
     TileOverlay mOverlay;
     GoogleMap map;
     Criteria criteria;
-    private LogicaFake laLogica;
-    private JSONObject jsonTodasLasMedidas;
-
 
     public MapsMarkerActivity(Context context_){
         this.context=context_;
-        laLogica = new LogicaFake(context_);
     }
 
     @Override
@@ -94,7 +87,7 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
 
         // Get the data: latitude/longitude positions of police stations.
         try {
-            list = readItems();
+            list = readItems(R.raw.medidas);
         } catch (JSONException e) {
             Toast.makeText(getBaseContext(), "Problem reading list of locations.", Toast.LENGTH_LONG).show();
         }
@@ -106,17 +99,11 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
 
     }
 
-    private List<WeightedLatLng> readItems() throws JSONException {
+    private List<WeightedLatLng> readItems(int resource) throws JSONException {
         ArrayList<WeightedLatLng> listValorMedida = new ArrayList<WeightedLatLng>();
-
-        /*
         InputStream inputStream = context.getResources().openRawResource(resource);
-        String json = new Scanner(inputStream).useDelimiter("\\A").next();*/
-
-        obtenerTodasLasMedidas();
-
-        JSONArray array = new JSONArray(jsonTodasLasMedidas);
-
+        String json = new Scanner(inputStream).useDelimiter("\\A").next();
+        JSONArray array = new JSONArray(json);
         for (int i = 0; i < array.length(); i++) {
             JSONObject object = array.getJSONObject(i);
             double lat = object.getDouble("latitud");
@@ -127,24 +114,5 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
         return listValorMedida;
     }
 
-    private void obtenerTodasLasMedidas (){
-
-
-        laLogica.getTodasLasMedidas( new PeticionarioREST.Callback () {
-            @Override
-            public void respuestaRecibida(int codigo, String cuerpo) {
-                try {
-
-                    JSONObject jsonObject = new JSONObject(cuerpo);
-                    jsonTodasLasMedidas = jsonObject;
-
-                }catch (JSONException err){
-                        Log.d("Error", err.toString());
-                }
-            }
-        });
-
-
-    }
 
 }
