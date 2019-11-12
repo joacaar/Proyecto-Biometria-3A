@@ -3,9 +3,11 @@ package com.example.envirometrics;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
 
 
@@ -15,6 +17,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.orhanobut.hawk.Hawk;
 
@@ -49,8 +53,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-
         //Pedimos los permisos al inicio para poder activar el servicio
         pedirPermisoGPS();
 
@@ -71,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         // creamos la intencion que nos ejecutara el servicio y la notificacion en primer plano
         intencion = new Intent(MainActivity.this, Servicio.class);
         //startService(intencion);
+
 
 
     }

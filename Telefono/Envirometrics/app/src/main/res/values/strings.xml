@@ -14,4 +14,7 @@
     <string name="registrarse">Registrarse</string>
     <string name="envirometrics">Envirometrics</string>
     <string name="cerrar_sesion">Cerrar sesión</string>
+
+    <string name="google_maps_key">AIzaSyAgkN-hpzsWKExY1_y1iyZLobI2012vi1k</string>
+
 </resources>
