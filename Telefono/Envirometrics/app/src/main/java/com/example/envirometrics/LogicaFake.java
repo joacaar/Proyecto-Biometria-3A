@@ -13,22 +13,28 @@ import java.util.Map;
 public class LogicaFake {
 
 
-        // -------------------------------------------------------------------------------
-        // -------------------------------------------------------------------------------
-        interface RespuestaAPreguntarAlgo {
-            public void respuesta( String respuesta );
+    // -------------------------------------------------------------------------------
+    // -------------------------------------------------------------------------------
+    interface RespuestaAPreguntarAlgo {
+        public void respuesta( String respuesta );
 
-        } // interface
+    } // interface
 
-        // -------------------------------------------------------------------------------
-        // -------------------------------------------------------------------------------
-        private String urlServidor = "http://172.20.10.8:8080/";
+    // -------------------------------------------------------------------------------
+    //                  Declaración de variables
+    // -------------------------------------------------------------------------------
+    private String urlServidor = "http://172.20.10.8:8080/";
 
-        public LogicaFake(Context context){
+    // -------------------------------------------------------------------------------
+    //                          Constructor()
+    // -------------------------------------------------------------------------------
+    public LogicaFake(Context context){
             Hawk.init(context).build();
         }
 
+
     // -------------------------------------------------------------------------------
+    //                          anunciarCO()
     // -------------------------------------------------------------------------------
     public void anunciarCO( Medida medicion) {
 
@@ -57,6 +63,7 @@ public class LogicaFake {
     }
 
     // -------------------------------------------------------------------------------
+    //                            darAltaUsuario()
     // -------------------------------------------------------------------------------
     public void darAltaUsuario(Usuario usuario, PeticionarioREST.Callback elCallback) {
 
@@ -75,8 +82,29 @@ public class LogicaFake {
 
 
     // -------------------------------------------------------------------------------
+    //                              iniciarSesion()
     // -------------------------------------------------------------------------------
     public void iniciarSesion(String email, String password, PeticionarioREST.Callback elCallback) {
+
+        PeticionarioREST elPeticionario = new PeticionarioREST();
+
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("email", email);
+        params.put("password", password);
+
+
+        JSONObject eljson = new JSONObject(params);
+
+        elPeticionario.hacerPeticionREST("POST", this.urlServidor + "iniciarSesion", eljson.toString(), elCallback,
+                "application/json; charset=utf-8"
+        );
+    }
+
+    // -------------------------------------------------------------------------------
+    //                              obt()
+    // -------------------------------------------------------------------------------
+    public void getTodasLasMedidas(String email, String password, PeticionarioREST.Callback elCallback) {
 
         PeticionarioREST elPeticionario = new PeticionarioREST();
 
