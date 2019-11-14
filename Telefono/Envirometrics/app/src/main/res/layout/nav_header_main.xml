@@ -17,20 +17,19 @@
         android:layout_width="81dp"
         android:layout_height="85dp"
         android:paddingTop="8dp"
-        app:srcCompat="@drawable/ic_envirometrics_grande" />
+        app:srcCompat="@mipmap/ic_envirometrics_foreground" />
 
     <TextView
         android:id="@+id/nombreUsuarioNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
-        android:text="Usuario"
+        android:text="usuario@gmail.com"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
     <TextView
         android:id="@+id/emailUsuarioNav"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="usuario@gmail.com" />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

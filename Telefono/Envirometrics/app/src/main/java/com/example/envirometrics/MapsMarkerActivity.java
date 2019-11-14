@@ -52,7 +52,19 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
 
         map = googleMap;
 
-        addHeatMap();
+        laLogica.getTodasLasMedidas( new PeticionarioREST.Callback () {
+            @Override
+            public void respuestaRecibida(int codigo, String cuerpo) {
+                try {
+
+                    JSONObject jsonObject = new JSONObject(cuerpo);
+                    addHeatMap(jsonObject);
+
+                }catch (JSONException err){
+                    Log.d("Error", err.toString());
+                }
+            }
+        });
 
         //Quito la opcion navegacion
         googleMap.getUiSettings().setMapToolbarEnabled(false);
@@ -88,13 +100,13 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
 
 
     //MAPA DE COLOR
-    private void addHeatMap() {
+    private void addHeatMap(JSONObject jsonObject) {
 
         List<WeightedLatLng> list = null;
 
         // Get the data: latitude/longitude positions of police stations.
         try {
-            list = readItems();
+            list = readItems(jsonObject);
         } catch (JSONException e) {
             Toast.makeText(getBaseContext(), "Problem reading list of locations.", Toast.LENGTH_LONG).show();
         }
@@ -106,29 +118,28 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
 
     }
 
-    private List<WeightedLatLng> readItems() throws JSONException {
+    private List<WeightedLatLng> readItems(JSONObject jsonObject) throws JSONException {
+
         ArrayList<WeightedLatLng> listValorMedida = new ArrayList<WeightedLatLng>();
 
         /*
         InputStream inputStream = context.getResources().openRawResource(resource);
         String json = new Scanner(inputStream).useDelimiter("\\A").next();*/
 
-        obtenerTodasLasMedidas();
-
-        JSONArray array = new JSONArray(jsonTodasLasMedidas);
+        JSONArray array = new JSONArray(jsonObject);
 
         for (int i = 0; i < array.length(); i++) {
             JSONObject object = array.getJSONObject(i);
             double lat = object.getDouble("latitud");
             double lng = object.getDouble("longitud");
-            double medida = object.getDouble("medida");
+            double medida = object.getDouble("valorMedida");
             listValorMedida.add(new WeightedLatLng(new LatLng(lat,lng),medida));
         }
+
         return listValorMedida;
     }
 
     private void obtenerTodasLasMedidas (){
-
 
         laLogica.getTodasLasMedidas( new PeticionarioREST.Callback () {
             @Override
