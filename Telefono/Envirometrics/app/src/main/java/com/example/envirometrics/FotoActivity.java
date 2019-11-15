@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.View;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
@@ -21,6 +22,8 @@ public class FotoActivity extends Activity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageView foto;
+    private ImageView salir;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,6 +31,7 @@ public class FotoActivity extends Activity {
         setContentView(R.layout.activity_foto);
 
         foto = findViewById(R.id.fotoTomada);
+        salir = findViewById(R.id.arrowLeftFoto);
 
         pedirPermisoCamara();
 
@@ -36,6 +40,13 @@ public class FotoActivity extends Activity {
             Intent i = new Intent("android.media.action.IMAGE_CAPTURE");
             startActivityForResult(i, REQUEST_IMAGE_CAPTURE);
         }
+
+        salir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
     }
 
@@ -56,10 +67,4 @@ public class FotoActivity extends Activity {
         }
     }
 
-    public Uri getImageUri(Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
-    }
 }
