@@ -67,48 +67,6 @@ TODO: https://bootsnipp.com/snippets/402bQ
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/index.css">
 
-    <!-- Scripts -->
-    <script type="text/javascript" src="../proxy.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTrzSIM3o7jvT0ExtK8KpNExtDQc1pddw&callback=inicializarMapa" async defer></script>
-
-    <script>
-        var elProxy1 = new Proxy()
-
-        function inicializarMapa() {
-
-            // Creamos un objeto mapa y especificamos el elemento DOM donde se va a mostrar.
-            var map = new google.maps.Map(document.getElementById('mapa'), {
-                center: {
-                    lat: 38,
-                    lng: -0.16
-                },
-                scrollwheel: false,
-                zoom: 8,
-                zoomControl: true,
-                rotateControl: false,
-                mapTypeControl: true,
-                streetViewControl: false,
-            });
-
-            elProxy1.getTodasLasMedidas(function(res) {
-                for (let i = 0; i < res.length; i++) {
-                    var marker1 = new google.maps.Marker({
-                        position: {
-                            lat: res[i].latitud,
-                            lng: res[i].longitud
-                        },
-                        draggable: false
-                    });
-                    console.log("Latitud: " + res[i].latitud);
-                    console.log("longitud: " + res[i].longitud);
-                    marker1.setMap(map);
-                }
-            })
-
-        }
-
-    </script>
-
 </head>
 
 
@@ -166,7 +124,9 @@ TODO: https://bootsnipp.com/snippets/402bQ
             </div>
         </div>
 
-        <div class="mapa"></div>
+        <div class="mapa">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d23399.939299594967!2d-0.18384565189124724!3d38.980588622284145!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd61e8342d59bcdb%3A0x841e6f90d6486771!2sGand%C3%ADa%2C%20Valencia!5e1!3m2!1ses!2ses!4v1572717971178!5m2!1ses!2ses" class="mapa" allowfullscreen=""></iframe>
+        </div>
 
         <div class="publicidad">
             <h1>
@@ -218,6 +178,7 @@ TODO: https://bootsnipp.com/snippets/402bQ
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
     <!-- SCRIPTS -->
+    <script type="text/javascript" src="../proxy.js"></script>
     <script>
         //-------------------------------------------------------------------
         // Para el modal
@@ -306,8 +267,5 @@ TODO: https://bootsnipp.com/snippets/402bQ
             var password = document.getElementById("inputPassword").value;
             await iniciarSesion(nombre, password)
         }
-
     </script>
-</body>
-
-</html>
+</body></html>
