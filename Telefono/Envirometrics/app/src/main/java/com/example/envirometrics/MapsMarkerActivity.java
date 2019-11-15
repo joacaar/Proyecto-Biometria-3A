@@ -22,10 +22,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 import com.google.maps.android.heatmaps.WeightedLatLng;
 import com.orhanobut.hawk.Hawk;
@@ -56,9 +54,10 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
             @Override
             public void respuestaRecibida(int codigo, String cuerpo) {
                 try {
-
-                    JSONObject jsonObject = new JSONObject(cuerpo);
-                    addHeatMap(jsonObject);
+                    if(codigo==200) {
+                        JSONArray jsonObject = new JSONArray(cuerpo);
+                        addHeatMap(jsonObject);
+                    }
 
                 }catch (JSONException err){
                     Log.d("Error", err.toString());
@@ -100,62 +99,37 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
 
 
     //MAPA DE COLOR
-    private void addHeatMap(JSONObject jsonObject) {
+    private void addHeatMap(JSONArray jsonObject) {
 
         List<WeightedLatLng> list = null;
 
-        // Get the data: latitude/longitude positions of police stations.
+        //Obtener una lista con la latitud, longitud y valor de la medida
         try {
             list = readItems(jsonObject);
         } catch (JSONException e) {
-            Toast.makeText(getBaseContext(), "Problem reading list of locations.", Toast.LENGTH_LONG).show();
+            Toast.makeText(context, "Problem reading list of locations.", Toast.LENGTH_LONG).show();
         }
 
-        // Create a heat map tile provider, passing it the latlngs of the police stations.
+        // Creando un heat map tile provider, pasando una lista WeightedLatLng
         mProvider = new HeatmapTileProvider.Builder().weightedData(list).radius(50).build();
-        // Add a tile overlay to the map, using the heat map tile provider.
+        // Añado a tile overlay to the map, usando heat map tile provider
         mOverlay = map.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
 
     }
 
-    private List<WeightedLatLng> readItems(JSONObject jsonObject) throws JSONException {
+    private List<WeightedLatLng> readItems(JSONArray jsonObject) throws JSONException {
 
         ArrayList<WeightedLatLng> listValorMedida = new ArrayList<WeightedLatLng>();
 
-        /*
-        InputStream inputStream = context.getResources().openRawResource(resource);
-        String json = new Scanner(inputStream).useDelimiter("\\A").next();*/
-
-        JSONArray array = new JSONArray(jsonObject);
-
-        for (int i = 0; i < array.length(); i++) {
-            JSONObject object = array.getJSONObject(i);
+        for (int i = 0; i < jsonObject.length(); i++) {
+            JSONObject object = jsonObject.getJSONObject(i);
             double lat = object.getDouble("latitud");
             double lng = object.getDouble("longitud");
             double medida = object.getDouble("valorMedida");
-            listValorMedida.add(new WeightedLatLng(new LatLng(lat,lng),medida));
+            listValorMedida.add(new WeightedLatLng(new LatLng(lat, lng), medida));
         }
 
         return listValorMedida;
-    }
-
-    private void obtenerTodasLasMedidas (){
-
-        laLogica.getTodasLasMedidas( new PeticionarioREST.Callback () {
-            @Override
-            public void respuestaRecibida(int codigo, String cuerpo) {
-                try {
-
-                    JSONObject jsonObject = new JSONObject(cuerpo);
-                    jsonTodasLasMedidas = jsonObject;
-
-                }catch (JSONException err){
-                        Log.d("Error", err.toString());
-                }
-            }
-        });
-
-
     }
 
 }

@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         laLogicaFake = new LogicaFake(this);
 
         // creamos la intencion que nos ejecutara el servicio y la notificacion en primer plano
-        intencion = new Intent(MainActivity.this, Servicio.class);
+        //intencion = new Intent(MainActivity.this, Servicio.class);
         //startService(intencion);
 
 
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
         super.onStart();
         if(receptorBle.checkBtOn()){
             if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION ) == PackageManager.PERMISSION_GRANTED){
-                startService(intencion);
+                //startService(intencion);
             }
         }
 
