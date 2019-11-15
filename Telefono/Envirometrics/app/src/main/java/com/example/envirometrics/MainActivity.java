@@ -179,10 +179,8 @@ public class MainActivity extends AppCompatActivity {
         String emailUsuario = Hawk.get("email");
 
         TextView nombreUsuarioNav = findViewById(R.id.nombreUsuarioNav);
-        TextView emailUsuarioNav = findViewById(R.id.emailUsuarioNav);
 
         nombreUsuarioNav.setText(emailUsuario);
-        emailUsuarioNav.setText(emailUsuario);
 
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
