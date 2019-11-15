@@ -5,12 +5,17 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+
+import java.io.ByteArrayOutputStream;
 
 public class FotoActivity extends Activity {
 
@@ -27,6 +32,7 @@ public class FotoActivity extends Activity {
         pedirPermisoCamara();
 
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA ) == PackageManager.PERMISSION_GRANTED){
+
             Intent i = new Intent("android.media.action.IMAGE_CAPTURE");
             startActivityForResult(i, REQUEST_IMAGE_CAPTURE);
         }
@@ -36,8 +42,8 @@ public class FotoActivity extends Activity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+            Bitmap imageBitmap = (Bitmap)data.getExtras().get("data");
             foto.setImageBitmap(imageBitmap);
 
         }
@@ -50,4 +56,10 @@ public class FotoActivity extends Activity {
         }
     }
 
+    public Uri getImageUri(Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(this.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
 }
