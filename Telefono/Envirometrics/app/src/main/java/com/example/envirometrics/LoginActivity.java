@@ -1,6 +1,8 @@
 package com.example.envirometrics;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
     private Button btnIniciarSesion;
     private TextView textoError;
     public LogicaFake laLogica;
-
+    private Boolean firstTime = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +44,11 @@ public class LoginActivity extends AppCompatActivity {
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(i);
             this.finish();
+        }
+
+        if(isFirstTime()) {
+            Intent i = new Intent(this, IntroActivity.class);
+            startActivity(i);
         }
 
         iniciarSesion();
@@ -144,6 +151,22 @@ public class LoginActivity extends AppCompatActivity {
     //---------------------------------------------------------
     public void finishActivity(){
         this.finish();
+    }
+
+    //---------------------------------------------------------
+    //                  primeraVez()
+    //---------------------------------------------------------
+    private boolean isFirstTime() {
+        if (firstTime == null) {
+            SharedPreferences mPreferences = this.getSharedPreferences("first_time", Context.MODE_PRIVATE);
+            firstTime = mPreferences.getBoolean("firstTime", true);
+            if (firstTime) {
+                SharedPreferences.Editor editor = mPreferences.edit();
+                editor.putBoolean("firstTime", false);
+                editor.commit();
+            }
+        }
+        return firstTime;
     }
 
 

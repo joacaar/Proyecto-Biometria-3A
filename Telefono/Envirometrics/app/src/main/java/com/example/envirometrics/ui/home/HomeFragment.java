@@ -1,5 +1,7 @@
 package com.example.envirometrics.ui.home;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 
 import android.location.LocationManager;
@@ -12,6 +14,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import com.example.envirometrics.IntroActivity;
+import com.example.envirometrics.LocalizadorGPS;
 import com.example.envirometrics.MapsMarkerActivity;
 import com.example.envirometrics.R;
 import com.google.android.gms.maps.GoogleMap;
@@ -41,7 +45,9 @@ public class HomeFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_home, container, false);
 
-        MapsMarkerActivity mapa = new MapsMarkerActivity(getContext());
+        LocationManager locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+
+        MapsMarkerActivity mapa = new MapsMarkerActivity(getContext(),locationManager);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(mapa);
 

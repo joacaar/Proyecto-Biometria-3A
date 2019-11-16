@@ -5,13 +5,17 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationManager;
 import android.util.Log;
 import android.widget.Toast;
 
 import androidx.core.content.ContextCompat;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
@@ -24,6 +28,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import com.google.maps.android.heatmaps.WeightedLatLng;
 import com.orhanobut.hawk.Hawk;
@@ -37,12 +42,13 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
     GoogleMap map;
     Criteria criteria;
     private LogicaFake laLogica;
-    private JSONObject jsonTodasLasMedidas;
+    private LocationManager locationManager;
 
 
-    public MapsMarkerActivity(Context context_){
+    public MapsMarkerActivity(Context context_, LocationManager locationManager_){
         this.context=context_;
-        laLogica = new LogicaFake(context_);
+        this.laLogica = new LogicaFake(context_);
+        this.locationManager = locationManager_;
     }
 
     @Override
@@ -77,23 +83,23 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
              googleMap.setMyLocationEnabled(true);
         }
 
-        criteria = new Criteria();
+        //Hacer zoom a mi localización
+        if(locationManager!=null) {
+            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-        /*
-        Location location = locationManager.getLastKnownLocation(Objects.requireNonNull(locationManager.getBestProvider(criteria, false)));
 
+            if (location != null) {
+                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 13));
 
-        if(location!=null) {
-            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 13));
+                CameraPosition cameraPosition = new CameraPosition.Builder()
+                        .target(new LatLng(location.getLatitude(), location.getLongitude()))      // Centrar el mapa en mi posición
+                        .zoom(15)                   // Zoom de la cámara
+                        .bearing(0)                // Orientación norte
+                        .build();
 
-            CameraPosition cameraPosition = new CameraPosition.Builder()
-                    .target(new LatLng(location.getLatitude(), location.getLongitude()))      // Sets the center of the map to location user
-                    .zoom(17)                   // Sets the zoom
-                    .bearing(90)                // Sets the orientation of the camera to east
-                    .tilt(40)                   // Sets the tilt of the camera to 30 degrees
-                    .build();                   // Creates a CameraPosition from the builder
-            googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-        }*/
+                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+            }
+        }
 
     }
 
