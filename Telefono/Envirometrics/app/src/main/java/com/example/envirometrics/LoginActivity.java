@@ -22,6 +22,7 @@ import org.json.JSONObject;
 public class LoginActivity extends AppCompatActivity {
 
     private String email;
+    private String telefono;
     private String password;
     private Button btnIniciarSesion;
     private TextView textoError;
@@ -46,7 +47,7 @@ public class LoginActivity extends AppCompatActivity {
             this.finish();
         }
 
-        if(isFirstTime()) {
+        if(primareVez()) {
             Intent i = new Intent(this, IntroActivity.class);
             startActivity(i);
         }
@@ -109,6 +110,7 @@ public class LoginActivity extends AppCompatActivity {
 
                                     //Almacenamos los datos del usuario en la app
                                     Hawk.put("email", email);
+                                    Hawk.put("telefono", telefono);
                                     Hawk.put("password", password);
 
 
@@ -156,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
     //---------------------------------------------------------
     //                  primeraVez()
     //---------------------------------------------------------
-    private boolean isFirstTime() {
+    private boolean primareVez() {
         if (firstTime == null) {
             SharedPreferences mPreferences = this.getSharedPreferences("first_time", Context.MODE_PRIVATE);
             firstTime = mPreferences.getBoolean("firstTime", true);

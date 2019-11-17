@@ -23,7 +23,7 @@ public class LogicaFake {
     // -------------------------------------------------------------------------------
     //                  Declaración de variables
     // -------------------------------------------------------------------------------
-    private String urlServidor = "http://192.168.0.108:8080/";
+    private String urlServidor = "http://192.168.1.139:8080/";
 
     // -------------------------------------------------------------------------------
     //                          Constructor()
@@ -102,7 +102,7 @@ public class LogicaFake {
     }
 
     // -------------------------------------------------------------------------------
-    //                              obt()
+    //                              getTodasLasMedidas()
     // -------------------------------------------------------------------------------
     public void getTodasLasMedidas(PeticionarioREST.Callback elCallback) {
 
@@ -117,70 +117,6 @@ public class LogicaFake {
         );
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /*
-
-        // -------------------------------------------------------------------------------
-        // -------------------------------------------------------------------------------
-        public void enviarMedicionDeAlgo( String datosJSON ) {
-
-            PeticionarioREST elPeticionario = new PeticionarioREST();
-
-            elPeticionario.hacerPeticionREST("POST",  this.urlServidor + "/posts/", datosJSON,
-                    new PeticionarioREST.Callback () {
-                        @Override
-                        public void respuestaRecibida( int codigo, String cuerpo ) {
-                            Log.d( "RESPUESTA RECIBIDA", "Logica.enviarMedicionDeAlgo() respuestaRecibida: codigo = "
-                                    + codigo + " cuerpo=" + cuerpo);
-                        }
-                    },
-                    "application/json; charset=utf-8"
-            );
-
-        /*
-        Ejempo con curl
-        curl -d '{"key1":"pepito", "key2":"value2"}' -H "Content-Type: application/json; charset=utf-8" -X POST http://jsonplaceholder.typicode.com/posts/
-         */
-
-        // -------------------------------------------------------------------------------
-        // -------------------------------------------------------------------------------
-        public void preguntarAlgo( final RespuestaAPreguntarAlgo cb ) {
-
-            PeticionarioREST elPeticionario = new PeticionarioREST();
-
-            elPeticionario.hacerPeticionREST("GET",  this.urlServidor + "/posts/", null,
-                    new PeticionarioREST.Callback () {
-                        @Override
-                        public void respuestaRecibida( int codigo, String cuerpo ) {
-                            Log.d( "RESPUESTA RECIBIDA", "Logica.preguntarAlgo() respuestaRecibida: codigo = "
-                                    + codigo + " cuerpo=" + cuerpo);
-                            cb.respuesta( cuerpo );
-                        } // ()
-                    } // new
-            );
-
-        } // ()
 
 } // class
 
