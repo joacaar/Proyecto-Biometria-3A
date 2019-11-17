@@ -12,8 +12,7 @@ import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
 
 
 public class IntroActivity extends com.heinrichreimersoftware.materialintro.app.IntroActivity {
-
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,7 +55,6 @@ public class IntroActivity extends com.heinrichreimersoftware.materialintro.app.
                 .scrollable(false)
                 .build());
 
-        setButtonCtaLabel("Permisos");
         setButtonBackVisible(false);
     }
 
