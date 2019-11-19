@@ -18,6 +18,12 @@
         tools:layout="@layout/fragment_perfil" />
 
     <fragment
+        android:id="@+id/nav_resumen_dia"
+        android:name="com.example.envirometrics.ui.resumenDia.ResumenDiaFragment"
+        android:label="Resumen diario"
+        tools:layout="@layout/fragment_perfil"/>
+
+    <fragment
         android:id="@+id/nav_ajustes"
         android:name="com.example.envirometrics.ui.tools.ToolsFragment"
         android:label="@string/menu_tools"
@@ -28,4 +34,5 @@
         android:name="com.example.envirometrics.ui.cerrraSesion.CerrarSesionFragment"
         android:label="@string/cerrar_sesion"
         tools:layout="@layout/fragment_cerrar_sesion" />
+
 </navigation>
