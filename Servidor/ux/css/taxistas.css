@@ -1,0 +1,113 @@
+/*
+*
+*
+*    Autor: Adrián Heras Reche
+*
+*    Fecha de creación: 29/10/2019
+*
+*    Última actualización: 01/11/2019
+*
+*
+*
+* ==========================================
+* CSS personalizado
+* ==========================================
+*
+*
+*
+*
+*   Color primario:                     #00B49A
+*   Color resaltado primario:           #00957f
+*   Color secundario:                   #393946
+*   Color resaltado secundario:         #515160
+*   Color terciario:                    #F0F0F0
+*   Color de fondo:                     #FAFAFA
+*   Texto sobre oscuro:                 #FFFFFF
+*   Texto sobre claro:                  #000000
+*
+*/
+
+/*              Content             */
+.taxistas {
+    margin-top: 2em;
+}
+
+.datos {
+    margin: 0.5em 2em;
+}
+
+.datos .email {
+    margin-top: 1em;
+}
+
+
+/*              Estilo de los botones              */
+.row.editarEliminar {
+    position: absolute;
+    right: 1em;
+}
+
+.btn-primary {
+    background-color: #00B49A;
+    color: #FAFAFA;
+    border: none;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+    background-color: #00957f !important;
+    color: #FAFAFA;
+}
+
+.btn-primary.editar {
+    height: 1.5em;
+    width: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-right: 1em;
+}
+
+.btn-primary.eliminar {
+    height: 1.5em;
+    width: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-right: 2em;
+}
+
+.row.botones {
+    margin: 3em;
+    margin-top: 5em;
+}
+
+.row.botones button {
+    width: 100%;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+
+
+/*                 Tabla taxistas                 */
+.row.tablaTaxistas p {
+    margin-left: 1em;
+    font-size: 32px;
+}
+
+tr.selected {
+    background-color: #00B49A;
+    color: #FAFAFA;
+}
+
+tr a {
+    color: #FAFAFA;
+    text-decoration: underline;
+}
+
+tr a:hover,
+tr a:focus,
+tr a:active{
+    color: #F0F0F0;
+    text-decoration: underline;
+}
