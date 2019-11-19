@@ -131,8 +131,6 @@ public class RegistroActivity extends Activity {
                                             progressView.setVisibility(View.INVISIBLE);
                                             btnRegistrarme.setText("Registrarse");
 
-                                            getParent().finish();
-
                                         } else {
                                             progressView.stopAnimation();
                                             progressView.setVisibility(View.INVISIBLE);

@@ -33,12 +33,19 @@ public class PerfilFragment extends Fragment {
         Hawk.init(getContext()).build();
 
         String emailUser = Hawk.get("email");
+        String telefonoUser = Hawk.get("telefono");
 
         nombre = root.findViewById(R.id.textoPerfil);
         telefono = root.findViewById(R.id.editTextTelefono2);
 
         nombre.setText(emailUser);
-        telefono.setHint("28904357");
+
+        telefono.setHint("686377222");
+
+        if(Hawk.get("telefono")!=null) {
+
+            telefono.setHint(telefonoUser);
+        }
 
         return root;
     }
