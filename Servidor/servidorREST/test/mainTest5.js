@@ -30,7 +30,7 @@ describe( "Test 5 : Probamos INICIAR SESIÓN ", function() {
     function( err, respuesta, carga ) {
       assert.equal( err, null, "¿ha habido un error?" )
       assert.equal( respuesta.statusCode, 200, "¿El código no es 200 (OK)" )
-      assert.equal( carga, '{"respuesta":true,"idUsuario":1}' )
+      assert.equal( carga, '{"respuesta":true,"idUsuario":1,"telefono":"646601542"}' )
       hecho()
     } // callback
     ) // .post
