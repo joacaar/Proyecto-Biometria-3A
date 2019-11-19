@@ -53,8 +53,6 @@ public class ResumenDiaFragment extends Fragment {
         generateData();
         chart.startDataAnimation(500);
 
-
-
         return root;
 
     }
@@ -67,10 +65,10 @@ public class ResumenDiaFragment extends Fragment {
 
         List<PointValue> values = new ArrayList<PointValue>();
         values.add(new PointValue(0, 2));
-        values.add(new PointValue(1, 1));
-        values.add(new PointValue(2, 3));
-        values.add(new PointValue(3, 1));
-        values.add(new PointValue(4, 2));
+        values.add(new PointValue(1, 3));
+        values.add(new PointValue(2, 4));
+        values.add(new PointValue(3, 3));
+        values.add(new PointValue(4, 4));
 
 
         //In most cased you can call data model methods in builder-pattern-like manner.
@@ -109,9 +107,6 @@ public class ResumenDiaFragment extends Fragment {
 
         //Le pasamos toda la informacion a la vista de la grafica
         chart.setLineChartData(data);
-
-        // For build-up animation you have to disable viewport recalculation.
-        chart.setViewportCalculationEnabled(false);
 
 
     }

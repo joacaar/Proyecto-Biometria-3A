@@ -21,8 +21,8 @@ import org.w3c.dom.Text;
 
 public class PerfilFragment extends Fragment {
 
-    private EditText email;
     private TextView nombre;
+    private EditText telefono;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -32,12 +32,19 @@ public class PerfilFragment extends Fragment {
 
         Hawk.init(getContext()).build();
 
-        nombre = root.findViewById(R.id.textoPerfil);
-
         String emailUser = Hawk.get("email");
-        nombre.setText(emailUser);
 
+        nombre = root.findViewById(R.id.textoPerfil);
+        telefono = root.findViewById(R.id.editTextTelefono2);
+
+        nombre.setText(emailUser);
+        telefono.setHint("28904357");
 
         return root;
+    }
+
+    public void onClickCambiarDatos(View view){
+
+
     }
 }

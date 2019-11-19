@@ -104,13 +104,15 @@ public class LoginActivity extends AppCompatActivity {
                                     try {
                                         JSONObject jsonObject = new JSONObject(cuerpo);
                                         Hawk.put("id", jsonObject.get("idUsuario"));
+                                        Hawk.put("telefono", jsonObject.get("telefono"));
+
                                     }catch (JSONException err){
                                         Log.d("Error", err.toString());
                                     }
 
                                     //Almacenamos los datos del usuario en la app
                                     Hawk.put("email", email);
-                                    Hawk.put("telefono", telefono);
+
                                     Hawk.put("password", password);
 
 
