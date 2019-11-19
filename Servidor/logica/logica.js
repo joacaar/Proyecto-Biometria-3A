@@ -57,6 +57,25 @@ async borrarFilasDeTodasLasTablas() {
   await this.borrarFilasDe( "TipoSensores" )
 } // ()
 
+// .................................................................
+// datos:{email:Texto, password:Texto}
+// -->
+// insertarMedida() -->
+// .................................................................
+cambiarPassword( datos ) {
+  var textoSQL =
+  'UPDATE Usuarios SET password = $password WHERE email = $email'
+
+  var valoresParaSQL = {
+    $password : sjcl.encrypt(datos.email, datos.password), $email : datos.email
+   }
+  return new Promise( ( resolver, rechazar ) => {
+    this.laConexion.run( textoSQL, valoresParaSQL, function( err ) {
+      ( err ? rechazar( err ) : resolver( ) )
+    })
+  })
+} // ()
+
 
 // .................................................................
 // datos:{valorMedida:R, tiempo:N: latitud:R, longitud:R, idMedida:N, idUsuario:N, idTipoMedida:N}
