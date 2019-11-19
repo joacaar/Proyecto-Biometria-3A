@@ -1,6 +1,8 @@
 package com.example.envirometrics;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,11 +22,12 @@ import org.json.JSONObject;
 public class LoginActivity extends AppCompatActivity {
 
     private String email;
+    private String telefono;
     private String password;
     private Button btnIniciarSesion;
     private TextView textoError;
     public LogicaFake laLogica;
-
+    private Boolean firstTime = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,11 @@ public class LoginActivity extends AppCompatActivity {
             Intent i = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(i);
             this.finish();
+        }
+
+        if(primareVez()) {
+            Intent i = new Intent(this, IntroActivity.class);
+            startActivity(i);
         }
 
         iniciarSesion();
@@ -96,12 +104,15 @@ public class LoginActivity extends AppCompatActivity {
                                     try {
                                         JSONObject jsonObject = new JSONObject(cuerpo);
                                         Hawk.put("id", jsonObject.get("idUsuario"));
+                                        Hawk.put("telefono", jsonObject.get("telefono"));
+
                                     }catch (JSONException err){
                                         Log.d("Error", err.toString());
                                     }
 
                                     //Almacenamos los datos del usuario en la app
                                     Hawk.put("email", email);
+
                                     Hawk.put("password", password);
 
 
@@ -144,6 +155,22 @@ public class LoginActivity extends AppCompatActivity {
     //---------------------------------------------------------
     public void finishActivity(){
         this.finish();
+    }
+
+    //---------------------------------------------------------
+    //                  primeraVez()
+    //---------------------------------------------------------
+    private boolean primareVez() {
+        if (firstTime == null) {
+            SharedPreferences mPreferences = this.getSharedPreferences("first_time", Context.MODE_PRIVATE);
+            firstTime = mPreferences.getBoolean("firstTime", true);
+            if (firstTime) {
+                SharedPreferences.Editor editor = mPreferences.edit();
+                editor.putBoolean("firstTime", false);
+                editor.commit();
+            }
+        }
+        return firstTime;
     }
 
 

@@ -9,8 +9,7 @@ public class PerfilViewModel extends ViewModel {
     private MutableLiveData<String> mText;
 
     public PerfilViewModel() {
-        mText = new MutableLiveData<>();
-        mText.setValue("This is gallery fragment");
+
     }
 
     public LiveData<String> getText() {

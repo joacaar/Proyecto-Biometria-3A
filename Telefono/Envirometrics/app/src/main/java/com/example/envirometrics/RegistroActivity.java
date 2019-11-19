@@ -114,6 +114,7 @@ public class RegistroActivity extends Activity {
 
                                             //Almacenamos los datos del usuario en la app
                                             Hawk.put("email", email);
+                                            Hawk.put("telefono", telefono);
                                             Hawk.put("password", password);
 
                                             try {

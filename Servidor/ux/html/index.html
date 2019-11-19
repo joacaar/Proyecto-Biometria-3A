@@ -65,40 +65,47 @@ TODO: https://bootsnipp.com/snippets/402bQ
 
     <!-- CSS del Nav Bar -->
     <link rel="stylesheet" href="../css/styles.css">
+    <link rel="stylesheet" href="../css/index.css">
+
+    <!-- Scripts -->
     <script type="text/javascript" src="../proxy.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTrzSIM3o7jvT0ExtK8KpNExtDQc1pddw&callback=inicializarMapa"
-    async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTrzSIM3o7jvT0ExtK8KpNExtDQc1pddw&callback=inicializarMapa" async defer></script>
 
     <script>
+        var elProxy1 = new Proxy()
 
-      var elProxy1 = new Proxy()
+        function inicializarMapa() {
 
-      function inicializarMapa(){
-
-        // Creamos un objeto mapa y especificamos el elemento DOM donde se va a mostrar.
-        var map = new google.maps.Map(document.getElementById('mapa'), {
-          center: {lat: 38, lng: -0.16},
-          scrollwheel: false,
-          zoom: 8,
-          zoomControl: true,
-          rotateControl : false,
-          mapTypeControl: true,
-          streetViewControl: false,
-        });
-
-        elProxy1.getTodasLasMedidas( function( res ){
-          for(let i = 0; i < res.length; i++){
-            var marker1 = new google.maps.Marker({
-              position: {lat: res[i].latitud, lng: res[i].longitud},
-              draggable: false
+            // Creamos un objeto mapa y especificamos el elemento DOM donde se va a mostrar.
+            var map = new google.maps.Map(document.getElementById('mapa'), {
+                center: {
+                    lat: 38,
+                    lng: -0.16
+                },
+                scrollwheel: false,
+                zoom: 8,
+                zoomControl: true,
+                rotateControl: false,
+                mapTypeControl: true,
+                streetViewControl: false,
             });
-            console.log("Latitud: " + res[i].latitud);
-            console.log("longitud: " + res[i].longitud);
-            marker1.setMap(map);
-          }
-        })
 
-      }
+            elProxy1.getTodasLasMedidas(function(res) {
+                for (let i = 0; i < res.length; i++) {
+                    var marker1 = new google.maps.Marker({
+                        position: {
+                            lat: res[i].latitud,
+                            lng: res[i].longitud
+                        },
+                        draggable: false
+                    });
+                    console.log("Latitud: " + res[i].latitud);
+                    console.log("longitud: " + res[i].longitud);
+                    marker1.setMap(map);
+                }
+            })
+
+        }
 
     </script>
 
@@ -116,7 +123,10 @@ TODO: https://bootsnipp.com/snippets/402bQ
 
         <!-- Search Bar -->
         <div class="searchbar-dark">
-            <p class="empresaIndex">Envirometrics</p>
+            <p class="empresaIndex">
+                <img src="../images/icon_env.png" alt="" width="auto" height="50px">
+                Envirometrics
+            </p>
             <button class="buttonLogIn btn btn-outline-light" id="login-button" onclick="iniciarSesionWithCookie()">Log In</button>
         </div>
 
@@ -133,7 +143,7 @@ TODO: https://bootsnipp.com/snippets/402bQ
                 <div class="modal-body">
                     <form class="col-12 loginForm">
                         <div class="text-center mb-4">
-                            <img class="mb-4 loginImg" src="../images/ic_envirometrics_grande.png" alt="Imagen del logo" width="20%" height="20%">
+                            <img class="loginImg" src="../images/icon_env.png" alt="Imagen del logo" width="20%" height="20%">
                         </div>
 
                         <div class="form-label-group">
@@ -152,7 +162,6 @@ TODO: https://bootsnipp.com/snippets/402bQ
                             </label>
                         </div>
                         <input type="button" class="btn btn-lg btn-primary btn-block loginButton" type="submit" onclick="iniciarSesionOnClickButton()" value="Sign in">
-                        <!--<button class="btn btn-lg btn-primary btn-block loginButton" type="submit" onclick="iniciarSesionOnClickButton()">Sign in</button>-->
                         <p class="mt-5 mb-3 text-muted text-center">© 2019 GTI</p>
                     </form>
                 </div>
@@ -160,8 +169,43 @@ TODO: https://bootsnipp.com/snippets/402bQ
             </div>
         </div>
 
-        <div id="mapa" style="width: 450px; height: 350px;">
+        <div class="mapa" id="mapa"></div>
 
+        <div class="publicidad">
+            <h1>
+                Mapas de contaminación desde la comodidad de tu casa
+            </h1>
+            <div class="row">
+                <div class="col-sm-4 col-xs-12">
+                    <i class="fa fa-home fa-3x indexIcon"></i> <br />
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam voluptatibus perferendis, voluptate soluta delectus nesciunt animi hic, officiis! Modi quo doloribus fuga consectetur veritatis maxime vel repellat autem quam odio.
+                </div>
+                <div class="col-sm-4">
+                    <i class="fa fa-home fa-3x indexIcon"></i> <br />
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum laudantium, quibusdam, facilis ipsam quisquam dolore assumenda praesentium adipisci natus eaque veritatis magnam. Blanditiis porro iste vel eaque quisquam vitae, sit.
+                </div>
+                <div class="col-sm-4">
+                    <i class="fa fa-home fa-3x indexIcon"></i> <br />
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima iure provident ad, fugit quos temporibus alias repellendus eius iusto reiciendis et voluptas impedit adipisci similique voluptatum est hic. Odio, sit?
+                </div>
+            </div>
+        </div>
+
+        <div class="sobreNosotros">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8">
+                    <h1>Sobre Nosotros</h1>
+                    <p>
+                        <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit earum distinctio non incidunt quae laboriosam facere pariatur temporibus deserunt impedit dicta a maiores, nihil minima molestias, quia cupiditate magnam nisi?</span>
+                        <span>Perferendis quae delectus, soluta excepturi deleniti repudiandae impedit consequatur architecto totam deserunt commodi, velit nihil pariatur dolore eos adipisci corporis! Quam repellat maxime expedita, sapiente tenetur facilis velit inventore eius!</span>
+                        <span>Veritatis eum accusamus minus quidem magnam temporibus fugit vel dolorum mollitia expedita. Quos natus sit sed ullam veritatis dicta adipisci. Sunt sapiente ipsum provident perspiciatis hic obcaecati nesciunt deleniti ut.</span>
+                        <span>Maiores ipsa aliquid et accusamus incidunt, non nemo ut saepe aut nostrum sint suscipit laborum magni. Reiciendis hic consequuntur repudiandae vero quibusdam maxime molestiae ipsum odit animi, eveniet odio aliquam.</span>
+                        <span>Odio molestias, minus rerum obcaecati mollitia sequi maxime, laboriosam ad repudiandae provident ratione veritatis, sed. Ex illo, facilis illum, quis possimus molestiae repudiandae. Amet nulla accusamus, sit, incidunt inventore officiis.</span>
+                    </p>
+                </div>
+                <div class="col-2"></div>
+            </div>
         </div>
 
     </div>
@@ -265,12 +309,6 @@ TODO: https://bootsnipp.com/snippets/402bQ
             var password = document.getElementById("inputPassword").value;
             await iniciarSesion(nombre, password)
         }
-
-    </script>
-
-
-    <script>
-
 
     </script>
 </body>

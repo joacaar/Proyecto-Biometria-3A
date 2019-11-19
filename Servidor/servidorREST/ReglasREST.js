@@ -141,7 +141,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
               console.log( " * GET /getTodasLasMedidasDeUnUsuarioPorEmail " )
 
               var email = peticion.params.email
-          
+
               var res = await laLogica.getTodasLasMedidasDeUnUsuarioPorEmail(email)
               // si no hay resultados...
               if( res.length == 0 ) {
@@ -172,6 +172,24 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
         // enviarmos una respuesta que demuestra que todo ha salido correctamente
         respuesta.send({laRespuesta: "OK"});
 	      console.log("Peticion POST insertarMedida recibido");
+    }) // post / insertarMedida
+
+    //-----------------------------------------------------------------------------
+    // POST /insertarMedida
+    // peticion.body --> JSON
+    // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
+    //-----------------------------------------------------------------------------
+    servidorExpress.post('/cambiarPassword',
+      async function( peticion, respuesta ){
+        console.log( " * POST /insertarMedida " )
+        var datos = JSON.parse( peticion.body )
+        // supuesto procesamiento
+	      console.log(peticion.body);
+
+        await laLogica.cambiarPassword(datos)
+        // enviarmos una respuesta que demuestra que todo ha salido correctamente
+        respuesta.send({respuesta: "OK"});
+	      console.log("Peticion POST cambiarPassword recibido");
     }) // post / insertarMedida
 
     //-----------------------------------------------------------------------------

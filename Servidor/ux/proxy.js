@@ -139,5 +139,33 @@ class Proxy {
 
   }
 
+  //----------------------------------------------------------------------------
+  // datos:{email:Texto, password:Texto, telefono:Texto} -->
+  // darAltaUsuario() -->
+  // {respuesta:v/f, idUsuario:N}
+  //----------------------------------------------------------------------------
+  darAltaTaxista( datos, callback ){
+
+    var datosUsuario = {
+      email: datos.email, password: datos.password,
+      telefono: datos.telefono
+    }
+
+      fetch(IP_PUERTO+"/darAltaUsuario", {
+      method: 'POST', // or 'PUT'
+      body: JSON.stringify(datosUsuario), // data can be `string` or {object}!
+      headers:{
+         'User-Agent' : 'jordi', 'Content-Type' : 'application/json'
+      }
+      }).then( (res) => {
+        return res.json()
+      }).catch( (error) => {
+        return error
+      }).then( (data) => {
+        callback(data)
+      })
+
+    }
+
 
 }
