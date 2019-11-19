@@ -35,47 +35,41 @@ public class Ajustes extends AppCompatActivity {
         preferences = getSharedPreferences("Ajustes", MODE_PRIVATE);
         editor = preferences.edit();
 
+        //Comprobamos que el campo tipoMedida existe, en caso negativo mostraremos por defecto la primera opcion elegida
         if(!preferences.contains("tipoMedida")){
             Log.d(TAG, "tipoMedida no existe");
             rg.check(R.id.rb1);
             editor.putString("tipoMedida", "1");
             Log.d(TAG, preferences.getString("tipoMedida", "error: nulo"));
-        }else{
+        }else{//En caso afirmativo se obtiene la opcion elegida para mostrar en las opciones la actual
             Log.d(TAG, "Tipo medida existe");
             Log.d(TAG, preferences.getString("tipoMedida", "error: nulo"));
                 switch (preferences.getString("tipoMedida", "0")){
                     case "0":
-                        Log.d(TAG, "Tipo medida 0 existe");
                         rbSelected = findViewById(R.id.rb2);
                         rbSelected.setChecked(true);
                         break;
                     case "1":
-                        Log.d(TAG, "Tipo medida 1 existe");
                         rbSelected = findViewById(R.id.rb1);
                         rbSelected.setChecked(true);
                         break;
                     case "2":
-                        Log.d(TAG, "Tipo medida 2 existe");
                         rbSelected = findViewById(R.id.rb2);
                         rbSelected.setChecked(true);
                         break;
                     case "3":
-                        Log.d(TAG, "Tipo medida 3 existe");
                         rbSelected = findViewById(R.id.rb3);
                         rbSelected.setChecked(true);
                         break;
                     case "4":
-                        Log.d(TAG, "Tipo medida 4 existe");
                         rbSelected = findViewById(R.id.rb4);
                         rbSelected.setChecked(true);
                         break;
                     case "5":
-                        Log.d(TAG, "Tipo medida 5 existe");
                         rbSelected = findViewById(R.id.rb5);
                         rbSelected.setChecked(true);
                         break;
                     case "6":
-                        Log.d(TAG, "Tipo medida 6 existe");
                         rbSelected = findViewById(R.id.rb6);
                         rbSelected.setChecked(true);
                         break;
@@ -84,7 +78,6 @@ public class Ajustes extends AppCompatActivity {
     }
 
     public void obtenerOpcionElegida(View v){
-
 
         boolean marcado = ((RadioButton) v).isChecked();
 
@@ -104,6 +97,21 @@ public class Ajustes extends AppCompatActivity {
             case R.id.rb3:
                 if (marcado) {
                     editor.putString("tipoMedida", "3");
+                }
+                break;
+            case R.id.rb4:
+                if (marcado) {
+                    editor.putString("tipoMedida", "4");
+                }
+                break;
+            case R.id.rb5:
+                if (marcado) {
+                    editor.putString("tipoMedida", "5");
+                }
+                break;
+            case R.id.rb6:
+                if (marcado) {
+                    editor.putString("tipoMedida", "6");
                 }
                 break;
         }
