@@ -24,7 +24,6 @@ public class IntroActivity extends com.heinrichreimersoftware.materialintro.app.
                 .description("Envirometrics te permite viajar en taxi por un trayecto con menos contaminación.")
                 .image(R.drawable.taxi_env)
                 .background(R.color.colorPrimaryDark)
-                .backgroundDark(R.color.colorTransparent)
                 .scrollable(false)
                 .build());
 
@@ -33,7 +32,6 @@ public class IntroActivity extends com.heinrichreimersoftware.materialintro.app.
                 .description("Un mapa con toda la información necesaria sobre la contaminación de tu ciudad.")
                 .image(R.drawable.mapa_intro)
                 .background(R.color.colorPrimaryDark)
-                .backgroundDark(R.color.colorTransparent)
                 .scrollable(false)
                 .build());
 
@@ -42,7 +40,6 @@ public class IntroActivity extends com.heinrichreimersoftware.materialintro.app.
                 .description("Con simplemente hacer una foto a tu entorno envirometrics te dirá cuanta contaminación hay.")
                 .image(R.drawable.foto_cont)
                 .background(R.color.colorPrimaryDark)
-                .backgroundDark(R.color.colorTransparent)
                 .scrollable(false)
                 .build());
 
@@ -51,7 +48,6 @@ public class IntroActivity extends com.heinrichreimersoftware.materialintro.app.
                 .description("¿Quieres saber cuanta contaminación has respirado en un día? Envirometrics te muestra un resumen de tu día con todo tipo de detalles.")
                 .image(R.drawable.grafico)
                 .background(R.color.colorPrimaryDark)
-                .backgroundDark(R.color.colorTransparent)
                 .scrollable(false)
                 .build());
 
