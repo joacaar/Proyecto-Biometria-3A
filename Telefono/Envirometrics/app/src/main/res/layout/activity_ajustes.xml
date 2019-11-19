@@ -13,67 +13,84 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
         android:text="Tipo de medida"
+        android:textSize="30sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="8dp"
+        android:text="Seleccione el tipo de medida que desea visualizar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <RadioGroup
         android:id="@+id/rg"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:paddingLeft="100px"
         android:paddingTop="50px"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2">
+        app:layout_constraintTop_toBottomOf="@+id/textView5">
 
         <RadioButton
             android:id="@+id/rb1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="50px"
             android:onClick="obtenerOpcionElegida"
-            android:text="RD1" />
+            android:text="CO2"
+            android:textSize="30sp" />
 
         <RadioButton
             android:id="@+id/rb2"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="50px"
             android:onClick="obtenerOpcionElegida"
-            android:text="RB2" />
+            android:text="CO"
+            android:textSize="30sp" />
 
         <RadioButton
             android:id="@+id/rb3"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="50px"
             android:onClick="obtenerOpcionElegida"
-            android:text="RB3" />
+            android:text="NOX"
+            android:textSize="30sp" />
 
         <RadioButton
             android:id="@+id/rb4"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="50px"
             android:onClick="obtenerOpcionElegida"
-            android:text="RB4" />
+            android:text="Azufre"
+            android:textSize="30sp" />
 
         <RadioButton
             android:id="@+id/rb5"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="50px"
             android:onClick="obtenerOpcionElegida"
-            android:text="RB5" />
+            android:text="Metano"
+            android:textSize="30sp" />
 
         <RadioButton
             android:id="@+id/rb6"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginBottom="50px"
             android:onClick="obtenerOpcionElegida"
-            android:text="RB6" />
+            android:text="Butano"
+            android:textSize="30sp" />
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
