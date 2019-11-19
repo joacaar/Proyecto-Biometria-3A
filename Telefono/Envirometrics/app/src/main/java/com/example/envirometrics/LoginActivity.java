@@ -119,7 +119,9 @@ public class LoginActivity extends AppCompatActivity {
 
                                     if(email.contains("taxista")){
                                         esTaxista = true;
-                                        Hawk.put("esTaxista", true);
+                                        Hawk.put("esTaxista", "true");
+                                    }else{
+                                        Hawk.put("esTaxista", "false");
                                     }
                                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(i);
