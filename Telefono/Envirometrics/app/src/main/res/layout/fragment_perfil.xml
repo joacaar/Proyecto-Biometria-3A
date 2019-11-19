@@ -59,7 +59,7 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout9">
 
         <EditText
-            android:id="@+id/editTextPassword1"
+            android:id="@+id/editTextPass"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/rounded_borders"
@@ -84,13 +84,13 @@
         android:orientation="vertical"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/btnRegistrarse3"
+        app:layout_constraintBottom_toTopOf="@id/btnCambiarDatos"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout10">
 
         <EditText
-            android:id="@+id/editTextPassword3"
+            android:id="@+id/editTextNewPass"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -106,23 +106,32 @@
             android:inputType="textPassword"
             android:padding="10dp"
             android:textColorHint="#86FFFFFF" />
+
+        <TextView
+            android:id="@+id/mensajeError"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="1dp"
+            android:paddingTop="1dp"
+            android:textColor="#FF5858" />
     </LinearLayout>
 
     <Button
-        android:id="@+id/btnRegistrarse3"
+        android:id="@+id/btnCambiarDatos"
         style="?android:attr/borderlessButtonStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
         android:background="@drawable/botones"
         android:fontFamily="sans-serif-light"
+        android:onClick="onClickCambiarDatos"
         android:text="Cambiar datos"
         android:textColor="#FFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.51"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 
@@ -134,10 +143,10 @@
         app:cpv_animAutostart="false"
         app:cpv_color="#FFFFFF"
         app:cpv_indeterminate="true"
-        app:layout_constraintBottom_toBottomOf="@+id/btnRegistrarse3"
-        app:layout_constraintEnd_toEndOf="@+id/btnRegistrarse3"
-        app:layout_constraintStart_toStartOf="@+id/btnRegistrarse3"
-        app:layout_constraintTop_toTopOf="@+id/btnRegistrarse3" />
+        app:layout_constraintBottom_toBottomOf="@+id/btnCambiarDatos"
+        app:layout_constraintEnd_toEndOf="@+id/btnCambiarDatos"
+        app:layout_constraintStart_toStartOf="@+id/btnCambiarDatos"
+        app:layout_constraintTop_toTopOf="@id/btnCambiarDatos" />
 
     <TextView
         android:id="@+id/textoPerfil"
