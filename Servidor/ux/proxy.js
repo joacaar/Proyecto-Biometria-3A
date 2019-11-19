@@ -167,5 +167,58 @@ class Proxy {
 
     }
 
+    //----------------------------------------------------------------------------
+    // idTipoMedida:N -->
+    // darAltaSensor() -->
+    // {respuesta:v/f, idUsuario:N}
+    //----------------------------------------------------------------------------
+    darAltaSensor( idTipoMedida, callback ){
+
+      var datosSensor = {
+        idTipoMedida: idTipoMedida
+      }
+
+        fetch(IP_PUERTO+"/insertarSensor", {
+        method: 'POST', // or 'PUT'
+        body: JSON.stringify(datosSensor), // data can be `string` or {object}!
+        headers:{
+           'User-Agent' : 'jordi', 'Content-Type' : 'application/json'
+        }
+        }).then( (res) => {
+          return res.json()
+        }).catch( (error) => {
+          return error
+        }).then( (data) => {
+          callback(data)
+        })
+
+      }
+
+      //----------------------------------------------------------------------------
+      // datos:{email:Texto, password:Texto, telefono:Texto} -->
+      // darAltaUsuario() -->
+      // {respuesta:v/f, idUsuario:N}
+      //----------------------------------------------------------------------------
+      darSensorAUsuario( datos, callback ){
+
+        var datosSensorUsuario = {
+          idSensor: datos.idSensor, idUsuario: datos.idUsuario
+        }
+
+          fetch(IP_PUERTO+"/darSensorAUsuario", {
+          method: 'POST', // or 'PUT'
+          body: JSON.stringify(datosSensorUsuario), // data can be `string` or {object}!
+          headers:{
+             'User-Agent' : 'jordi', 'Content-Type' : 'application/json'
+          }
+          }).then( (res) => {
+            return res.json()
+          }).catch( (error) => {
+            return error
+          }).then( (data) => {
+            callback(data)
+          })
+
+        }
 
 }

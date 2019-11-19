@@ -60,7 +60,7 @@ async borrarFilasDeTodasLasTablas() {
 // .................................................................
 // datos:{email:Texto, password:Texto}
 // -->
-// insertarMedida() -->
+// cambiarPassword() -->
 // .................................................................
 cambiarPassword( datos ) {
   var textoSQL =
@@ -69,6 +69,27 @@ cambiarPassword( datos ) {
   var valoresParaSQL = {
     $password : sjcl.encrypt(datos.email, datos.password), $email : datos.email
    }
+  return new Promise( ( resolver, rechazar ) => {
+    this.laConexion.run( textoSQL, valoresParaSQL, function( err ) {
+      ( err ? rechazar( err ) : resolver( ) )
+    })
+  })
+} // ()
+
+// .................................................................
+// datos:{email:Texto, emailNuevo:Texto}
+// -->
+// cambiarEmail() -->
+// .................................................................
+async cambiarEmail( datos ) {
+
+  var textoSQL =
+  'UPDATE Usuarios SET email = $emailNuevo WHERE email = $email';
+
+  var valoresParaSQL = {
+    $email: datos.email, $emailNuevo : datos.emailNuevo
+   }
+
   return new Promise( ( resolver, rechazar ) => {
     this.laConexion.run( textoSQL, valoresParaSQL, function( err ) {
       ( err ? rechazar( err ) : resolver( ) )
@@ -222,7 +243,7 @@ async elUsuarioExiste(email){
   return new Promise( ( resolver, rechazar ) => {
     try {
       if( res.email != email ){
-        resolver(true)
+        resolver(false)
       }
 
       resolver(true)

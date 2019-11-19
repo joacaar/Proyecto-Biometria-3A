@@ -53,6 +53,8 @@ describe( "TEST 3: INSERTAR SENSOR", function() {
 
     assert.equal( res.idTipoMedida, 1 )
 
+    await laLogica.darSensorAUsuario({idUsuario:1, idSensor:1})
+
 
   }) // it
 
