@@ -278,7 +278,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
         console.log(res)
 
         if( res ){
-          respuesta.send({respuesta:true, idUsuario:res2.idUsuario});
+          respuesta.send({respuesta:true, idUsuario:res2.idUsuario, telefono: res2.telefono});
         }
 
         respuesta.send({respuesta:false});

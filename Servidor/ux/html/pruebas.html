@@ -36,9 +36,12 @@
               for(var i = 0; i < res.length; i++){
                 if(res[i].email.includes("@taxista.com")){
                   taxistas.push(res[i])
+                  console.log(taxistas[i - 1].email)
+                  console.log(i)
                 }
               }
               console.log(taxistas)
+
           });
         }
 
