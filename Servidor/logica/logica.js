@@ -343,7 +343,7 @@ insertarTipoSensor( datos ){
 // getUsuarioQueTieneElSensor()
 // --> {idSensor:N, idUsuario:N}
 // .................................................................
-getUsuarioQueTieneElSensor( idSensor ){
+buscarIDUsuarioQueTieneElSensor( idSensor ){
   var textoSQL = "select * from UsuarioSensor where idSensor=$idSensor";
   var valoresParaSQL = { $idSensor: idSensor }
   return new Promise( ( resolver, rechazar ) => {

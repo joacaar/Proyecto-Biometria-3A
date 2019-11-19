@@ -153,6 +153,21 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
               respuesta.send( JSON.stringify( res ) )
             }) // get /getTodasLasMedidas
 
+            // .......................................................
+            // GET /getTodasLasMedidasDeUnUsuarioPorEmail/<email>
+            // .......................................................
+            servidorExpress.get('/buscarIDUsuarioQueTieneElSensor/:idSensor',
+              async function( peticion, respuesta ){
+                console.log( " * GET /buscarIDUsuarioQueTieneElSensor " )
+
+                var idSensor = peticion.params.idSensor
+
+                var res = await laLogica.buscarIDUsuarioQueTieneElSensor(idSensor)
+                
+                // todo ok
+                respuesta.send( JSON.stringify( res ) )
+              }) // get /getTodasLasMedidas
+
 
     //-----------------------------------------------------------------------------
     // POST /insertarMedida
