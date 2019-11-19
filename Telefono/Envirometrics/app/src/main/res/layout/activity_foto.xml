@@ -48,7 +48,7 @@
             android:layout_weight="1"
             android:fontFamily="sans-serif-thin"
             android:text="Alto"
-            android:textColor="#FFFFFF"
+            android:textColor="#FF5858"
             android:textSize="30sp"
             app:layout_constraintBottom_toTopOf="@+id/fotoTomada"
             app:layout_constraintEnd_toEndOf="parent"

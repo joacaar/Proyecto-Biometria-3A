@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
     public ReceptorBLE receptorBle;
     private BluetoothAdapter bluetoothAdapter;
     private String value;
+    private Boolean esTaxista;
 
     private boolean activarServicio;
 
@@ -53,6 +54,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Hawk.init(this).build();
+
+        esTaxista = Hawk.get("esTaxista");
+
         //Pedimos los permisos al inicio para poder activar el servicio
         pedirPermisoGPS();
 
@@ -61,19 +66,20 @@ public class MainActivity extends AppCompatActivity {
         //----------------------------------------------------
         //                  Beacon
         //----------------------------------------------------
-        activarServicio = false;
+        if(esTaxista) { //Si es taxista escanea beacons y activa el servicio
+            activarServicio = true;
 
-        //Inicializamos el receptor bluetooth para comprobar si el bt esta activo
-        if(receptorBle == null){
-            receptorBle = new ReceptorBLE(this);
+            //Inicializamos el receptor bluetooth para comprobar si el bt esta activo
+            if (receptorBle == null) {
+                receptorBle = new ReceptorBLE(this);
 
+            }
         }
         laLogicaFake = new LogicaFake(this);
 
         // creamos la intencion que nos ejecutara el servicio y la notificacion en primer plano
         //intencion = new Intent(MainActivity.this, Servicio.class);
         //startService(intencion);
-
 
 
     }
@@ -98,11 +104,20 @@ public class MainActivity extends AppCompatActivity {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
+
+
         // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_map, R.id.nav_perfil,R.id.nav_resumen_dia, R.id.nav_ajustes, R.id.nav_cerrar_sesion)
-                .setDrawerLayout(drawer)
-                .build();
+        if(esTaxista){
+            mAppBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.nav_map, R.id.nav_perfil, R.id.nav_ajustes, R.id.nav_cerrar_sesion)
+                    .setDrawerLayout(drawer)
+                    .build();
+        }else {
+            mAppBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.nav_map, R.id.nav_perfil, R.id.nav_resumen_dia, R.id.nav_ajustes, R.id.nav_cerrar_sesion)
+                    .setDrawerLayout(drawer)
+                    .build();
+        }
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
