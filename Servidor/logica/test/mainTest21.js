@@ -7,12 +7,13 @@
 
 const Logica = require( "../Logica.js" )
 var assert = require ('assert')
+const sjcl = require ('sjcl')
 
 // ........................................................
 // main ()
 // ........................................................
 
-describe( "TEST 3: INSERTAR SENSOR", function() {
+describe( "TEST 11: cambiar datos de Usuario", function() {
 // ....................................................
 // ....................................................
 
@@ -35,24 +36,19 @@ describe( "TEST 3: INSERTAR SENSOR", function() {
 // ....................................................
 // ....................................................
 
-  it( "Puedo insertar y buscar un Sensor",
+  it( "cambio la contraseña de un usuario",
   async function() {
 
-    // INSERTAMOS UN TIPO DE SENSOR
-    await laLogica.insertarTipoSensor({
-      idTipoMedida: 1, descripcion: "SENSOR DE CO"
-    })
+    await laLogica.cambiarPassword({email:"emilioxeraco@gmail.com", password:"4321"})
 
-    // INSERTAMOS UN SENSOR
-    await laLogica.insertarSensor({
-      idTipoMedida: 1, idSensor: 1
-    })
+    var res = await laLogica.buscarUsuarioPorEmail("emilioxeraco@gmail.com");
+    var laNuevaPassword = sjcl.decrypt("emilioxeraco@gmail.com", res.password)
+    assert.equal(laNuevaPassword, 4321)
 
-    // BUSCAMOS EL SENSOR QUE HEMOS INSERTADO
-    var res = await laLogica.buscarSensor( 1 );
-
-    assert.equal( res.idTipoMedida, 1 )
-
+    await laLogica.cambiarEmail({email:"emilioxeraco@gmail.com", emailNuevo:"oilime@gmail.com"})
+    var res2 = await laLogica.buscarUsuarioPorEmail("oilime@gmail.com");
+    console.log(res2)
+    assert.equal(res2.email, "oilime@gmail.com")
 
   }) // it
 

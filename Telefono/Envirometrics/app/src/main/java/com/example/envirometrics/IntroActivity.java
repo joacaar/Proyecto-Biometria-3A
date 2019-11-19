@@ -1,12 +1,6 @@
 package com.example.envirometrics;
 
-import android.Manifest;
-import android.content.Intent;
-
 import android.os.Bundle;
-import android.util.Log;
-
-import androidx.viewpager.widget.ViewPager;
 
 import com.heinrichreimersoftware.materialintro.slide.SimpleSlide;
 

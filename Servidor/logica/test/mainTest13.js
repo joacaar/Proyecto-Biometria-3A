@@ -12,7 +12,7 @@ var assert = require ('assert')
 // main ()
 // ........................................................
 
-describe( "TEST 5: DAR SENSOR A USUARIO", function() {
+describe( "TEST 3: INSERTAR SENSOR", function() {
 // ....................................................
 // ....................................................
 
@@ -35,17 +35,25 @@ describe( "TEST 5: DAR SENSOR A USUARIO", function() {
 // ....................................................
 // ....................................................
 
-  it( "Puedo dar un sensor a un usuario",
+  it( "Puedo insertar y buscar un Sensor",
   async function() {
 
-    // INSERTAMOS UNA MEDIDA
-    await laLogica.darSensorAUsuario({
-      idUsuario: 1, idSensor: 1
+    // INSERTAMOS UN TIPO DE SENSOR
+    await laLogica.insertarTipoSensor({
+      idTipoMedida: 1, descripcion: "SENSOR DE CO"
     })
 
-    var res = await laLogica.getUsuarioQueTieneElSensor( 1 )
+    // INSERTAMOS UN SENSOR
+    await laLogica.insertarSensor({
+      idTipoMedida: 1, idSensor: 1
+    })
 
-    assert.equal( res.idUsuario, 1 )
+    // BUSCAMOS EL SENSOR QUE HEMOS INSERTADO
+    var res = await laLogica.buscarSensor( 1 );
+
+    assert.equal( res.idTipoMedida, 1 )
+
+    await laLogica.darSensorAUsuario({idUsuario:1, idSensor:1})
 
 
   }) // it

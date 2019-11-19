@@ -7,7 +7,7 @@
 
 <body>
 
-    <button type="button" onclick="getTaxistas()">Try it</button>
+    <button type="button" onclick="todoLoQueQuieroProbar()">Try it</button>
 
     <script>
         var elProxy = new Proxy();
@@ -43,6 +43,28 @@
               console.log(taxistas)
 
           });
+        }
+
+        function darAltaSensor(){
+          elProxy.darAltaSensor(1, function(res){
+
+          })
+        }
+
+        function darSensorAUsuario(){
+          elProxy.darSensorAUsuario({idSensor:2, idUsuario:2}, function(res){
+
+          })
+        }
+
+        function todoLoQueQuieroProbar(){
+          elProxy.darAltaTaxista({email:"elAdrian@taxista.com", password:"1234", telefono:"21212121"}, function (res){
+            elProxy.darAltaSensor(1, function(res2){
+              elProxy.darSensorAUsuario({idSensor:2, idUsuario:2}, function(res3){
+
+              })
+            })
+          })
         }
 
     </script>

@@ -12,15 +12,15 @@ const IP_PUERTO="http://localhost:8080"
 // ........................................................
 // main ()
 // ........................................................
-describe( "Test 6 : Probamos /getTodasLasMedidasDeUnUsuarioPorEmail", function() {
+describe( "Test 7 : Probamos /getTodasLasMedidas", function() {
 
   // ....................................................
-  // PROBAMOS POST /insertarMedicion
+  // PROBAMOS get /getTodasLasMedidas
   // ....................................................
 
-  it( "probar get /getTodasLasMedidasDeUnUsuarioPorEmail", function( hecho ) {
+  it( "probar get /getTodasLasMedidas", function( hecho ) {
     request.get(
-      { url : IP_PUERTO+"/getTodasLasMedidasDeUnUsuarioPorEmail/emilioxeraco@gmail.com", headers : { 'User-Agent' : 'jordi' }},
+      { url : IP_PUERTO+"/getTodasLasMedidas", headers : { 'User-Agent' : 'jordi' }},
       function( err, respuesta, carga ) {
         var listaJson = JSON.parse(carga);
         assert.equal( err, null, "¿ha habido un error?" )

@@ -2,7 +2,7 @@
 // Autor: Emilio Esteve Peiró
 // Fecha inicio: 24/10/2019
 // Última actualización: 24/10/2019
-// mainTest4.js
+// mainTest1.js
 // ........................................................
 var request = require ('request')
 var assert = require ('assert')
@@ -12,49 +12,28 @@ const IP_PUERTO="http://localhost:8080"
 // ........................................................
 // main ()
 // ........................................................
-describe( "Test 2 : Probamos darAltaUsuario ", function() {
+describe( "Test 9 : Probamos /cambiarEmail", function() {
 
   // ....................................................
-  // PROBAMOS POST /insertarMedicion
+  // PROBAMOS POST /cambiarEmail
   // ....................................................
 
-  it( "probar POST /darAltaUsuario", function( hecho ) {
+  it( "probar post /cambiarEmail", function( hecho ) {
     var datosUsuario = {
-      email: "emilioxeraco@gmail.com",
-      password: "1234", telefono: "646601542"
+      email: "emilioxeraco@gmail.com", emailNuevo: "emilioxeraco@hotmail.com"
     }
     request.post(
-      { url : IP_PUERTO+"/darAltaUsuario",
+      { url : IP_PUERTO+"/cambiarEmail",
       headers : { 'User-Agent' : 'jordi', 'Content-Type' : 'application/json' },
       body : JSON.stringify( datosUsuario )
     },
     function( err, respuesta, carga ) {
       assert.equal( err, null, "¿ha habido un error?" )
       assert.equal( respuesta.statusCode, 200, "¿El código no es 200 (OK)" )
-      assert.equal( carga, '{"respuesta":true,"idUsuario":1}' )
+      assert.equal( carga, '{"respuesta":true}' )
       hecho()
     } // callback
     ) // .post
   }) // it
-
-  it( "probar POST /darAltaUsuario", function( hecho ) {
-    var datosUsuario = {
-      email: "emilioxeraco@gmail.com",
-      password: "1234", telefono: "646601542"
-    }
-    request.post(
-      { url : IP_PUERTO+"/darAltaUsuario",
-      headers : { 'User-Agent' : 'jordi', 'Content-Type' : 'application/json' },
-      body : JSON.stringify( datosUsuario )
-    },
-    function( err, respuesta, carga ) {
-      assert.equal( err, null, "¿ha habido un error?" )
-      assert.equal( respuesta.statusCode, 200, "¿El código no es 200 (OK)" )
-      assert.equal( carga, '{"respuesta":false}' )
-      hecho()
-    } // callback
-    ) // .post
-  }) // it
-
 
 }) // describe

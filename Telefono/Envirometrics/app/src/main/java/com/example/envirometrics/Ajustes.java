@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.Switch;
 
 import com.example.envirometrics.ui.home.HomeFragment;
 
@@ -25,15 +26,34 @@ public class Ajustes extends AppCompatActivity {
     RadioGroup rg;
     RadioButton rbSelected;
 
+    Switch btnServ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ajustes);
 
         rg = findViewById(R.id.rg);
-
+        btnServ = findViewById(R.id.btnServicio);
+/*
+//Para comprobar si es taxista y habilitar o no el servicio
+        if(!esTaxita){
+            btnServ.setEnabled(false);
+        }
+ */
+        //Declaramos unas preferencias para los ajustes en modo privado y su editor
         preferences = getSharedPreferences("Ajustes", MODE_PRIVATE);
         editor = preferences.edit();
+
+        //Comprobamos que el permiso del servicio existe en las preferencias
+        if(preferences.contains("permisoServicio")){
+            if(preferences.getBoolean("permisoServicio", false))
+            btnServ.setChecked(true);
+            else
+                btnServ.setChecked(false);
+        }else{
+            btnServ.setChecked(false);
+        }
 
         //Comprobamos que el campo tipoMedida existe, en caso negativo mostraremos por defecto la primera opcion elegida
         if(!preferences.contains("tipoMedida")){
@@ -77,6 +97,7 @@ public class Ajustes extends AppCompatActivity {
         }
     }
 
+    //Funcion para obtener la opcion del tipo de medida que elige ver el usuario
     public void obtenerOpcionElegida(View v){
 
         boolean marcado = ((RadioButton) v).isChecked();
@@ -117,6 +138,18 @@ public class Ajustes extends AppCompatActivity {
         }
         editor.commit();
         Log.d("Debug-Preferences", preferences.getString("tipoMedida","error"));
+        startActivity(new Intent(this, MainActivity.class));
+        finish();
+    }
+
+    //Funcion para permitir o no el funcionamiento del servicio en segundo plano
+    public void permitirServicio(View v){
+        if(btnServ.isChecked()){
+            editor.putBoolean("permisoServicio", true);
+        }else{
+            editor.putBoolean("permisoServicio", false);
+        }
+        editor.commit();
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
