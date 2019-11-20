@@ -9,6 +9,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -33,13 +34,10 @@ public class FotoActivity extends Activity {
         foto = findViewById(R.id.fotoTomada);
         salir = findViewById(R.id.arrowLeftFoto);
 
-        pedirPermisoCamara();
 
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA ) == PackageManager.PERMISSION_GRANTED){
 
-            Intent i = new Intent("android.media.action.IMAGE_CAPTURE");
-            startActivityForResult(i, REQUEST_IMAGE_CAPTURE);
-        }
+        Intent i = new Intent("android.media.action.IMAGE_CAPTURE");
+        startActivityForResult(i, REQUEST_IMAGE_CAPTURE);
 
         salir.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,11 +58,20 @@ public class FotoActivity extends Activity {
         }
     }
 
-    //Funcion para comprobar y pedir los permisos de la camara
-    public void pedirPermisoCamara(){
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new  String[]{Manifest.permission.CAMERA}, 3);
-        }
-    }
+    @Override
+    public void onRequestPermissionsResult(int respuesta, String[] permissions, int[]grantResult){
+        super.onRequestPermissionsResult(respuesta, permissions, grantResult);
+        Log.d("---PERMISOS---", "--- ID Permiso: " + respuesta);
 
+        if(respuesta==5){
+            if(grantResult.length > 0 && grantResult[0] == PackageManager.PERMISSION_GRANTED){
+                Log.d("---PERMISOS---", "---Permiso concedido---");
+
+            }
+            if(grantResult.length > 0 && PackageManager.PERMISSION_DENIED == grantResult[0]){
+
+            }
+        }
+
+    }
 }
