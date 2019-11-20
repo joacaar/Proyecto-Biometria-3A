@@ -370,6 +370,21 @@ buscarSensor( idSensor ){
     })
 }
 
+// .................................................................
+// buscarRelacionesUsuarioSensor()
+// --> [{idSensor:N, idUsuario:N}]
+// .................................................................
+buscarRelacionesUsuarioSensor(){
+  var textoSQL = "select * from UsuarioSensor";
+  var valoresParaSQL = { }
+  return new Promise( ( resolver, rechazar ) => {
+    this.laConexion.all( textoSQL, valoresParaSQL,
+      ( err, res ) => {
+        ( err ? rechazar( err ) : resolver( res ) )
+      })
+    })
+}
+
 // --------------------------------------------------------
 // --> nombre:Texto
 // buscarUsuarioAdmin()

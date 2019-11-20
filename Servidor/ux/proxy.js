@@ -140,6 +140,30 @@ class Proxy {
   }
 
   //----------------------------------------------------------------------------
+  // buscarRelacionesUsuarioSensor() -->
+  // [JSON{idSensor:N, idUsuario:N}]
+  //----------------------------------------------------------------------------
+  buscarRelacionesUsuarioSensor( callback ){
+
+    var myInit = { method: 'GET',
+                   headers: {
+                     'User-Agent' : 'jordi', 'Content-Type' : 'application/json'
+                   },
+                   mode: 'cors',
+                   cache: 'default' };
+
+
+    fetch(IP_PUERTO+"/relacionesUsuarioSensor", myInit)
+    .then((res)=>{
+      return res.json();
+    })
+    .then((data)=>{
+      callback(data);
+    })
+
+  }
+
+  //----------------------------------------------------------------------------
   // datos:{email:Texto, password:Texto, telefono:Texto} -->
   // darAltaUsuario() -->
   // {respuesta:v/f, idUsuario:N}

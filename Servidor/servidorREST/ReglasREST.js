@@ -83,9 +83,9 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
     servidorExpress.get('/buscarSensor/:idSensor',
       async function( peticion, respuesta ){
         console.log( " * GET /buscarSensor " )
-        // averiguo la fecha
+
         var idSensor = peticion.params.idSensor
-        // llamo a la función adecuada de la lógica
+        // busco el sensor por su id
         var res = await laLogica.buscarSensor( idSensor )
         // si no hay resultados...
         if( res.length == 0 ) {
@@ -103,7 +103,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
       servidorExpress.get('/usuarios',
         async function( peticion, respuesta ){
           console.log( " * GET /usuarios " )
-          // averiguo la fecha
+          // busco los usuarios
           var res = await laLogica.getUsuarios()
           // si no hay resultados...
           if( res.length == 0 ) {
@@ -114,6 +114,25 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
           // todo ok
           respuesta.send( JSON.stringify( res ) )
         }) // get /usuarios
+
+
+      // ......................................................
+      // GET /relacionesUsuarioSensor
+      // .......................................................
+      servidorExpress.get('/relacionesUsuarioSensor',
+        async function( peticion, respuesta ){
+          console.log( " * GET /usuarios " )
+          // busco las relacionesUsuarioSensor
+          var res = await laLogica.buscarRelacionesUsuarioSensor()
+          // si no hay resultados...
+          if( res.length == 0 ) {
+          // 404: not found
+          respuesta.status(404).send( "No encontré relacionesUsuarioSensor" )
+          return
+          }
+          // todo ok
+          respuesta.send( JSON.stringify( res ) )
+      }) // get /relacionesUsuarioSensor
 
         // .......................................................
         // GET /getTodasLasMedidas
@@ -163,7 +182,7 @@ servidorExpress.get('/medidaPorIdMedida/:idMedida',
                 var idSensor = peticion.params.idSensor
 
                 var res = await laLogica.buscarIDUsuarioQueTieneElSensor(idSensor)
-                
+
                 // todo ok
                 respuesta.send( JSON.stringify( res ) )
               }) // get /getTodasLasMedidas

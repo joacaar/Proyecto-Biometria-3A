@@ -7,12 +7,13 @@
 
 const Logica = require( "../Logica.js" )
 var assert = require ('assert')
+const sjcl = require ('sjcl')
 
 // ........................................................
 // main ()
 // ........................................................
 
-describe( "TEST 3: INSERTAR SENSOR", function() {
+describe( "TEST 12: darSensorAUsuario", function() {
 // ....................................................
 // ....................................................
 
@@ -35,23 +36,14 @@ describe( "TEST 3: INSERTAR SENSOR", function() {
 // ....................................................
 // ....................................................
 
-  it( "Puedo insertar y buscar un Sensor",
+  it( "cambio la contraseña de un usuario",
   async function() {
 
-    // INSERTAMOS UN TIPO DE SENSOR
-    await laLogica.insertarTipoSensor({
-      idTipoMedida: 1, descripcion: "SENSOR DE CO"
-    })
+    var res = await laLogica.buscarRelacionesUsuarioSensor();
+    console.log(res);
 
-    // INSERTAMOS UN SENSOR
-    await laLogica.insertarSensor({
-      idTipoMedida: 1, idSensor: 1
-    })
-
-    // BUSCAMOS EL SENSOR QUE HEMOS INSERTADO
-    var res = await laLogica.buscarSensor( 1 );
-
-    assert.equal( res.idTipoMedida, 1 )
+    assert.equal(res[0].idSensor, 1);
+    assert.equal(res[0].idUsuario, 1)
 
   }) // it
 
