@@ -52,7 +52,6 @@ CSS
 
     <!-- CSS del Nav Bar -->
     <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/admin.css">
 
 </head>
@@ -173,7 +172,7 @@ CSS
 
                 <p>Últimas medidas</p>
 
-                <table class="table">
+                <table class="table" id="tablaMedidas">
                     <thead>
                         <tr>
                             <th>Medida</th>
@@ -188,51 +187,6 @@ CSS
                     <tbody>
                         <tr>
                             <td scope="row">1</td>
-                            <td>Calidad del aire</td>
-                            <td>115000</td>
-                            <td>13:37 28/10/2019</td>
-                            <td>4350650</td>
-                            <td>675603</td>
-                            <td>HerGut@envirometrics.com</td>
-                        </tr>
-                        <tr>
-                            <td scope="row">2</td>
-                            <td>Calidad del aire</td>
-                            <td>115000</td>
-                            <td>13:37 28/10/2019</td>
-                            <td>4350650</td>
-                            <td>675603</td>
-                            <td>HerGut@envirometrics.com</td>
-                        </tr>
-                        <tr>
-                            <td scope="row">3</td>
-                            <td>Calidad del aire</td>
-                            <td>115000</td>
-                            <td>13:37 28/10/2019</td>
-                            <td>4350650</td>
-                            <td>675603</td>
-                            <td>HerGut@envirometrics.com</td>
-                        </tr>
-                        <tr>
-                            <td scope="row">4</td>
-                            <td>Calidad del aire</td>
-                            <td>115000</td>
-                            <td>13:37 28/10/2019</td>
-                            <td>4350650</td>
-                            <td>675603</td>
-                            <td>HerGut@envirometrics.com</td>
-                        </tr>
-                        <tr>
-                            <td scope="row">5</td>
-                            <td>Calidad del aire</td>
-                            <td>115000</td>
-                            <td>13:37 28/10/2019</td>
-                            <td>4350650</td>
-                            <td>675603</td>
-                            <td>HerGut@envirometrics.com</td>
-                        </tr>
-                        <tr>
-                            <td scope="row">6</td>
                             <td>Calidad del aire</td>
                             <td>115000</td>
                             <td>13:37 28/10/2019</td>
@@ -256,12 +210,10 @@ CSS
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <!-- Bootstrap.js -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
     <!-- JS del Nav Bar -->
     <script type="text/javascript" src="../proxy.js"></script>
 
     <script>
-
         // creamos el Proxy
         var elProxy = new Proxy();
 
@@ -269,12 +221,12 @@ CSS
         // getUltimaMedidaDeUnUsuario()
         // ------------------------------------------------------------------
         function getUltimaMedidaDeUnUsuario() {
-          elProxy.getUsuarios(function(listaUsuarios){
-            elProxy.getUltimaMedidaDeUnUsuario(listaUsuarios.length, function(res) {
-                document.getElementById("medida").innerHTML = res.valorMedida;
-                console.log(res)
+            elProxy.getUsuarios(function(listaUsuarios) {
+                elProxy.getUltimaMedidaDeUnUsuario(listaUsuarios.length, function(res) {
+                    document.getElementById("medida").innerHTML = res.valorMedida;
+                    console.log(res)
+                })
             })
-          })
         }
 
         // ------------------------------------------------------------------
@@ -282,7 +234,13 @@ CSS
         // ------------------------------------------------------------------
         function getCuantosUsuariosHay() {
             elProxy.getUsuarios(function(res) {
-                document.getElementById("numeroTaxistas").innerHTML = res.length;
+                var taxistas = [];
+                for (var i = 0; i < res.length; i++) {
+                    if (res[i].email.includes("@taxista.com")) {
+                        taxistas.push(res[i])
+                    }
+                    document.getElementById("numeroTaxistas").innerHTML = taxistas.length;
+                }
             })
         }
 
@@ -325,6 +283,18 @@ CSS
                 for (var i = 0; i < listaUsuarios.length; i++) {
                     elProxy.getUltimaMedidaDeUnUsuario(listaUsuarios[i].idUsuario, function(medida) {
                         console.log(medida)
+                        
+                        var newRow = $("<tr>");
+                        var cols = "";
+                        cols += '<td scope="row">' + medida + '</td>';
+                        cols += '<td>' + i + '</td>';
+                        cols += '<td>' + i + '</td>';
+                        cols += '<td>' + i + '</td>';
+                        cols += '<td>' + i + '</td>';
+                        cols += '<td>' + i + '</td>';
+                        cols += '<td>' + i + '</td>';
+                        newRow.append(cols);
+                        $("#tablaTaxistas").append(newRow);
                     })
                 }
             })
