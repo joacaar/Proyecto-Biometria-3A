@@ -1,6 +1,5 @@
-
 //var request = require ('request')
-const IP_PUERTO="http://localhost:8080"
+const IP_PUERTO = "http://localhost:8080"
 
 // --------------------------------------------------------------------------
 //module.exports =
@@ -10,57 +9,62 @@ class Proxy {
   // ------------------------------------------------------------------------
   // constructor()
   // -------------------------------------------------------------------------
-  constructor(){
+  constructor() {
     console.log("Soy un proxy")
   }
 
   //---------------------------------------------------------------------------
   // datos:{usuario:Texto, password:Texto} -> iniciarSesion() -> V/F
   //----------------------------------------------------------------------------
-  iniciarSesion( datos, callback ){
+  iniciarSesion(datos, callback) {
 
     var datosUsuario = {
-      nombre: datos.nombre, password: datos.password
+      nombre: datos.nombre,
+      password: datos.password
     }
 
-      fetch(IP_PUERTO+"/iniciarSesionAdmin", {
+    fetch(IP_PUERTO + "/iniciarSesionAdmin", {
       method: 'POST', // or 'PUT'
       body: JSON.stringify(datosUsuario), // data can be `string` or {object}!
-      headers:{
-         'User-Agent' : 'jordi', 'Content-Type' : 'application/json'
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
       }
-      }).then( (res) => {
-        return res.json()
-      }).catch( (error) => {
-        return error
-      }).then( (data) => {
-        callback(data)
-      })
+    }).then((res) => {
+      return res.json()
+    }).catch((error) => {
+      return error
+    }).then((data) => {
+      callback(data)
+    })
 
-    }
+  }
 
   //----------------------------------------------------------------------------
   // idUsuario:N --> getUltimaMedidaDeUnUsuario()
   //  --> JSON{ valorMedida: R, latitud:R, longitud:R, tiempo:N, idMedida:N,
   // idTipoMedida:N, idUsuario:N }
   //----------------------------------------------------------------------------
-  getUltimaMedidaDeUnUsuario( idUsuario, callback ){
+  getUltimaMedidaDeUnUsuario(idUsuario, callback) {
 
-    var myInit = { method: 'GET',
-                   headers: {
-                     'User-Agent' : 'jordi', 'Content-Type' : 'application/json'
-                   },
-                   mode: 'cors',
-                   cache: 'default' };
+    var myInit = {
+      method: 'GET',
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      cache: 'default'
+    };
 
 
-    fetch(IP_PUERTO+"/ultimaMedida/" + idUsuario, myInit)
-    .then((res)=>{
-      return res.json();
-    })
-    .then((data)=>{
-      callback(data);
-    })
+    fetch(IP_PUERTO + "/ultimaMedida/" + idUsuario, myInit)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        callback(data);
+      })
 
   }
 
@@ -68,23 +72,26 @@ class Proxy {
   // getUsuarios() -->
   //[JSON{email:Texto, password:Texto, telefono:Texto, idUsuario:N}]
   //----------------------------------------------------------------------------
-  getUsuarios( callback ){
+  getUsuarios(callback) {
 
-    var myInit = { method: 'GET',
-                   headers: {
-                     'User-Agent' : 'jordi', 'Content-Type' : 'application/json'
-                   },
-                   mode: 'cors',
-                   cache: 'default' };
+    var myInit = {
+      method: 'GET',
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      cache: 'default'
+    };
 
 
-    fetch(IP_PUERTO+"/usuarios", myInit)
-    .then((res)=>{
-      return res.json();
-    })
-    .then((data)=>{
-      callback(data);
-    })
+    fetch(IP_PUERTO + "/usuarios", myInit)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        callback(data);
+      })
 
   }
 
@@ -93,23 +100,26 @@ class Proxy {
   // [JSON{ valorMedida: R, latitud:R, longitud:R, tiempo:N, idMedida:N,
   // idTipoMedida:N, idUsuario:N }]
   //----------------------------------------------------------------------------
-  getTodasLasMedidas( callback ){
+  getTodasLasMedidas(callback) {
 
-    var myInit = { method: 'GET',
-                   headers: {
-                     'User-Agent' : 'jordi', 'Content-Type' : 'application/json'
-                   },
-                   mode: 'cors',
-                   cache: 'default' };
+    var myInit = {
+      method: 'GET',
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      cache: 'default'
+    };
 
 
-    fetch(IP_PUERTO+"/getTodasLasMedidas", myInit)
-    .then((res)=>{
-      return res.json();
-    })
-    .then((data)=>{
-      callback(data);
-    })
+    fetch(IP_PUERTO + "/getTodasLasMedidas", myInit)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        callback(data);
+      })
 
   }
 
@@ -119,23 +129,26 @@ class Proxy {
   // [JSON{ valorMedida: R, latitud:R, longitud:R, tiempo:N, idMedida:N,
   // idTipoMedida:N, idUsuario:N }]
   //----------------------------------------------------------------------------
-  getTodasLasMedidasDeUnUsuarioPorEmail( email, callback ){
+  getTodasLasMedidasDeUnUsuarioPorEmail(email, callback) {
 
-    var myInit = { method: 'GET',
-                   headers: {
-                     'User-Agent' : 'jordi', 'Content-Type' : 'application/json'
-                   },
-                   mode: 'cors',
-                   cache: 'default' };
+    var myInit = {
+      method: 'GET',
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      cache: 'default'
+    };
 
 
-    fetch(IP_PUERTO+"/getTodasLasMedidasDeUnUsuarioPorEmail/" + email, myInit)
-    .then((res)=>{
-      return res.json();
-    })
-    .then((data)=>{
-      callback(data);
-    })
+    fetch(IP_PUERTO + "/getTodasLasMedidasDeUnUsuarioPorEmail/" + email, myInit)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        callback(data);
+      })
 
   }
 
@@ -143,22 +156,83 @@ class Proxy {
   // buscarRelacionesUsuarioSensor() -->
   // [JSON{idSensor:N, idUsuario:N}]
   //----------------------------------------------------------------------------
-  buscarRelacionesUsuarioSensor( callback ){
+  buscarRelacionesUsuarioSensor(callback) {
 
-    var myInit = { method: 'GET',
-                   headers: {
-                     'User-Agent' : 'jordi', 'Content-Type' : 'application/json'
-                   },
-                   mode: 'cors',
-                   cache: 'default' };
+    var myInit = {
+      method: 'GET',
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      cache: 'default'
+    };
 
 
-    fetch(IP_PUERTO+"/relacionesUsuarioSensor", myInit)
-    .then((res)=>{
-      return res.json();
+    fetch(IP_PUERTO + "/relacionesUsuarioSensor", myInit)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        callback(data);
+      })
+
+  }
+
+  //----------------------------------------------------------------------------
+  // datos:{email:Texto, password:Texto, telefono:Texto} -->
+  // darAltaUsuario() -->
+  // {respuesta:v/f, idUsuario:N}
+  //----------------------------------------------------------------------------
+  darAltaTaxista(datos, callback) {
+
+    var datosUsuario = {
+      email: datos.email,
+      password: datos.password,
+      telefono: datos.telefono
+    }
+
+    fetch(IP_PUERTO + "/darAltaUsuario", {
+      method: 'POST', // or 'PUT'
+      body: JSON.stringify(datosUsuario), // data can be `string` or {object}!
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      }
+    }).then((res) => {
+      return res.json()
+    }).catch((error) => {
+      return error
+    }).then((data) => {
+      callback(data)
     })
-    .then((data)=>{
-      callback(data);
+
+  }
+
+  //----------------------------------------------------------------------------
+  // idTipoMedida:N -->
+  // darAltaSensor() -->
+  // {respuesta:v/f, idUsuario:N}
+  //----------------------------------------------------------------------------
+  darAltaSensor(idTipoMedida, callback) {
+
+    var datosSensor = {
+      idTipoMedida: idTipoMedida
+    }
+
+    fetch(IP_PUERTO + "/insertarSensor", {
+      method: 'POST', // or 'PUT'
+      body: JSON.stringify(datosSensor), // data can be `string` or {object}!
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      }
+    }).then((res) => {
+      return res.json()
+    }).catch((error) => {
+      return error
+    }).then((data) => {
+      callback(data)
     })
 
   }
@@ -168,81 +242,28 @@ class Proxy {
   // darAltaUsuario() -->
   // {respuesta:v/f, idUsuario:N}
   //----------------------------------------------------------------------------
-  darAltaTaxista( datos, callback ){
+  darSensorAUsuario(datos, callback) {
 
-    var datosUsuario = {
-      email: datos.email, password: datos.password,
-      telefono: datos.telefono
+    var datosSensorUsuario = {
+      idSensor: datos.idSensor,
+      idUsuario: datos.idUsuario
     }
 
-      fetch(IP_PUERTO+"/darAltaUsuario", {
+    fetch(IP_PUERTO + "/darSensorAUsuario", {
       method: 'POST', // or 'PUT'
-      body: JSON.stringify(datosUsuario), // data can be `string` or {object}!
-      headers:{
-         'User-Agent' : 'jordi', 'Content-Type' : 'application/json'
+      body: JSON.stringify(datosSensorUsuario), // data can be `string` or {object}!
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
       }
-      }).then( (res) => {
-        return res.json()
-      }).catch( (error) => {
-        return error
-      }).then( (data) => {
-        callback(data)
-      })
+    }).then((res) => {
+      return res.json()
+    }).catch((error) => {
+      return error
+    }).then((data) => {
+      callback(data)
+    })
 
-    }
-
-    //----------------------------------------------------------------------------
-    // idTipoMedida:N -->
-    // darAltaSensor() -->
-    // {respuesta:v/f, idUsuario:N}
-    //----------------------------------------------------------------------------
-    darAltaSensor( idTipoMedida, callback ){
-
-      var datosSensor = {
-        idTipoMedida: idTipoMedida
-      }
-
-        fetch(IP_PUERTO+"/insertarSensor", {
-        method: 'POST', // or 'PUT'
-        body: JSON.stringify(datosSensor), // data can be `string` or {object}!
-        headers:{
-           'User-Agent' : 'jordi', 'Content-Type' : 'application/json'
-        }
-        }).then( (res) => {
-          return res.json()
-        }).catch( (error) => {
-          return error
-        }).then( (data) => {
-          callback(data)
-        })
-
-      }
-
-      //----------------------------------------------------------------------------
-      // datos:{email:Texto, password:Texto, telefono:Texto} -->
-      // darAltaUsuario() -->
-      // {respuesta:v/f, idUsuario:N}
-      //----------------------------------------------------------------------------
-      darSensorAUsuario( datos, callback ){
-
-        var datosSensorUsuario = {
-          idSensor: datos.idSensor, idUsuario: datos.idUsuario
-        }
-
-          fetch(IP_PUERTO+"/darSensorAUsuario", {
-          method: 'POST', // or 'PUT'
-          body: JSON.stringify(datosSensorUsuario), // data can be `string` or {object}!
-          headers:{
-             'User-Agent' : 'jordi', 'Content-Type' : 'application/json'
-          }
-          }).then( (res) => {
-            return res.json()
-          }).catch( (error) => {
-            return error
-          }).then( (data) => {
-            callback(data)
-          })
-
-        }
+  }
 
 }
