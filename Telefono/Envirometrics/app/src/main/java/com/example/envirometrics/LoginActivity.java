@@ -28,7 +28,6 @@ public class LoginActivity extends AppCompatActivity {
     private TextView textoError;
     public LogicaFake laLogica;
     private Boolean firstTime = null;
-    private boolean esTaxista;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -118,10 +117,9 @@ public class LoginActivity extends AppCompatActivity {
                                     Hawk.put("password", password);
 
                                     if(email.contains("taxista")){
-                                        esTaxista = true;
-                                        Hawk.put("esTaxista", "true");
+                                        Hawk.put("esTaxista", true);
                                     }else{
-                                        Hawk.put("esTaxista", "false");
+                                        Hawk.put("esTaxista", false);
                                     }
                                     Intent i = new Intent(LoginActivity.this, MainActivity.class);
                                     startActivity(i);

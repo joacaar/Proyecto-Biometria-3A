@@ -40,6 +40,14 @@
     margin-top: 1em;
 }
 
+.datos #emailLabel {
+    margin-left: 1em;
+}
+
+.datos #telefonoLabel {
+    margin-left: 1em;
+}
+
 
 /*              Estilo de los botones              */
 .row.editarEliminar {
@@ -100,14 +108,26 @@ tr.selected {
     color: #FAFAFA;
 }
 
-tr a {
+tr.selected a {
     color: #FAFAFA;
+    text-decoration: underline;
+}
+
+tr.selected a:hover,
+tr.selected a:focus,
+tr.selected a:active{
+    color: #F0F0F0;
+    text-decoration: underline;
+}
+
+tr a {
+    color: #000000;
     text-decoration: underline;
 }
 
 tr a:hover,
 tr a:focus,
 tr a:active{
-    color: #F0F0F0;
+    color: #393946;
     text-decoration: underline;
 }

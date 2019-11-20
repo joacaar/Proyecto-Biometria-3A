@@ -1,12 +1,16 @@
 package com.example.envirometrics;
 
 import android.annotation.TargetApi;
+import android.app.ActivityManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
@@ -14,6 +18,8 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 
 import java.util.Calendar;
+
+import static com.example.envirometrics.R.mipmap.ic_envirometrics;
 
 public class Servicio extends Service {
 
@@ -40,18 +46,22 @@ public class Servicio extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.d("Service-------", "Servicio iniciado");
 
+        Bitmap bm = BitmapFactory.decodeResource(getResources(), ic_envirometrics);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
             notificacion = new
                     Notification.Builder(this, CANAL_ID)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle("Título")
-                    .setContentText("Texto de la notificación.");
+                    .setLargeIcon(bm)
+                    .setSmallIcon(ic_envirometrics)
+                    .setContentTitle("Analizando")
+                    .setContentText("Proceso de analisis del la calidad del aire en marcha");
         }else{
             notificacion = new
                     Notification.Builder(this)
-                    .setSmallIcon(R.mipmap.ic_launcher)
-                    .setContentTitle("Título")
-                    .setContentText("Texto de la notificación.");
+                    .setLargeIcon(bm)
+                    .setSmallIcon(ic_envirometrics)
+                    .setContentTitle("Anañizando")
+                    .setContentText("Proceso de analisis del la calidad del aire en marcha");
         }
 
 
@@ -78,4 +88,5 @@ public class Servicio extends Service {
 
         // The service is no longer used and is being destroyed
     }
+
 }
