@@ -90,20 +90,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart (){
         super.onStart();
         if(esTaxista) {
-            Log.d(TAG, "DEntro de onStart, es taxista");
             //Coprueba si los permisos de localizacion estan concedidos
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 //Comprueba si el BT esta activado siempre que sea taxista
                 if (receptorBle.checkBtOn()) {
-                    Log.d(TAG, "OnStart, el bt esta On");
                     if(!comprobarEstadoServicio()){
-                        Log.d(TAG, "Servicio funcionando? " + comprobarEstadoServicio());
                         startService(intencionServicio);
-                        Log.d(TAG, "Servicio funcionando? " + comprobarEstadoServicio());
                     }
 
                 }else{
-                    Log.d(TAG, "OnStart, BT esta Off");
                     startActivityForResult(receptorBle.btActived(), REQUEST_BLUETOOTH);
                 }
             }
@@ -161,11 +156,9 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onRequestPermissionsResult(int respuesta, String[] permissions, int[]grantResult){
         super.onRequestPermissionsResult(respuesta, permissions, grantResult);
-        Log.d("---PERMISOS---", "--- ID Permiso: " + respuesta);
 
         if(respuesta==3){
             if(grantResult.length > 0 && grantResult[0] == PackageManager.PERMISSION_GRANTED){
-                Log.d("---PERMISOS---", "---Permiso concedido---");
                 activarServicio = true;
                 if(receptorBle.btActived() != null) {
                     startActivityForResult(receptorBle.btActived(), REQUEST_BLUETOOTH);
@@ -178,7 +171,6 @@ public class MainActivity extends AppCompatActivity {
 
         if(respuesta==5){
             if(grantResult.length > 0 && grantResult[0] == PackageManager.PERMISSION_GRANTED){
-                Log.d("---PERMISOS---", "---Permiso concedido---");
                 Intent i = new Intent(this, FotoActivity.class);
                 startActivity(i);
             }
@@ -200,9 +192,7 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == -1){
                 if(receptorBle.checkBtOn()){
                     if(!comprobarEstadoServicio()){
-                        Log.d(TAG, "Servicio funcionando? " + comprobarEstadoServicio());
                         startService(intencionServicio);
-                        Log.d(TAG, "Servicio funcionando? " + comprobarEstadoServicio());
                     }
                 }
                 return;
@@ -298,7 +288,4 @@ public class MainActivity extends AppCompatActivity {
         }
         return false;
     }
-
-
-
 }

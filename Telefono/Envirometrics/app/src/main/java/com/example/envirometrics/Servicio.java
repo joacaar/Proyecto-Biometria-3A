@@ -72,7 +72,6 @@ public class Servicio extends Service {
         startForeground(NOTIFICACION_ID, notificacion.build()); // Asocia la vida de la notificacion a la del servicio
         //Cuando este es destruido, la notificacion tambien.
         receptor.obtenerCO();
-        Log.d("Comportamiento??????", String.valueOf(Calendar.getInstance().getTime()));
 
         return Service.START_STICKY;
     }

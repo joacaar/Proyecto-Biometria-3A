@@ -23,7 +23,7 @@ public class LogicaFake {
     // -------------------------------------------------------------------------------
     //                  Declaración de variables
     // -------------------------------------------------------------------------------
-    private String urlServidor = "http://192.168.1.13:8080/";
+    private String urlServidor = "http://192.168.1.139:8080/";
 
     // -------------------------------------------------------------------------------
     //                          Constructor()
@@ -113,6 +113,24 @@ public class LogicaFake {
         JSONObject eljson = new JSONObject(params);
 
         elPeticionario.hacerPeticionREST("GET", this.urlServidor + "getTodasLasMedidas", eljson.toString(), elCallback,
+                "application/json; charset=utf-8"
+        );
+    }
+
+    // -------------------------------------------------------------------------------
+    //                              getTodasLasMedidas()
+    // -------------------------------------------------------------------------------
+    public void cambiarEmail(String email,String emailNuevo,PeticionarioREST.Callback elCallback) {
+
+        PeticionarioREST elPeticionario = new PeticionarioREST();
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("email",email);
+        params.put("emailNuevo",emailNuevo);
+
+        JSONObject eljson = new JSONObject(params);
+
+        elPeticionario.hacerPeticionREST("POST", this.urlServidor + "cambiarEmail", eljson.toString(), elCallback,
                 "application/json; charset=utf-8"
         );
     }

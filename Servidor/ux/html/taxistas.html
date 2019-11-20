@@ -88,7 +88,7 @@
                 <strong class="mr-auto">Alerta 24h</strong>
                 <small>menos de 1 minuto</small>
                 <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true" style="color: #393946">&times;</span>
                 </button>
             </div>
             <div class="toast-body" id="toast-body">
@@ -97,6 +97,45 @@
         </div>
 
         <!-- Taxistas -->
+        <div class="modal" id="nuevoTaxistaModal">
+
+            <div class="row modal-content">
+                <div class="modal-header">
+                    <span class="close" onclick="cerrarModal()">&times;</span>
+                </div>
+
+                <div class="modal-body">
+                    <form class="col-12 introducirTaxistaForm">
+
+                        <div class="form-label-group row">
+                            <label for="" class="email col-6">E-mail:</label>
+                            <input type="text" id="inputEmail" class="form-control col-6" placeholder="correo@taxista.com" required="" autofocus="">
+                        </div>
+
+                        <div class="form-label-group row">
+                            <label for="" class="telefono col-6">Telefono:</label>
+                            <input type="number" id="inputTelefono" class="form-control col-6" placeholder="123456789" required="">
+                        </div>
+
+                        <div class="form-label-group row">
+                            <label for="" class="password col-6">Contraseña:</label>
+                            <input type="password" id="inputPassword" class="form-control col-6" placeholder="Contraseña" required="">
+                        </div>
+
+                        <div class="form-label-group row">
+                            <label for="" class="repetirPassword col-6">Repetir Contraseña:</label>
+                            <input type="password" id="inputRepetirPassword" class="form-control col-6" placeholder="Contraseña" required="">
+                        </div>
+
+                        <input type="button" class="btn btn-lg btn-primary btn-block botonRegistro" type="submit" onclick="darAltaTaxista()" value="Registrar">
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+
         <div class="taxistas">
 
             <div class="row editarEliminar">
@@ -169,13 +208,24 @@
         // ------------------------------------------------------------------
 
         function darAltaTaxista() {
-            elProxy.darAltaTaxista({
-                email: "elAdrian@taxista.com",
-                password: "1234",
-                telefono: "21212121"
-            }, function(res) {
-                console.log(res)
-            })
+
+            if (document.getElementById("inputPassword").value == document.getElementById("inputRepetirPassword").value && document.getElementById("inputEmail").value.length != 0 && document.getElementById("inputEmail").value.includes("@taxista.com") && document.getElementById("inputPassword").value.length != 0 && document.getElementById("inputTelefono").value.length != 0) {
+                var inputEmail = document.getElementById("inputEmail").value;
+                var inputPassword = document.getElementById("inputPassword").value;
+                var inputTelefono = document.getElementById("inputTelefono").value;
+
+                elProxy.darAltaTaxista({
+                        email: inputEmail,
+                        password: inputPassword,
+                        telefono: inputTelefono
+                    },
+                    function(res) {
+                        console.log(res)
+                    })
+                location.reload();
+            } else {
+                console.log("Sin valores no entra")
+            }
         }
 
         // ------------------------------------------------------------------
@@ -215,7 +265,6 @@
                 }
                 document.getElementById("emailLabel").innerHTML = taxistas[orden].email;
                 document.getElementById("telefonoLabel").innerHTML = taxistas[orden].telefono;
-
             });
         }
 
@@ -268,6 +317,28 @@
         function logOut() {
             document.cookie = "";
             window.location.replace('index.html');
+        }
+
+        //-------------------------------------------------------------------
+        // Para el modal
+        //-------------------------------------------------------------------
+        var modal = document.getElementById("nuevoTaxistaModal");
+        var btn = document.getElementById("introducirNuevoTaxista");
+
+        // When the user clicks on <span> (x), close the modal
+        function cerrarModal() {
+            modal.style.display = "none";
+        }
+
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
         }
 
     </script>
