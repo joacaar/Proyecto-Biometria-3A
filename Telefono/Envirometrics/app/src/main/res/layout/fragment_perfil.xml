@@ -28,18 +28,18 @@
         app:layout_constraintTop_toBottomOf="@+id/imageView2">
 
         <EditText
-            android:id="@+id/editTextTelefono2"
+            android:id="@+id/editTextEmail2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/rounded_borders"
-            android:drawableStart="@drawable/ic_phone"
-            android:drawableLeft="@drawable/ic_phone"
+            android:drawableStart="@drawable/ic_perfil2"
+            android:drawableLeft="@drawable/ic_perfil2"
             android:drawablePadding="8dp"
             android:drawableTint="#FFFFFF"
             android:ems="10"
             android:fontFamily="sans-serif-light"
-            android:hint="Teléfono"
-            android:inputType="number"
+            android:hint="Nuevo email"
+            android:inputType="textEmailAddress"
             android:padding="10dp"
             android:textAlignment="gravity"
             android:textColorHint="#86FFFFFF" />

@@ -16,6 +16,8 @@ import androidx.fragment.app.FragmentActivity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.example.envirometrics.LogicaFake;
+import com.example.envirometrics.PeticionarioREST;
 import com.example.envirometrics.R;
 import com.orhanobut.hawk.Hawk;
 
@@ -24,49 +26,58 @@ import org.w3c.dom.Text;
 public class PerfilFragment extends Fragment {
 
     private TextView nombre;
-    private EditText telefono;
+    private EditText emailEditText;
     private EditText password;
     private EditText newPassword;
     private TextView mensajeError;
     private Button btnCambiarDatos;
+    public LogicaFake laLogica;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_perfil, container, false);
-
+        laLogica = new LogicaFake(getContext());
 
         Hawk.init(getContext()).build();
 
-        String emailUser = Hawk.get("email");
+        final String emailUser = Hawk.get("email");
         String telefonoUser = Hawk.get("telefono");
 
         nombre = root.findViewById(R.id.textoPerfil);
-        telefono = root.findViewById(R.id.editTextTelefono2);
+        emailEditText = root.findViewById(R.id.editTextEmail2);
         password = root.findViewById(R.id.editTextPass);
         newPassword = root.findViewById(R.id.editTextNewPass);
         mensajeError = root.findViewById(R.id.mensajeError);
         btnCambiarDatos = root.findViewById(R.id.btnCambiarDatos);
 
-        nombre.setText(emailUser);
 
-        telefono.setHint("686377222");
-
-        if(Hawk.get("telefono")!=null) {
-
-            telefono.setHint(telefonoUser);
+        if(Hawk.get("email")!=null) {
+            nombre.setText(emailUser);
         }
 
         btnCambiarDatos.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String pass = password.getText().toString();
-                String newPass = newPassword.getText().toString();
                 String passwordAntigua = Hawk.get("password");
-
+                String newPass = newPassword.getText().toString();
+                final String emailNuevo = emailEditText.getText().toString();
 
                 if(pass.equals(passwordAntigua)){
-                    //telefono
-                    //newPass
 
+                    //Iniciar sesión de la logicaFake
+                    laLogica.cambiarEmail(emailUser,emailNuevo,
+                            new PeticionarioREST.Callback () {
+                                @Override
+                                public void respuestaRecibida(int codigo, String cuerpo) {
+                                    //telefono
+                                    //newPass
+                                    if(cuerpo.contains("true")){
+                                        Hawk.put("email",emailNuevo);
+                                    }else{
+                                        mensajeError.setText("Este email ya existe");
+                                    }
+                                }
+                            });
                 }else{
                     mensajeError.setText("Contraseña incorrecta");
                 }
