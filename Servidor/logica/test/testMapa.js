@@ -23,7 +23,7 @@ let db = new sqlite3.Database("../../bd/datos.db", (err) => {
 console.log("------ Borrar todas las medidas que tengan tipo de medida 2 --------");
 
 //Para que no se repitan los idMedida
-var textoSQL = 'delete from Medidas where idTipoMedida = 2 ;'
+var textoSQL = 'delete from Medidas where idTipoMedida = ' + 2 + ';'
 
 db.run(textoSQL);
 
