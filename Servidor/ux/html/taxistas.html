@@ -105,12 +105,12 @@
             </div>
             <div class="row datos">
                 <label for="" class="email ">E-mail:</label>
-                <label for="" class="email" id="email">#</label>
+                <label for="" class="email" id="emailLabel"></label>
             </div>
 
             <div class="row datos">
                 <label for="" class="telefono">Telefono:</label>
-                <label for="" class="telefono" id="telefono">#</label>
+                <label for="" class="telefono" id="telefonoLabel"></label>
             </div>
 
             <div class="row botones">
@@ -128,8 +128,8 @@
 
         <!-- Tabla de taxistas -->
         <div class="row tablaTaxistas">
-            <p>Últimas medidas</p>
-            <table class="table">
+            <p>Todos los taxistas</p>
+            <table id="tablaTaxistas" class="table">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -139,20 +139,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="selected">
-                        <td scope="row">1</td>
-                        <td>
-                            <a href="#" onclick="" class="enlaceTaxista" id="enlaceTaxista">HerGut@envirometrics.com</a>
-                        </td>
-                        <td>123456789</td>
-                        <td>1</td>
-                    </tr>
-                    <tr>
-                        <td scope="row">2</td>
-                        <td>JosMet@envirometrics.com</td>
-                        <td>123456789</td>
-                        <td>2</td>
-                    </tr>
+
                 </tbody>
             </table>
         </div>
@@ -163,13 +150,13 @@
 
     <!--        Scripts         -->
 
+
     <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <!-- Popper -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <!-- Bootstrap.js -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
     <!-- JS del Nav Bar -->
     <script type="text/javascript" src="../proxy.js"></script>
 
@@ -178,33 +165,66 @@
         var elProxy = new Proxy();
 
         // ------------------------------------------------------------------
-        // getUltimaMedidaDeUnUsuario()
+        // darAltaTaxista()
         // ------------------------------------------------------------------
-        function getUltimaMedidaDeUnUsuario() {
-            elProxy.getUsuarios(function(listaUsuarios) {
-                elProxy.getUltimaMedidaDeUnUsuario(listaUsuarios.length, function(res) {
-                    //document.getElementById("medida").innerHTML = res.valorMedida;
-                    console.log(res)
-                })
+
+        function darAltaTaxista() {
+            elProxy.darAltaTaxista({
+                email: "elAdrian@taxista.com",
+                password: "1234",
+                telefono: "21212121"
+            }, function(res) {
+                console.log(res)
             })
         }
 
         // ------------------------------------------------------------------
-        // getCuantosUsuariosHay()
+        // getTaxistas()
         // ------------------------------------------------------------------
-        function getCuantosUsuariosHay() {
+        function getTaxistas() {
             elProxy.getUsuarios(function(res) {
-                //document.getElementById("numeroTaxistas").innerHTML = res.length;
-            })
+                var taxistas = [];
+                for (var i = 0; i < res.length; i++) {
+                    if (res[i].email.includes("@taxista.com")) {
+                        taxistas.push(res[i])
+
+                        var newRow = $("<tr>");
+                        var cols = "";
+                        cols += '<td scope="row">' + i + '</td>';
+                        cols += '<td><a href="#" onclick="getInformaciónTaxista(' + [i - 1] + ')" class="enlaceTaxista" id="enlaceTaxista">' + taxistas[i - 1].email + '</a></td>';
+                        cols += '<td>' + taxistas[i - 1].telefono + '</td>';
+                        cols += '<td>' + i + '</td>';
+                        newRow.append(cols);
+                        $("#tablaTaxistas").append(newRow);
+                    }
+                }
+                console.log(taxistas)
+            });
+        }
+
+        // ------------------------------------------------------------------
+        // getInformaciónTaxista()
+        // ------------------------------------------------------------------
+        function getInformaciónTaxista(orden) {
+            elProxy.getUsuarios(function(res) {
+                var taxistas = [];
+                for (var i = 0; i < res.length; i++) {
+                    if (res[i].email.includes("@taxista.com")) {
+                        taxistas.push(res[i])
+                    }
+                }
+                document.getElementById("emailLabel").innerHTML = taxistas[orden].email;
+                document.getElementById("telefonoLabel").innerHTML = taxistas[orden].telefono;
+
+            });
         }
 
         // ------------------------------------------------------------------
         // getOnLoad()
         // ------------------------------------------------------------------
         function getOnLoad() {
-            getUltimaMedidaDeUnUsuario();
-            getCuantosUsuariosHay();
             usuariosSinMedidasEn24H();
+            getTaxistas();
         }
 
         // ------------------------------------------------------------------
@@ -232,13 +252,12 @@
         // ------------------------------------------------------------------
         // getUltimaMedidaDeUnUsuario()
         // ------------------------------------------------------------------
-        function getUltimaMedidaDeTodosLosUsuarios() {
+        function getUltimaMedidaDeUnUsuario() {
             elProxy.getUsuarios(function(listaUsuarios) {
-                for (var i = 0; i < listaUsuarios.length; i++) {
-                    elProxy.getUltimaMedidaDeUnUsuario(listaUsuarios[i].idUsuario, function(medida) {
-                        console.log(medida)
-                    })
-                }
+                elProxy.getUltimaMedidaDeUnUsuario(listaUsuarios.length, function(res) {
+                    document.getElementById("medida").innerHTML = res.valorMedida;
+                    console.log(res)
+                })
             })
         }
 
