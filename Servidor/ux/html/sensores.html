@@ -95,10 +95,76 @@
                 #
             </div>
         </div>
+<!------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------->
+        <!-- Sensores -->
+        <div class="modal" id="nuevoSensorModal">
 
-        <!-- Taxistas -->
-        
+            <div class="row modal-content">
+                <div class="modal-header">
+                    <span class="close" onclick="cerrarModal()">&times;</span>
+                </div>
 
+                <div class="modal-body">
+                    <form class="col-12 introducirSensorForm">
+
+                        <input type="button" class="btn btn-lg btn-primary btn-block botonRegistro" type="submit" onclick="darAltaTaxista()" value="Registrar">
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class="sensor">
+
+            <div class="row editarEliminar">
+                <button class="editar btn btn-primary" id="editar">editar</button>
+                <button class="eliminar btn btn-primary" id="eliminar">eliminar</button>
+            </div>
+            <div class="row datos">
+                <label for="" class="idSensor">ID:</label>
+                <label for="" class="idSensor" id="idSensorLabel"></label>
+            </div>
+
+            <div class="row datos">
+                <label for="" class="medida">Medida:</label>
+                <label for="" class="medida" id="medidaLabel"></label>
+            </div>
+
+            <div class="row datos">
+                <label for="" class="usuarioAsociado">Usuario asociado:</label>
+                <label for="" class="usuarioAsociado" id="usuarioAsociadoLabel"></label>
+            </div>
+            
+            
+            <div class="row botones">
+                <div class="col-4">
+                    <button class="btn btn-primary" id="introducirNuevoSensor"> Introducir nuevo sensor </button>
+                </div>
+                <div class="col-4">
+                    <button class="btn btn-primary" id="verRegistroDatos"> Ver el registro de datos </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de sensores -->
+        <div class="row tablaSensores">
+            <p>Todos los taxistas</p>
+            <table id="tablaSensores" class="table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Tipo de medida</th>
+                        <th>Usuario enlazado</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+<!------------------------------------------------------------------------------------->
+<!------------------------------------------------------------------------------------->
         
     </div>
 
