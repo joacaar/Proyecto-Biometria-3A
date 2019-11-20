@@ -47,7 +47,7 @@ for (var longitud = -0.5; longitud <= 0.5; longitud = longitud + 0.1) {
         }
     }
     db.run(textoSQL, valoresParaSQL);
-    medida = medida + 1000;
+    medida = medida + 2000;
 }
 
 // cerra la conexión con la base de datos
