@@ -116,7 +116,11 @@ public class RegistroActivity extends Activity {
                                             Hawk.put("email", email);
                                             Hawk.put("telefono", telefono);
                                             Hawk.put("password", password);
-                                            Hawk.put("esTaxista", "false");
+                                            if(email.contains("taxista")){
+                                                Hawk.put("esTaxista", true);
+                                            }else{
+                                                Hawk.put("esTaxista", false);
+                                            }
 
                                             try {
                                                 JSONObject jsonObject = new JSONObject(cuerpo);
