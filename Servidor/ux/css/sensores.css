@@ -27,8 +27,9 @@
 *
 */
 
+
 /*              Content             */
-.taxistas {
+.sensor {
     margin-top: 2em;
 }
 
@@ -40,14 +41,9 @@
     margin-top: 1em;
 }
 
-.datos #emailLabel {
-    margin-left: 1em;
+.datos label {
+    margin-left: 0.5em;
 }
-
-.datos #telefonoLabel {
-    margin-left: 1em;
-}
-
 
 /*              Estilo de los botones              */
 .row.editarEliminar {
@@ -86,7 +82,6 @@
 
 .row.botones {
     margin: 3em 1em;
-    margin-top: 5em;
 }
 
 .row.botones button {
@@ -96,46 +91,7 @@
 }
 
 
-
-/*                 Tabla taxistas                 */
-.row.tablaTaxistas p {
-    margin-left: 1em;
-    font-size: 32px;
-}
-
-tr.selected {
-    background-color: #00B49A;
-    color: #FAFAFA;
-}
-
-tr.selected a {
-    color: #FAFAFA;
-    text-decoration: underline;
-}
-
-tr.selected a:hover,
-tr.selected a:focus,
-tr.selected a:active{
-    color: #F0F0F0;
-    text-decoration: underline;
-}
-
-tr a {
-    color: #000000;
-    text-decoration: underline;
-}
-
-tr a:hover,
-tr a:focus,
-tr a:active{
-    color: #393946;
-    text-decoration: underline;
-}
-
-
-
-
-/*                   Modal Taxistas                   */
+/*                Modal sensores                   */
 
 .modal {
     display: none;
@@ -209,4 +165,39 @@ tr a:active{
         top: 0;
         opacity: 1
     }
+}
+
+/*                 Tabla sesnores                 */
+.row.tablaSensores p {
+    margin-left: 1em;
+    font-size: 32px;
+}
+
+tr.selected {
+    background-color: #00B49A;
+    color: #FAFAFA;
+}
+
+tr.selected a {
+    color: #FAFAFA;
+    text-decoration: underline;
+}
+
+tr.selected a:hover,
+tr.selected a:focus,
+tr.selected a:active{
+    color: #F0F0F0;
+    text-decoration: underline;
+}
+
+tr a {
+    color: #000000;
+    text-decoration: underline;
+}
+
+tr a:hover,
+tr a:focus,
+tr a:active{
+    color: #393946;
+    text-decoration: underline;
 }

@@ -19,7 +19,7 @@
 
     <!-- CSS del Nav Bar -->
     <link rel="stylesheet" href="../css/styles.css">
-    <link rel="stylesheet" href="../css/admin.css">
+    <link rel="stylesheet" href="../css/sensores.css">
 
 </head>
 
@@ -95,8 +95,7 @@
                 #
             </div>
         </div>
-<!------------------------------------------------------------------------------------->
-<!------------------------------------------------------------------------------------->
+
         <!-- Sensores -->
         <div class="modal" id="nuevoSensorModal">
 
@@ -108,7 +107,22 @@
                 <div class="modal-body">
                     <form class="col-12 introducirSensorForm">
 
-                        <input type="button" class="btn btn-lg btn-primary btn-block botonRegistro" type="submit" onclick="darAltaTaxista()" value="Registrar">
+                        <div class="form-label-group row">
+                            <label for="" class="id col-6">ID del sensor:</label>
+                            <input type="number" id="inputIdSensor" class="form-control col-6" placeholder="1" required="">
+                        </div>
+
+                        <div class="form-label-group row">
+                            <label for="" class="tipoSensor col-6">Tipo de sensor:</label>
+                            <input type="number" id="inputTipo" class="form-control col-6" placeholder="Calidad del aire" required="" disabled>
+                        </div>
+
+                        <div class="form-label-group row">
+                            <label for="" class="idUsuario col-6">ID del taxista:</label>
+                            <input type="number" id="inputIdTaxista" class="form-control col-6" placeholder="1" required="">
+                        </div>
+
+                        <input type="button" class="btn btn-lg btn-primary btn-block botonRegistro" type="submit" onclick="darAltaSensor()" value="Registrar">
                     </form>
 
                 </div>
@@ -129,7 +143,7 @@
             </div>
 
             <div class="row datos">
-                <label for="" class="medida">Medida:</label>
+                <label for="" class="medida">Tipo de medida:</label>
                 <label for="" class="medida" id="medidaLabel"></label>
             </div>
 
@@ -137,8 +151,8 @@
                 <label for="" class="usuarioAsociado">Usuario asociado:</label>
                 <label for="" class="usuarioAsociado" id="usuarioAsociadoLabel"></label>
             </div>
-            
-            
+
+
             <div class="row botones">
                 <div class="col-4">
                     <button class="btn btn-primary" id="introducirNuevoSensor"> Introducir nuevo sensor </button>
@@ -155,17 +169,14 @@
             <table id="tablaSensores" class="table">
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>ID de sensor</th>
                         <th>Tipo de medida</th>
-                        <th>Usuario enlazado</th>
+                        <th>ID de usuario</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
             </table>
         </div>
-<!------------------------------------------------------------------------------------->
-<!------------------------------------------------------------------------------------->
-        
     </div>
 
 
@@ -182,38 +193,63 @@
     <script type="text/javascript" src="../proxy.js"></script>
 
     <script>
-
         // creamos el Proxy
         var elProxy = new Proxy();
 
         // ------------------------------------------------------------------
-        // getUltimaMedidaDeUnUsuario()
+        // darAltaTaxista()
         // ------------------------------------------------------------------
-        function getUltimaMedidaDeUnUsuario() {
-          elProxy.getUsuarios(function(listaUsuarios){
-            elProxy.getUltimaMedidaDeUnUsuario(listaUsuarios.length, function(res) {
-                //document.getElementById("medida").innerHTML = res.valorMedida;
-                console.log(res)
-            })
-          })
+
+        function darAltaSensor() {
+            elProxy.darAltaSensor(1, function(res) {
+                if (document.getElementById("inputIdSensor").value.length != 0 && document.getElementById("inputIdTaxista").value.length != 0) {
+                    var idSensor = document.getElementById("inputIdSensor").value;
+                    var idTaxista = document.getElementById("inputIdTaxista").value;
+                }
+                elProxy.darSensorAUsuario({
+                    idSensor: idSensor,
+                    idUsuario: idTaxista
+                }, function(res) {
+                    console.log(res);
+                })
+            });
+            location.reload();
         }
 
         // ------------------------------------------------------------------
-        // getCuantosUsuariosHay()
+        // getSensores()
         // ------------------------------------------------------------------
-        function getCuantosUsuariosHay() {
-            elProxy.getUsuarios(function(res) {
-                //document.getElementById("numeroTaxistas").innerHTML = res.length;
-            })
+        function getSensores() {
+            elProxy.buscarRelacionesUsuarioSensor(function(res) {
+                for (var i = 0; i < res.length; i++) {
+                    var newRow = $("<tr>");
+                    var cols = "";
+                    cols += '<td scope="row"><a href="#" onclick="getInformacionSensor(' + [i] + ')" class="enlaceSensor" id="enlaceSensor">' + res[i].idSensor + '</a></td>';
+                    cols += '<td> Calidad del aire </td>';
+                    cols += '<td>' + res[i].idUsuario + '</td>';
+                    newRow.append(cols);
+                    $("#tablaSensores").append(newRow);
+                }
+            });
+        }
+
+        // ------------------------------------------------------------------
+        // getInformacionSensor()
+        // ------------------------------------------------------------------
+        function getInformacionSensor(orden) {
+            elProxy.buscarRelacionesUsuarioSensor(function(res) {
+                document.getElementById("idSensorLabel").innerHTML = res[orden].idSensor;
+                document.getElementById("medidaLabel").innerHTML = "Calidad del aire";
+                document.getElementById("usuarioAsociadoLabel").innerHTML = res[orden].idUsuario;
+            });
         }
 
         // ------------------------------------------------------------------
         // getOnLoad()
         // ------------------------------------------------------------------
         function getOnLoad() {
-            getUltimaMedidaDeUnUsuario();
-            getCuantosUsuariosHay();
             usuariosSinMedidasEn24H();
+            getSensores();
         }
 
         // ------------------------------------------------------------------
@@ -241,13 +277,12 @@
         // ------------------------------------------------------------------
         // getUltimaMedidaDeUnUsuario()
         // ------------------------------------------------------------------
-        function getUltimaMedidaDeTodosLosUsuarios() {
+        function getUltimaMedidaDeUnUsuario() {
             elProxy.getUsuarios(function(listaUsuarios) {
-                for (var i = 0; i < listaUsuarios.length; i++) {
-                    elProxy.getUltimaMedidaDeUnUsuario(listaUsuarios[i].idUsuario, function(medida) {
-                        console.log(medida)
-                    })
-                }
+                elProxy.getUltimaMedidaDeUnUsuario(listaUsuarios.length, function(res) {
+                    document.getElementById("medida").innerHTML = res.valorMedida;
+                    console.log(res)
+                })
             })
         }
 
@@ -258,6 +293,28 @@
         function logOut() {
             document.cookie = "";
             window.location.replace('index.html');
+        }
+
+        //-------------------------------------------------------------------
+        // Para el modal
+        //-------------------------------------------------------------------
+        var modal = document.getElementById("nuevoSensorModal");
+        var btn = document.getElementById("introducirNuevoSensor");
+
+        // When the user clicks on <span> (x), close the modal
+        function cerrarModal() {
+            modal.style.display = "none";
+        }
+
+        btn.onclick = function() {
+            modal.style.display = "block";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
         }
 
     </script>
