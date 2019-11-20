@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.os.Bundle;
@@ -33,6 +34,8 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import static com.example.envirometrics.FotoActivity.REQUEST_IMAGE_CAPTURE;
+
 public class MainActivity extends AppCompatActivity {
 
     public static int REQUEST_BLUETOOTH = 1;
@@ -49,12 +52,18 @@ public class MainActivity extends AppCompatActivity {
 
     private Intent intencion;
 
+    SharedPreferences preferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Donde se guardan los datos del usuario de la aplicacion
         Hawk.init(this).build();
+
+        //Donde se guardan los ajustes de la aplicacion
+        preferences = getSharedPreferences("Ajustes", MODE_PRIVATE);
 
         esTaxista = Hawk.get("esTaxista");
 
@@ -66,13 +75,11 @@ public class MainActivity extends AppCompatActivity {
         //----------------------------------------------------
         //                  Beacon
         //----------------------------------------------------
-        if(esTaxista) { //Si es taxista escanea beacons y activa el servicio
+        if(esTaxista && preferences.getBoolean("permisoServicio", false)) { //Si es taxista y tiene el permiso del servicio ctivado escanea beacons y activa el servicio
             activarServicio = true;
-
             //Inicializamos el receptor bluetooth para comprobar si el bt esta activo
             if (receptorBle == null) {
                 receptorBle = new ReceptorBLE(this);
-
             }
         }
         laLogicaFake = new LogicaFake(this);
@@ -90,7 +97,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart (){
         super.onStart();
-        if(receptorBle.checkBtOn()){
+        if(receptorBle.checkBtOn() && esTaxista){ //Comprueba si el BT esta activado siempre que sea taxista
+            //Coprueba si los permisos de localizacion estan concedidos
             if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION ) == PackageManager.PERMISSION_GRANTED){
                 //startService(intencion);
             }
@@ -125,6 +133,11 @@ public class MainActivity extends AppCompatActivity {
     }
 //Funcion para comprobar y pedir los permisos de GPS y en caso de tenerlos, pedir los del BT
     public void pedirPermisoGPS(){
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 5);
+        }
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED //&&
                 /*ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED*/) {
             ActivityCompat.requestPermissions(this, new  String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 3);
@@ -157,6 +170,17 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
+        if(respuesta==5){
+            if(grantResult.length > 0 && grantResult[0] == PackageManager.PERMISSION_GRANTED){
+                Log.d("---PERMISOS---", "---Permiso concedido---");
+                Intent i = new Intent(this, FotoActivity.class);
+                startActivity(i);
+            }
+            if(grantResult.length > 0 && PackageManager.PERMISSION_DENIED == grantResult[0]){
+                
+            }
+        }
+
     }
 
     // REsultado de la peticion de activacion de bluetooth, si es activado activaremos los botones
@@ -170,7 +194,7 @@ public class MainActivity extends AppCompatActivity {
             if(resultCode == -1){
                 if(receptorBle.checkBtOn()){
                     if(activarServicio){
-                        startService(intencion);
+                        //startService(intencion);
                     }
                 }
                 return;
@@ -241,7 +265,25 @@ public class MainActivity extends AppCompatActivity {
 
     //Iniciar actividad de la cámara
     public void onClickFab (View view){
-        Intent i = new Intent(this, FotoActivity.class);
-        startActivity(i);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA ) == PackageManager.PERMISSION_GRANTED){
+            Intent i = new Intent(this, FotoActivity.class);
+            startActivity(i);
+        }
+        else{
+            pedirPermisoCamara();
+        }
+
+
     }
+
+    //Funcion para comprobar y pedir los permisos de la camara
+    public void pedirPermisoCamara(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new  String[]{Manifest.permission.CAMERA}, 5);
+        }
+    }
+
+
+
 }
