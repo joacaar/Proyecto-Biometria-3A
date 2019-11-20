@@ -1,6 +1,7 @@
 package com.example.envirometrics;
 
 import android.Manifest;
+import android.app.ActivityManager;
 import android.app.AlertDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.content.Context;
@@ -8,7 +9,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.location.LocationManager;
 import android.os.Bundle;
 
 
@@ -19,7 +19,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.orhanobut.hawk.Hawk;
 
@@ -27,16 +26,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import static com.example.envirometrics.FotoActivity.REQUEST_IMAGE_CAPTURE;
 
 public class MainActivity extends AppCompatActivity {
+
+    private final String TAG = "---MainActivityDebug---";
 
     public static int REQUEST_BLUETOOTH = 1;
 
@@ -44,13 +41,13 @@ public class MainActivity extends AppCompatActivity {
     public ReceptorBLE receptorBle;
     private BluetoothAdapter bluetoothAdapter;
     private String value;
-    private String esTaxista = "false";
+    private boolean esTaxista;
 
     private boolean activarServicio;
 
     private AppBarConfiguration mAppBarConfiguration;
 
-    private Intent intencion;
+    private Intent intencionServicio;
 
     SharedPreferences preferences;
 
@@ -65,31 +62,25 @@ public class MainActivity extends AppCompatActivity {
         //Donde se guardan los ajustes de la aplicacion
         preferences = getSharedPreferences("Ajustes", MODE_PRIVATE);
 
-        esTaxista = Hawk.get("esTaxista");
+        //Devuelve si es taxista, en caso de no tener valor devuelve falso;
+        esTaxista = Hawk.get("esTaxista", false);
 
+        //Inicializamos los objetos siguientes.
         receptorBle = new ReceptorBLE(this);
-
-        //Pedimos los permisos al inicio para poder activar el servicio
-        //pedirPermisoGPS();
+        laLogicaFake = new LogicaFake(this);
 
 
         //----------------------------------------------------
         //                  Beacon
         //----------------------------------------------------
-        if(esTaxista.equals("true") && preferences.getBoolean("permisoServicio", false)) { //Si es taxista y tiene el permiso del servicio ctivado escanea beacons y activa el servicio
-            activarServicio = true;
-            //Inicializamos el receptor bluetooth para comprobar si el bt esta activo
-            if (receptorBle == null) {
-                receptorBle = new ReceptorBLE(this);
-            }
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION ) == PackageManager.PERMISSION_GRANTED && esTaxista){
+            if(esTaxista)
+            preferences.edit().putBoolean("permisoServicio", true);
+        }else{
+            preferences.edit().putBoolean("permisoServicio", false);
         }
-        laLogicaFake = new LogicaFake(this);
-
-        // creamos la intencion que nos ejecutara el servicio y la notificacion en primer plano
-        //intencion = new Intent(MainActivity.this, Servicio.class);
-        //startService(intencion);
-
-
+        // creamos la intencionServicio que nos ejecutara el servicio y la notificacion en primer plano
+        intencionServicio = new Intent(MainActivity.this, Servicio.class);
     }
 
     //----------------------------------------------------------------------------------------------
@@ -98,11 +89,22 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart (){
         super.onStart();
-        if(esTaxista.equals("true")) {
-            if (receptorBle.checkBtOn()) { //Comprueba si el BT esta activado siempre que sea taxista
-                //Coprueba si los permisos de localizacion estan concedidos
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    //startService(intencion);
+        if(esTaxista) {
+            Log.d(TAG, "DEntro de onStart, es taxista");
+            //Coprueba si los permisos de localizacion estan concedidos
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                //Comprueba si el BT esta activado siempre que sea taxista
+                if (receptorBle.checkBtOn()) {
+                    Log.d(TAG, "OnStart, el bt esta On");
+                    if(!comprobarEstadoServicio()){
+                        Log.d(TAG, "Servicio funcionando? " + comprobarEstadoServicio());
+                        startService(intencionServicio);
+                        Log.d(TAG, "Servicio funcionando? " + comprobarEstadoServicio());
+                    }
+
+                }else{
+                    Log.d(TAG, "OnStart, BT esta Off");
+                    startActivityForResult(receptorBle.btActived(), REQUEST_BLUETOOTH);
                 }
             }
         }
@@ -118,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // menu should be considered as top level destinations.
-        if(esTaxista.equals("true")){
+        if(esTaxista){
             mAppBarConfiguration = new AppBarConfiguration.Builder(
                     R.id.nav_map, R.id.nav_perfil, R.id.nav_ajustes, R.id.nav_cerrar_sesion)
                     .setDrawerLayout(drawer)
@@ -136,11 +138,12 @@ public class MainActivity extends AppCompatActivity {
     }
 //Funcion para comprobar y pedir los permisos de GPS y en caso de tenerlos, pedir los del BT
     public void pedirPermisoGPS(){
-
+/*
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED){
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, 5);
         }
 
+ */
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED //&&
                 /*ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED*/) {
             ActivityCompat.requestPermissions(this, new  String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 3);
@@ -196,8 +199,10 @@ public class MainActivity extends AppCompatActivity {
             //resultcode puede ser 0 si no se ha activado BT o -1 si este ha sido activado
             if(resultCode == -1){
                 if(receptorBle.checkBtOn()){
-                    if(activarServicio){
-                        //startService(intencion);
+                    if(!comprobarEstadoServicio()){
+                        Log.d(TAG, "Servicio funcionando? " + comprobarEstadoServicio());
+                        startService(intencionServicio);
+                        Log.d(TAG, "Servicio funcionando? " + comprobarEstadoServicio());
                     }
                 }
                 return;
@@ -231,13 +236,9 @@ public class MainActivity extends AppCompatActivity {
     // Funcion que mostrara un dialogo de aviso para recordar que sin el GPS o el Bluetooth
     // la aplicacion no dinpondra de todas sus funcionalidades
     public void avisarPermisos(){
-
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                this);
-
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         // set title
         alertDialogBuilder.setTitle("Aviso!");
-
         // set dialog message
         alertDialogBuilder
                 .setMessage("La aplicación no funcionara correctamente sin los permisos." + "\n" +
@@ -285,6 +286,17 @@ public class MainActivity extends AppCompatActivity {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new  String[]{Manifest.permission.CAMERA}, 5);
         }
+    }
+
+    public boolean comprobarEstadoServicio(){
+        ActivityManager manager = (ActivityManager) getSystemService(Context.ACTIVITY_SERVICE);
+        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+            Log.d(TAG, service.service.getClassName());
+            if (service.service.getClassName().equals("com.example.envirometrics.Servicio")) {
+                return true;
+            }
+        }
+        return false;
     }
 
 
