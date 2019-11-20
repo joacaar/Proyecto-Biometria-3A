@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
     public ReceptorBLE receptorBle;
     private BluetoothAdapter bluetoothAdapter;
     private String value;
-    private Boolean esTaxista;
+    private String esTaxista = "false";
 
     private boolean activarServicio;
 
@@ -67,15 +67,16 @@ public class MainActivity extends AppCompatActivity {
 
         esTaxista = Hawk.get("esTaxista");
 
-        //Pedimos los permisos al inicio para poder activar el servicio
-        pedirPermisoGPS();
+        receptorBle = new ReceptorBLE(this);
 
-        Hawk.init(this).build();
+        //Pedimos los permisos al inicio para poder activar el servicio
+        //pedirPermisoGPS();
+
 
         //----------------------------------------------------
         //                  Beacon
         //----------------------------------------------------
-        if(esTaxista && preferences.getBoolean("permisoServicio", false)) { //Si es taxista y tiene el permiso del servicio ctivado escanea beacons y activa el servicio
+        if(esTaxista.equals("true") && preferences.getBoolean("permisoServicio", false)) { //Si es taxista y tiene el permiso del servicio ctivado escanea beacons y activa el servicio
             activarServicio = true;
             //Inicializamos el receptor bluetooth para comprobar si el bt esta activo
             if (receptorBle == null) {
@@ -97,10 +98,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart (){
         super.onStart();
-        if(receptorBle.checkBtOn() && esTaxista){ //Comprueba si el BT esta activado siempre que sea taxista
-            //Coprueba si los permisos de localizacion estan concedidos
-            if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION ) == PackageManager.PERMISSION_GRANTED){
-                //startService(intencion);
+        if(esTaxista.equals("true")) {
+            if (receptorBle.checkBtOn()) { //Comprueba si el BT esta activado siempre que sea taxista
+                //Coprueba si los permisos de localizacion estan concedidos
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                    //startService(intencion);
+                }
             }
         }
 
@@ -115,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         // menu should be considered as top level destinations.
-        if(esTaxista){
+        if(esTaxista.equals("true")){
             mAppBarConfiguration = new AppBarConfiguration.Builder(
                     R.id.nav_map, R.id.nav_perfil, R.id.nav_ajustes, R.id.nav_cerrar_sesion)
                     .setDrawerLayout(drawer)
@@ -177,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(i);
             }
             if(grantResult.length > 0 && PackageManager.PERMISSION_DENIED == grantResult[0]){
-                
+
             }
         }
 

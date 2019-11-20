@@ -77,27 +77,28 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
 
 
         //Mi posición
-        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION)
+        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED && ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
-             googleMap.setMyLocationEnabled(true);
-        }
-
-        //Hacer zoom a mi localización
-        if(locationManager!=null) {
-            Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            googleMap.setMyLocationEnabled(true);
 
 
-            if (location != null) {
-                googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 13));
+            //Hacer zoom a mi localización
+            if (locationManager != null) {
+                Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-                CameraPosition cameraPosition = new CameraPosition.Builder()
-                        .target(new LatLng(location.getLatitude(), location.getLongitude()))      // Centrar el mapa en mi posición
-                        .zoom(15)                   // Zoom de la cámara
-                        .bearing(0)                // Orientación norte
-                        .build();
 
-                googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                if (location != null) {
+                    googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 13));
+
+                    CameraPosition cameraPosition = new CameraPosition.Builder()
+                            .target(new LatLng(location.getLatitude(), location.getLongitude()))      // Centrar el mapa en mi posición
+                            .zoom(15)                   // Zoom de la cámara
+                            .bearing(0)                // Orientación norte
+                            .build();
+
+                    googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+                }
             }
         }
 
