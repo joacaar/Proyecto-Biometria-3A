@@ -69,7 +69,7 @@ TODO: https://bootsnipp.com/snippets/402bQ
 
     <!-- Scripts -->
     <script type="text/javascript" src="../proxy.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTrzSIM3o7jvT0ExtK8KpNExtDQc1pddw&callback=inicializarMapa" async defer></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTrzSIM3o7jvT0ExtK8KpNExtDQc1pddw&libraries=visualization&callback=inicializarMapa" async defer></script>
 
     <script>
         var elProxy1 = new Proxy()
@@ -90,21 +90,28 @@ TODO: https://bootsnipp.com/snippets/402bQ
                 streetViewControl: false,
             });
 
+            var heatmapData = [];
+            
             elProxy1.getTodasLasMedidas(function(res) {
                 for (let i = 0; i < res.length; i++) {
-                    var marker1 = new google.maps.Marker({
-                        position: {
-                            lat: res[i].latitud,
-                            lng: res[i].longitud
-                        },
-                        draggable: false
-                    });
+                    //Añadir los valores de las medidas al mapa de color
+                    heatmapData.push({location: new google.maps.LatLng(res[i].latitud, res[i].longitud), weight: res[i].valorMedida});
+                    
                     console.log("Latitud: " + res[i].latitud);
                     console.log("longitud: " + res[i].longitud);
-                    marker1.setMap(map);
+                    console.log("valorMedida: " + res[i].valorMedida);
+
                 }
             })
 
+            var heatmap = new google.maps.visualization.HeatmapLayer({
+                    data: heatmapData,
+                    maxIntensity: 100,
+                    radius: 15
+            });
+
+            heatmap.setMap(map);
+    
         }
 
     </script>
@@ -219,6 +226,7 @@ TODO: https://bootsnipp.com/snippets/402bQ
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <!-- Bootstrap.js -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
 
     <!-- SCRIPTS -->
     <script>
