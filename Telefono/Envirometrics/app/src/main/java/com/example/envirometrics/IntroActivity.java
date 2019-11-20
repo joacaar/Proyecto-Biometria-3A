@@ -1,6 +1,8 @@
 package com.example.envirometrics;
 
 import android.Manifest;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
@@ -88,6 +90,40 @@ public class IntroActivity extends com.heinrichreimersoftware.materialintro.app.
             /*ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED*/) {
             ActivityCompat.requestPermissions(this, new  String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 3);
         }
+    }
+
+    // Funcion que mostrara un dialogo de aviso para recordar que sin el GPS o el Bluetooth
+    // la aplicacion no dinpondra de todas sus funcionalidades
+    public void avisarPermisos(){
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        // set title
+        alertDialogBuilder.setTitle("Aviso!");
+        // set dialog message
+        alertDialogBuilder
+                .setMessage("La aplicación no funcionara correctamente sin los permisos." + "\n" +
+                        "Desea aceptar los permisos?")
+                .setCancelable(false)
+                .setPositiveButton("SI",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, close
+                        // current activity
+                        pedirPermisoGPS();
+
+                    }
+                })
+                .setNegativeButton("NO",new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog,int id) {
+                        // if this button is clicked, just close
+                        // the dialog box and do nothing
+                        dialog.cancel();
+                    }
+                });
+
+        // create alert dialog
+        AlertDialog alertDialog = alertDialogBuilder.create();
+
+        // show it
+        alertDialog.show();
     }
 
 }
