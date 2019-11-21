@@ -26,6 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-condensed-light"
         android:text="Escaneo continuo"
         android:textColor="@color/colorPrimary"
         android:textSize="30sp"
@@ -38,6 +39,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-condensed-light"
         android:text="Permitir que la aplicacion funcione en segundo plano"
         android:textColor="@color/colorWhite"
         app:layout_constraintStart_toStartOf="parent"
@@ -49,6 +51,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
         android:layout_marginTop="16dp"
+        android:fontFamily="sans-serif-condensed-light"
         android:text="Permitir "
         android:textColor="@color/colorWhite"
         android:textSize="24sp"
@@ -71,6 +74,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="32dp"
+        android:fontFamily="sans-serif-condensed-light"
         android:text="Tipo de medida"
         android:textColor="@color/colorPrimary"
         android:textSize="30sp"
@@ -83,6 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginTop="8dp"
+        android:fontFamily="sans-serif-condensed-light"
         android:text="Seleccione el tipo de medida que desea visualizar"
         android:textColor="@color/colorWhite"
         app:layout_constraintStart_toStartOf="parent"
@@ -105,9 +110,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40px"
             android:layout_marginBottom="50px"
+            android:fontFamily="sans-serif-condensed-light"
             android:onClick="obtenerOpcionElegida"
             android:text="CO2"
-            android:textSize="30sp" />
+            android:textSize="24sp" />
 
         <RadioButton
             android:id="@+id/rb2"
@@ -115,9 +121,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40px"
             android:layout_marginBottom="50px"
+            android:fontFamily="sans-serif-condensed-light"
             android:onClick="obtenerOpcionElegida"
             android:text="CO"
-            android:textSize="30sp" />
+            android:textSize="24sp" />
 
         <RadioButton
             android:id="@+id/rb3"
@@ -125,9 +132,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40px"
             android:layout_marginBottom="50px"
+            android:fontFamily="sans-serif-condensed-light"
             android:onClick="obtenerOpcionElegida"
             android:text="NOX"
-            android:textSize="30sp" />
+            android:textSize="24sp" />
 
         <RadioButton
             android:id="@+id/rb4"
@@ -135,9 +143,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40px"
             android:layout_marginBottom="50px"
+            android:fontFamily="sans-serif-condensed-light"
             android:onClick="obtenerOpcionElegida"
             android:text="Azufre"
-            android:textSize="30sp" />
+            android:textSize="24sp" />
 
         <RadioButton
             android:id="@+id/rb5"
@@ -145,9 +154,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40px"
             android:layout_marginBottom="50px"
+            android:fontFamily="sans-serif-condensed-light"
             android:onClick="obtenerOpcionElegida"
             android:text="Metano"
-            android:textSize="30sp" />
+            android:textSize="24sp" />
 
         <RadioButton
             android:id="@+id/rb6"
@@ -155,9 +165,10 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="40px"
             android:layout_marginBottom="50px"
+            android:fontFamily="sans-serif-condensed-light"
             android:onClick="obtenerOpcionElegida"
             android:text="Butano"
-            android:textSize="30sp" />
+            android:textSize="24sp" />
     </RadioGroup>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
