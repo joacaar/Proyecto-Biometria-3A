@@ -20,7 +20,6 @@
     <!-- CSS del Nav Bar -->
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/taxistas.css">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTrzSIM3o7jvT0ExtK8KpNExtDQc1pddw&libraries=visualization&callback=inicializarMapa" async defer></script>
 
 </head>
 
@@ -113,9 +112,17 @@
                             <input type="text" id="inputEmail" class="form-control col-6" placeholder="correo@taxista.com" required="" autofocus="">
                         </div>
 
+                        <div class="alert alert-danger" role="alert" id="errorEmail">
+                            El correo debe acabar en @taxista.com para funcionar
+                        </div>
+
                         <div class="form-label-group row">
                             <label for="" class="telefono col-6">Telefono:</label>
                             <input type="number" id="inputTelefono" class="form-control col-6" placeholder="123456789" required="">
+                        </div>
+
+                        <div class="alert alert-danger" role="alert" id="errorTelefono">
+                            Introduce un número de teléfono
                         </div>
 
                         <div class="form-label-group row">
@@ -126,6 +133,10 @@
                         <div class="form-label-group row">
                             <label for="" class="repetirPassword col-6">Repetir Contraseña:</label>
                             <input type="password" id="inputRepetirPassword" class="form-control col-6" placeholder="Contraseña" required="">
+                        </div>
+
+                        <div class="alert alert-danger" role="alert" id="errorContrasenya">
+                            Las contraseñas deben coincidir para poder registrar a alguien
                         </div>
 
                         <input type="button" class="btn btn-lg btn-primary btn-block botonRegistro" type="submit" onclick="darAltaTaxista()" value="Registrar">
@@ -209,24 +220,48 @@
         // ------------------------------------------------------------------
 
         function darAltaTaxista() {
+            setAlertHide();
+            if (document.getElementById("inputEmail").value.length != 0 && document.getElementById("inputEmail").value.includes("@taxista.com")) {
+                if (document.getElementById("inputTelefono").value.length != 0) {
+                    if (document.getElementById("inputPassword").value.length != 0) {
+                        if (document.getElementById("inputPassword").value == document.getElementById("inputRepetirPassword").value) {
+                            var inputEmail = document.getElementById("inputEmail").value;
+                            var inputPassword = document.getElementById("inputPassword").value;
+                            var inputTelefono = document.getElementById("inputTelefono").value;
 
-            if (document.getElementById("inputPassword").value == document.getElementById("inputRepetirPassword").value && document.getElementById("inputEmail").value.length != 0 && document.getElementById("inputEmail").value.includes("@taxista.com") && document.getElementById("inputPassword").value.length != 0 && document.getElementById("inputTelefono").value.length != 0) {
-                var inputEmail = document.getElementById("inputEmail").value;
-                var inputPassword = document.getElementById("inputPassword").value;
-                var inputTelefono = document.getElementById("inputTelefono").value;
-
-                elProxy.darAltaTaxista({
-                        email: inputEmail,
-                        password: inputPassword,
-                        telefono: inputTelefono
-                    },
-                    function(res) {
-                        console.log(res)
-                    })
-                location.reload();
+                            elProxy.darAltaTaxista({
+                                    email: inputEmail,
+                                    password: inputPassword,
+                                    telefono: inputTelefono
+                                },
+                                function(res) {
+                                    console.log(res)
+                                })
+                            location.reload();
+                        } else {
+                            document.getElementById("errorContrasenya").innerHTML = "Las contraseñas deben coincidir para poder registrar a alguien"
+                            $('#errorContrasenya').show();
+                        }
+                    } else {
+                        document.getElementById("errorContrasenya").innerHTML = "La contraseña debe tener al menos 1 carácter"
+                        $('#errorContrasenya').show();
+                    }
+                } else {
+                    $('#errorTelefono').show();
+                }
             } else {
-                console.log("Sin valores no entra")
+                $('#errorEmail').show();
             }
+        }
+
+        // ------------------------------------------------------------------
+        // setAlertHide()
+        // ------------------------------------------------------------------
+
+        function setAlertHide() {
+            $('#errorContrasenya').hide();
+            $('#errorTelefono').hide();
+            $('#errorEmail').hide();
         }
 
         // ------------------------------------------------------------------
@@ -268,6 +303,7 @@
         function getOnLoad() {
             usuariosSinMedidasEn24H();
             getTaxistas();
+            setAlertHide();
         }
 
         // ------------------------------------------------------------------

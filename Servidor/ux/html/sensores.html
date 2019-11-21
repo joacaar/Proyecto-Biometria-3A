@@ -20,7 +20,6 @@
     <!-- CSS del Nav Bar -->
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/sensores.css">
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTrzSIM3o7jvT0ExtK8KpNExtDQc1pddw&libraries=visualization&callback=inicializarMapa" async defer></script>
 
 </head>
 
@@ -123,6 +122,10 @@
                             <input type="number" id="inputIdTaxista" class="form-control col-6" placeholder="1" required="">
                         </div>
 
+                        <div class="alert alert-danger" role="alert" id="errorSensor">
+                            Tanto el ID del sensor como el del taxista deben tener al menos 1 valor
+                        </div>
+
                         <input type="button" class="btn btn-lg btn-primary btn-block botonRegistro" type="submit" onclick="darAltaSensor()" value="Registrar">
                     </form>
 
@@ -172,7 +175,7 @@
                     <tr>
                         <th>ID de sensor</th>
                         <th>Tipo de medida</th>
-                        <th>ID de usuario</th>
+                        <th>ID de taxista</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
@@ -202,19 +205,30 @@
         // ------------------------------------------------------------------
 
         function darAltaSensor() {
+            setAlertHide()
             elProxy.darAltaSensor(1, function(res) {
                 if (document.getElementById("inputIdSensor").value.length != 0 && document.getElementById("inputIdTaxista").value.length != 0) {
                     var idSensor = document.getElementById("inputIdSensor").value;
                     var idTaxista = document.getElementById("inputIdTaxista").value;
+                    elProxy.darSensorAUsuario({
+                        idSensor: idSensor,
+                        idUsuario: idTaxista
+                    }, function(res) {
+                        console.log(res);
+                    })
+                    location.reload();
+                } else {
+                    $("#errorSensor").show();
                 }
-                elProxy.darSensorAUsuario({
-                    idSensor: idSensor,
-                    idUsuario: idTaxista
-                }, function(res) {
-                    console.log(res);
-                })
             });
-            location.reload();
+        }
+
+        // ------------------------------------------------------------------
+        // setAlertHide()
+        // ------------------------------------------------------------------
+
+        function setAlertHide() {
+            $("#errorSensor").hide();
         }
 
         // ------------------------------------------------------------------
@@ -251,6 +265,7 @@
         function getOnLoad() {
             usuariosSinMedidasEn24H();
             getSensores();
+            setAlertHide()
         }
 
         // ------------------------------------------------------------------
