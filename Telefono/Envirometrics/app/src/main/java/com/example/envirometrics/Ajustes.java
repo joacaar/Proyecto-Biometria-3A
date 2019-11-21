@@ -12,6 +12,7 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 
 import com.example.envirometrics.ui.home.HomeFragment;
+import com.orhanobut.hawk.Hawk;
 
 import java.util.List;
 import java.util.Objects;
@@ -35,12 +36,13 @@ public class Ajustes extends AppCompatActivity {
 
         rg = findViewById(R.id.rg);
         btnServ = findViewById(R.id.btnServicio);
-/*
-//Para comprobar si es taxista y habilitar o no el servicio
-        if(!esTaxita){
-            btnServ.setEnabled(false);
+
+        Hawk.init(this).build();
+        //Para comprobar si es taxista y habilitar o no el servicio
+        if(Hawk.get("esTaxista", false)){
+            btnServ.setEnabled(true);
         }
- */
+
         //Declaramos unas preferencias para los ajustes en modo privado y su editor
         preferences = getSharedPreferences("Ajustes", MODE_PRIVATE);
         editor = preferences.edit();
