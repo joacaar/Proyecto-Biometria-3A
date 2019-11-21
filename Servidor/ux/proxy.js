@@ -238,8 +238,8 @@ class Proxy {
   }
 
   //----------------------------------------------------------------------------
-  // datos:{email:Texto, password:Texto, telefono:Texto} -->
-  // darAltaUsuario() -->
+  // datos:{idSensor:N, idUsuario:N} -->
+  // darSensorAUsuario() -->
   // {respuesta:v/f, idUsuario:N}
   //----------------------------------------------------------------------------
   darSensorAUsuario(datos, callback) {
@@ -265,5 +265,61 @@ class Proxy {
     })
 
   }
+
+  //----------------------------------------------------------------------------
+// datos:{email:Texto, emailNuevo:Texto} -->
+// cambiarEmail() -->
+//----------------------------------------------------------------------------
+cambiarEmail(datos, callback) {
+
+  var datosEmail = {
+    email: datos.email,
+    emailNuevo: datos.emailNuevo
+  }
+
+  fetch(IP_PUERTO + "/cambiarEmail", {
+    method: 'POST', // or 'PUT'
+    body: JSON.stringify(datosEmail), // data can be `string` or {object}!
+    headers: {
+      'User-Agent': 'jordi',
+      'Content-Type': 'application/json'
+    }
+  }).then((res) => {
+    return res.json()
+  }).catch((error) => {
+    return error
+  }).then((data) => {
+    callback(data)
+  })
+
+}
+
+//----------------------------------------------------------------------------
+// datos:{email:Texto, password:Texto} -->
+// cambiarPassword() -->
+//----------------------------------------------------------------------------
+cambiarPassword(datos, callback) {
+
+  var datosPassword = {
+    email: datos.email,
+    password: datos.password
+  }
+
+  fetch(IP_PUERTO + "/cambiarPassword", {
+    method: 'POST', // or 'PUT'
+    body: JSON.stringify(datosPassword), // data can be `string` or {object}!
+    headers: {
+      'User-Agent': 'jordi',
+      'Content-Type': 'application/json'
+    }
+  }).then((res) => {
+    return res.json()
+  }).catch((error) => {
+    return error
+  }).then((data) => {
+    callback(data)
+  })
+
+}
 
 }
