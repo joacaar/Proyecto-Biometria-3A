@@ -37,6 +37,8 @@ public class MainActivity extends AppCompatActivity {
 
     public static int REQUEST_BLUETOOTH = 1;
 
+    NavController navController;
+
     public LogicaFake laLogicaFake;
     public ReceptorBLE receptorBle;
     private BluetoothAdapter bluetoothAdapter;
@@ -54,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
         //Donde se guardan los datos del usuario de la aplicacion
         Hawk.init(this).build();
@@ -107,26 +108,39 @@ public class MainActivity extends AppCompatActivity {
         //----------------------------------------------------
         //              NAVIGATION DRAWER
         //----------------------------------------------------
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
+        Toolbar toolbar;
+        DrawerLayout drawer;
+        NavigationView navigationView;
 
-
-        // menu should be considered as top level destinations.
         if(esTaxista){
+            setContentView(R.layout.activity_main_taxista);
+            toolbar = findViewById(R.id.toolbar_taxista);
+            setSupportActionBar(toolbar);
+            drawer = findViewById(R.id.drawer_layout_taxista);
+            navigationView = findViewById(R.id.nav_view_taxista);
+
             mAppBarConfiguration = new AppBarConfiguration.Builder(
                     R.id.nav_map, R.id.nav_perfil, R.id.nav_ajustes, R.id.nav_cerrar_sesion)
                     .setDrawerLayout(drawer)
                     .build();
+
+            navController = Navigation.findNavController(this, R.id.nav_host_fragment_taxista);
+
         }else {
+            setContentView(R.layout.activity_main);
+            toolbar = findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            drawer = findViewById(R.id.drawer_layout);
+            navigationView = findViewById(R.id.nav_view);
+
             mAppBarConfiguration = new AppBarConfiguration.Builder(
                     R.id.nav_map, R.id.nav_perfil, R.id.nav_resumen_dia, R.id.nav_ajustes, R.id.nav_cerrar_sesion)
                     .setDrawerLayout(drawer)
                     .build();
+
+            navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         }
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
+
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
@@ -210,7 +224,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
 
         //Obtener datos del usuario registrado
         String emailUsuario = Hawk.get("email");
