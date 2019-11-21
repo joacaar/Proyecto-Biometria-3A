@@ -17,7 +17,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:fontFamily="sans-serif-condensed-light"
-        android:text="Contaminación respirada durate el día"
+        android:text="Contaminación respirada durate el día (%)"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/chart"
         app:layout_constraintEnd_toEndOf="parent"
@@ -44,9 +44,10 @@
         android:layout_width="345dp"
         android:layout_height="0dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="40dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="32dp"
+        android:padding="10dp"
         app:cardBackgroundColor="#009C85"
         app:cardCornerRadius="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -77,8 +78,36 @@
                 android:fontFamily="sans-serif-condensed-light"
                 android:paddingLeft="10dp"
                 android:text="10 km"
-                android:textSize="24sp" />
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="80dp"
+                android:fontFamily="sans-serif-condensed-light"
+                android:gravity="center"
+                android:text="Media de contaminación respirada"
+                android:textSize="30sp" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="sans-serif-condensed-light"
+                android:gravity="center"
+                android:text="40%"
+                android:textSize="40dp"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

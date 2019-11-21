@@ -62,7 +62,6 @@ public class ResumenDiaFragment extends Fragment {
 
         chart.setInteractive(true);
 
-
         List<PointValue> values = new ArrayList<PointValue>();
         values.add(new PointValue(0, 2));
         values.add(new PointValue(1, 3));
@@ -72,7 +71,7 @@ public class ResumenDiaFragment extends Fragment {
 
 
         //In most cased you can call data model methods in builder-pattern-like manner.
-        Line line = new Line(values).setColor(Color.rgb(0,180,154)).setCubic(true);
+        Line line = new Line(values).setColor(Color.rgb(0,180,154)).setCubic(true).setHasLabels(true);
         List<Line> lines = new ArrayList<Line>();
         lines.add(line);
 
@@ -82,11 +81,11 @@ public class ResumenDiaFragment extends Fragment {
         AxisValue axisValueX;
         List<AxisValue> valores = new ArrayList<AxisValue>();
 
-        String[] dias = {"8:00", "12:00", "18:00", "20:00", "22:00"};
-        String[] contaminacion = new String[dias.length];
+        String[] horas = {"8:00", "12:00", "18:00", "20:00", "22:00"};
+        String[] contaminacion = new String[horas.length];
 
-        for (int i = 0; i < dias.length; i++){
-            contaminacion[i]=dias[i];
+        for (int i = 0; i < horas.length; i++){
+            contaminacion[i]=horas[i];
             axisValueX = new AxisValue(i).setLabel(contaminacion[i]);// se le asigna a cada posicion el label que se desea
             // "i" es el valor del indice y dias es el string que mostrara el label
             valores.add(axisValueX);
@@ -97,7 +96,7 @@ public class ResumenDiaFragment extends Fragment {
 
         // Añadimos titulo a los indices
         //axisX.setName("Horas");
-        //axisY.setName("Contaminación");
+        //axisY.setName("Contaminación %");
 
         // asignamos cada eje a su posicion en la grafica
         data.setAxisXBottom(axisX);

@@ -108,13 +108,20 @@ TODO: https://bootsnipp.com/snippets/402bQ
                 }
             })
 
+            var colors = [
+            'rgb(102, 225, 0)',
+            'rgb(255, 0, 0)'
+            ]
+            
             var heatmap = new google.maps.visualization.HeatmapLayer({
                 data: heatmapData,
                 maxIntensity: 100000,
-                radius: 30
+                radius: 50,
             });
 
             heatmap.setMap(map);
+            heatmap.set(gradient);
+
 
         }
 
