@@ -66,7 +66,7 @@ public class MainActivity extends AppCompatActivity {
         esTaxista = Hawk.get("esTaxista", false);
 
         //Inicializamos los objetos siguientes.
-        receptorBle = new ReceptorBLE(this);
+        receptorBle = new ReceptorBLE(this, 1);
         laLogicaFake = new LogicaFake(this);
 
 
