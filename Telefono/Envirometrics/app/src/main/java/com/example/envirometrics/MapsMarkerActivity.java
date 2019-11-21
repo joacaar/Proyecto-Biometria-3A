@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -20,6 +21,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.gson.JsonObject;
+import com.google.maps.android.heatmaps.Gradient;
 import com.google.maps.android.heatmaps.HeatmapTileProvider;
 
 import org.json.JSONArray;
@@ -110,6 +112,18 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
 
         List<WeightedLatLng> list = null;
 
+        // Create the gradient.
+        int[] colors = {
+                Color.rgb(102, 225, 0), // green
+                Color.rgb(255, 0, 0)    // red
+        };
+
+        float[] startPoints = {
+                0.2f, 2f
+        };
+
+        Gradient gradient = new Gradient(colors, startPoints);
+
         //Obtener una lista con la latitud, longitud y valor de la medida
         try {
             list = readItems(jsonObject);
@@ -118,7 +132,7 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
         }
 
         // Creando un heat map tile provider, pasando una lista WeightedLatLng
-        mProvider = new HeatmapTileProvider.Builder().weightedData(list).radius(50).build();
+        mProvider = new HeatmapTileProvider.Builder().weightedData(list).gradient(gradient).radius(50).build();
         // Añado a tile overlay to the map, usando heat map tile provider
         mOverlay = map.addTileOverlay(new TileOverlayOptions().tileProvider(mProvider));
 
