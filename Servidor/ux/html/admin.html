@@ -136,9 +136,9 @@ CSS
                 <div class="col-4">
                     <div class="cuadradoCentral">
                         <div>
-                            <p>Última medida</p>
+                            <p>Usuarios registrados</p>
                         </div>
-                        <span class="numero" id="medida">
+                        <span class="numero" id="numeroUsuarios">
                             #
                         </span>
                     </div>
@@ -210,12 +210,31 @@ CSS
         // ------------------------------------------------------------------
         // getUltimaMedidaDeUnUsuario()
         // ------------------------------------------------------------------
-        function getUltimaMedidaDeUnUsuario() {
+        /*function getUltimaMedidaDeUnUsuario() {
             elProxy.getUsuarios(function(listaUsuarios) {
                 console.log("lista: " + listaUsuarios.length);
                 elProxy.getUltimaMedidaDeUnUsuario(1, function(res) {
                     document.getElementById("medida").innerHTML = res.valorMedida;
                     console.log(res)
+                })
+            })
+        }*/
+
+        // ------------------------------------------------------------------
+        // getUsuariosRegistrados
+        // ------------------------------------------------------------------
+
+        function getUsuariosRegistrados() {
+            elProxy.getUsuarios(function(res) {
+                var taxistas = [];
+                for (var i = 0; i < res.length; i++) {
+                    if (res[i].email.includes("@taxista.com")) {
+                        taxistas.push(res[i])
+                    }
+                }
+                elProxy.getUsuarios(function(res) {
+                    var usuariosNoTaxistas = res.length - taxistas.length;
+                    document.getElementById("numeroUsuarios").innerHTML = usuariosNoTaxistas;
                 })
             })
         }
@@ -230,8 +249,8 @@ CSS
                     if (res[i].email.includes("@taxista.com")) {
                         taxistas.push(res[i])
                     }
-                    document.getElementById("numeroTaxistas").innerHTML = taxistas.length;
                 }
+                document.getElementById("numeroTaxistas").innerHTML = taxistas.length;
             })
         }
 
@@ -239,7 +258,7 @@ CSS
         // getOnLoad()
         // ------------------------------------------------------------------
         function getOnLoad() {
-            getUltimaMedidaDeUnUsuario();
+            getUsuariosRegistrados();
             getCuantosUsuariosHay();
             usuariosSinMedidasEn24H();
             getUltimaMedidaDeTodosLosUsuarios();
