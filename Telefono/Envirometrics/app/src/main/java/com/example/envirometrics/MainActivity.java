@@ -112,6 +112,9 @@ public class MainActivity extends AppCompatActivity {
         DrawerLayout drawer;
         NavigationView navigationView;
 
+        //Devuelve si es taxista, en caso de no tener valor devuelve falso;
+        esTaxista = Hawk.get("esTaxista", false);
+
         if(esTaxista){
             setContentView(R.layout.activity_main_taxista);
             toolbar = findViewById(R.id.toolbar_taxista);
@@ -126,7 +129,8 @@ public class MainActivity extends AppCompatActivity {
 
             navController = Navigation.findNavController(this, R.id.nav_host_fragment_taxista);
 
-        }else {
+        }
+        else{
             setContentView(R.layout.activity_main);
             toolbar = findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
