@@ -66,11 +66,12 @@ TODO: https://bootsnipp.com/snippets/402bQ
     <!-- CSS del Nav Bar -->
     <link rel="stylesheet" href="../css/styles.css">
     <link rel="stylesheet" href="../css/index.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300|Work+Sans:300&display=swap" rel="stylesheet">
 
     <!-- Scripts -->
     <script type="text/javascript" src="../proxy.js"></script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTrzSIM3o7jvT0ExtK8KpNExtDQc1pddw&libraries=visualization&callback=inicializarMapa" async defer></script>
-
+    
     <script>
         var elProxy1 = new Proxy()
 
@@ -91,12 +92,15 @@ TODO: https://bootsnipp.com/snippets/402bQ
             });
 
             var heatmapData = [];
-            
+
             elProxy1.getTodasLasMedidas(function(res) {
                 for (let i = 0; i < res.length; i++) {
                     //Añadir los valores de las medidas al mapa de color
-                    heatmapData.push({location: new google.maps.LatLng(res[i].latitud, res[i].longitud), weight: res[i].valorMedida});
-                    
+                    heatmapData.push({
+                        location: new google.maps.LatLng(res[i].latitud, res[i].longitud),
+                        weight: res[i].valorMedida
+                    });
+
                     console.log("Latitud: " + res[i].latitud);
                     console.log("longitud: " + res[i].longitud);
                     console.log("valorMedida: " + res[i].valorMedida);
@@ -105,13 +109,13 @@ TODO: https://bootsnipp.com/snippets/402bQ
             })
 
             var heatmap = new google.maps.visualization.HeatmapLayer({
-                    data: heatmapData,
-                    maxIntensity: 10000,
-                    radius: 30
+                data: heatmapData,
+                maxIntensity: 10000,
+                radius: 30
             });
 
             heatmap.setMap(map);
-    
+
         }
 
     </script>
@@ -161,6 +165,9 @@ TODO: https://bootsnipp.com/snippets/402bQ
                         <div class="form-label-group">
                             <label for="inputPassword" class="loginLabel">Password</label>
                             <input type="password" id="inputPassword" class="form-control loginInput" placeholder="Password" required="">
+                            <div class="alert alert-danger" role="alert" id="errorCredenciales">
+                                Nombre de usuario o la contraseña son incorrectos.
+                            </div>
                         </div>
 
                         <div class="checkbox mb-3 loginLabel">
@@ -184,34 +191,34 @@ TODO: https://bootsnipp.com/snippets/402bQ
             </h1>
             <div class="row">
                 <div class="col-sm-4 col-xs-12">
-                    <i class="fa fa-home fa-3x indexIcon"></i> <br />
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Magnam voluptatibus perferendis, voluptate soluta delectus nesciunt animi hic, officiis! Modi quo doloribus fuga consectetur veritatis maxime vel repellat autem quam odio.
+                    <i class="fa fa-mobile fa-4x indexIcon"></i> <br />
+                    Envirometrics te ofrece una aplicación que cumple todas tus necesidades y te permite viajar en taxi de manera eficiente evitando rutas contaminadas con varios gases nocivos como el monóxido de carbono o el metano.
                 </div>
                 <div class="col-sm-4">
-                    <i class="fa fa-home fa-3x indexIcon"></i> <br />
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Earum laudantium, quibusdam, facilis ipsam quisquam dolore assumenda praesentium adipisci natus eaque veritatis magnam. Blanditiis porro iste vel eaque quisquam vitae, sit.
+                    <i class="fa fa-map fa-3x indexIcon"></i> <br />
+                    Envirometrics te ofrece un mapa de contaminación actualizado cada 24 horas para que puedas evitar las rutas más contaminadas durante tus trayectos diarios.
                 </div>
                 <div class="col-sm-4">
-                    <i class="fa fa-home fa-3x indexIcon"></i> <br />
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Minima iure provident ad, fugit quos temporibus alias repellendus eius iusto reiciendis et voluptas impedit adipisci similique voluptatum est hic. Odio, sit?
+                    <i class="fa fa-camera fa-3x indexIcon"></i> <br />
+                    Envirometrics te ofrece la posibilidad de saber la contaminación del ambiente con solo tomar una foto al aire. Esto permite una mayor rápidez de actuación de cara a evitar los trayectos con mayor contaminación en tu ciudad.
                 </div>
             </div>
         </div>
 
         <div class="sobreNosotros">
             <div class="row">
-                <div class="col-2"></div>
-                <div class="col-8">
+                <div class="col-lg-6">
+                    <img src="../images/genteTrabaja.jpg" alt="" class="genteTrabajaImagen">
+                </div>
+                <div class="col-lg-6">
                     <h1>Sobre Nosotros</h1>
                     <p>
-                        <span>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit earum distinctio non incidunt quae laboriosam facere pariatur temporibus deserunt impedit dicta a maiores, nihil minima molestias, quia cupiditate magnam nisi?</span>
-                        <span>Perferendis quae delectus, soluta excepturi deleniti repudiandae impedit consequatur architecto totam deserunt commodi, velit nihil pariatur dolore eos adipisci corporis! Quam repellat maxime expedita, sapiente tenetur facilis velit inventore eius!</span>
-                        <span>Veritatis eum accusamus minus quidem magnam temporibus fugit vel dolorum mollitia expedita. Quos natus sit sed ullam veritatis dicta adipisci. Sunt sapiente ipsum provident perspiciatis hic obcaecati nesciunt deleniti ut.</span>
-                        <span>Maiores ipsa aliquid et accusamus incidunt, non nemo ut saepe aut nostrum sint suscipit laborum magni. Reiciendis hic consequuntur repudiandae vero quibusdam maxime molestiae ipsum odit animi, eveniet odio aliquam.</span>
-                        <span>Odio molestias, minus rerum obcaecati mollitia sequi maxime, laboriosam ad repudiandae provident ratione veritatis, sed. Ex illo, facilis illum, quis possimus molestiae repudiandae. Amet nulla accusamus, sit, incidunt inventore officiis.</span>
+                        Envirometrics es una empresa compuesta por 4 estudiantes de la Universidad Politécnica de Valencia cuya metodología de trabajo está basada en Scrum. Cada dos semanas se revisan los cambios que le hemos añadido a nuestro producto y pensamos en futuras mejoras. Nuestro ambiente de trabajo está basado en el trabajo en equipo y todos los miembros se ayudan entre sí. Nuestro objetivo a lograr con este proyecto es mejorar la salud media de los ciudadanos, debido a las altas medidas de contaminación en ciudades tan grandes como Madrid, donde puede verse cierto smog.
                     </p>
+
+                    <img src="../images/google_play_download.png" alt="" width="50%">
+
                 </div>
-                <div class="col-2"></div>
             </div>
         </div>
 
@@ -286,7 +293,8 @@ TODO: https://bootsnipp.com/snippets/402bQ
                     }
                     window.location.replace('admin.html');
                 } else {
-                    alert("Credenciales erróneas")
+                    //alert("Credenciales erróneas")
+                    $('#errorCredenciales').show();
                 }
                 console.log(res)
             })
@@ -301,6 +309,7 @@ TODO: https://bootsnipp.com/snippets/402bQ
         async function iniciarSesionWithCookie() {
             if (!document.cookie) {
                 modal.style.display = "block";
+                $('#errorCredenciales').hide();
             } else {
                 var laCookie = JSON.parse(document.cookie)
                 var nombre = laCookie.nombre;
