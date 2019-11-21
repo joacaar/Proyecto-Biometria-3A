@@ -82,28 +82,6 @@ public class MainActivity extends AppCompatActivity {
         }
         // creamos la intencionServicio que nos ejecutara el servicio y la notificacion en primer plano
         intencionServicio = new Intent(MainActivity.this, Servicio.class);
-    }
-
-    //----------------------------------------------------------------------------------------------
-    // onStart ()
-    //----------------------------------------------------------------------------------------------
-    @Override
-    protected void onStart (){
-        super.onStart();
-        if(esTaxista) {
-            //Coprueba si los permisos de localizacion estan concedidos
-            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                //Comprueba si el BT esta activado siempre que sea taxista
-                if (receptorBle.checkBtOn()) {
-                    if(!comprobarEstadoServicio()){
-                        startService(intencionServicio);
-                    }
-
-                }else{
-                    startActivityForResult(receptorBle.btActived(), REQUEST_BLUETOOTH);
-                }
-            }
-        }
 
         //----------------------------------------------------
         //              NAVIGATION DRAWER
@@ -111,9 +89,6 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar;
         DrawerLayout drawer;
         NavigationView navigationView;
-
-        //Devuelve si es taxista, en caso de no tener valor devuelve falso;
-        esTaxista = Hawk.get("esTaxista", false);
 
         if(esTaxista){
             setContentView(R.layout.activity_main_taxista);
@@ -147,6 +122,28 @@ public class MainActivity extends AppCompatActivity {
 
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+    }
+
+    //----------------------------------------------------------------------------------------------
+    // onStart ()
+    //----------------------------------------------------------------------------------------------
+    @Override
+    protected void onStart (){
+        super.onStart();
+        if(esTaxista) {
+            //Coprueba si los permisos de localizacion estan concedidos
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                //Comprueba si el BT esta activado siempre que sea taxista
+                if (receptorBle.checkBtOn()) {
+                    if(!comprobarEstadoServicio()){
+                        startService(intencionServicio);
+                    }
+
+                }else{
+                    startActivityForResult(receptorBle.btActived(), REQUEST_BLUETOOTH);
+                }
+            }
+        }
 
     }
 //Funcion para comprobar y pedir los permisos de GPS y en caso de tenerlos, pedir los del BT
