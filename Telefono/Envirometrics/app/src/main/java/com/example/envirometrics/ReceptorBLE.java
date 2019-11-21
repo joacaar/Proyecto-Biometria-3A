@@ -13,6 +13,8 @@ import static android.content.Context.BLUETOOTH_SERVICE;
 
 public class ReceptorBLE {
 
+    private final String TAG = "---ReceptorDebug---";
+
     private final BluetoothManager bluetoothManager;
     private BluetoothAdapter mBluetoothAdapter;
     private Context mContext;
@@ -22,8 +24,10 @@ public class ReceptorBLE {
     private Medida medicion;
     private LocalizadorGPS localizador;
 
+    private long time;
+
     // Stops scanning after 10 seconds.
-    private static final long SCAN_PERIOD = 10000;
+    private static final long SCAN_PERIOD = 1000 * 60 * 3;
     private final String MI_UUID = "EPSG-GTI-PROY-E2";
 //    private final String MI_UUID = "EPSG-GTI-PROY-E2";
 
@@ -33,15 +37,23 @@ public class ReceptorBLE {
 
     public ReceptorBLE(Context context_) {
 
+        Log.e(TAG, "Dentro del constructor inicial de Receptor");
+
         this.mContext = context_;
         //mHandler = new Handler();
         myLogic = new LogicaFake(context_);
 
         medicion = new Medida();
 
-        localizador = new LocalizadorGPS(mContext);
+        localizador = new LocalizadorGPS(mContext, this);
         localizador.ObtenerMiPosicionGPS();
 
+        bluetoothManager = (BluetoothManager) mContext.getSystemService(BLUETOOTH_SERVICE);
+        mBluetoothAdapter = bluetoothManager.getAdapter();
+    }
+
+    public ReceptorBLE(Context context_, int code){
+        this.mContext = context_;
         bluetoothManager = (BluetoothManager) mContext.getSystemService(BLUETOOTH_SERVICE);
         mBluetoothAdapter = bluetoothManager.getAdapter();
     }
@@ -81,9 +93,10 @@ public class ReceptorBLE {
     //Da comienzo el escaneo donde se llama al callback implementado al final de la clase para
     // obtener la medida mediante bluetooth
     public void obtenerCO(){
-        Log.e("--- DEBUG BT ---", "Dentro de obtenerCO()");
+        time = System.currentTimeMillis();
+        Log.e(TAG, "Dentro de obtenerCO()");
             mBluetoothAdapter.startLeScan(mLeScanCallback);
-        Log.e("--- DEBUG BT ---", "DEspues de llamar al callback");
+        Log.e(TAG, "DEspues de llamar al callback");
     }
 
     //Metodo que se llama en el callback y se ejecuta cada vez que se encuentra una trama
@@ -93,7 +106,7 @@ public class ReceptorBLE {
 
         Date date = new Date();
         long dateTimeFinal = date.getTime() + 300000;
-
+/*
         //Controlamos que hay almenos una ubicacion actual, en caso contrario no se enviarian las medidiones debidoa que se habrian realizado en interior
         if(!localizador.hayUltimaPosicion()){
             while(date.getTime() < dateTimeFinal){
@@ -106,11 +119,15 @@ public class ReceptorBLE {
                 return;
         }
 
+ */
+
         stopScan();
 
         medicion.setMedidaCO(Utilidades.bytesToInt(trama.getMajor()));
         medicion.setLatitud(localizador.getLatitud());
         medicion.setLongitud(localizador.getLongitud());
+        medicion.setTiempo(date.getTime());
+
 
         myLogic.anunciarCO(medicion);
     }
@@ -152,8 +169,14 @@ public class ReceptorBLE {
 
                         laTrama = tramaAux;
                         actualizarMediciones(tramaAux);
+                        //stopScan();
+                    }
+                    /*
+                    if((time + SCAN_PERIOD) >= System.currentTimeMillis()){
                         stopScan();
                     }
+
+                     */
                 }
             };
 }
