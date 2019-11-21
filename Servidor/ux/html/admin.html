@@ -184,17 +184,7 @@ CSS
                             <th>Taxista</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr>
-                            <td scope="row">1</td>
-                            <td>Calidad del aire</td>
-                            <td>115000</td>
-                            <td>13:37 28/10/2019</td>
-                            <td>4350650</td>
-                            <td>675603</td>
-                            <td>HerGut@envirometrics.com</td>
-                        </tr>
-                    </tbody>
+                    <tbody></tbody>
                 </table>
             </div>
 
@@ -222,7 +212,7 @@ CSS
         // ------------------------------------------------------------------
         function getUltimaMedidaDeUnUsuario() {
             elProxy.getUsuarios(function(listaUsuarios) {
-                elProxy.getUltimaMedidaDeUnUsuario(listaUsuarios.length, function(res) {
+                elProxy.getUltimaMedidaDeUnUsuario(1, function(res) {
                     document.getElementById("medida").innerHTML = res.valorMedida;
                     console.log(res)
                 })
@@ -251,6 +241,7 @@ CSS
             getUltimaMedidaDeUnUsuario();
             getCuantosUsuariosHay();
             usuariosSinMedidasEn24H();
+            getUltimaMedidaDeTodosLosUsuarios();
         }
 
         // ------------------------------------------------------------------
@@ -280,23 +271,24 @@ CSS
         // ------------------------------------------------------------------
         function getUltimaMedidaDeTodosLosUsuarios() {
             elProxy.getUsuarios(function(listaUsuarios) {
+                
                 for (var i = 0; i < listaUsuarios.length; i++) {
                     elProxy.getUltimaMedidaDeUnUsuario(listaUsuarios[i].idUsuario, function(medida) {
-                        console.log(medida)
-                        
+
                         var newRow = $("<tr>");
                         var cols = "";
-                        cols += '<td scope="row">' + medida + '</td>';
-                        cols += '<td>' + i + '</td>';
-                        cols += '<td>' + i + '</td>';
-                        cols += '<td>' + i + '</td>';
-                        cols += '<td>' + i + '</td>';
-                        cols += '<td>' + i + '</td>';
-                        cols += '<td>' + i + '</td>';
+                        cols += '<td scope="row">' + medida.idMedida + '</td>';
+                        cols += '<td>' + medida.idTipoMedida + '</td>';
+                        cols += '<td>' + medida.valorMedida + '</td>';
+                        cols += '<td>' + medida.tiempo + '</td>';
+                        cols += '<td>' + medida.latitud + '</td>';
+                        cols += '<td>' + medida.longitud + '</td>';
+                        cols += '<td>' + medida.idUsuario + '</td>';
                         newRow.append(cols);
-                        $("#tablaTaxistas").append(newRow);
+                        $("#tablaMedidas").append(newRow);
                     })
                 }
+                
             })
         }
 

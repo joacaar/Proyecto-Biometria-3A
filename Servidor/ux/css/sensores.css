@@ -3,9 +3,9 @@
 *
 *    Autor: Adrián Heras Reche
 *
-*    Fecha de creación: 12/11/2019
+*    Fecha de creación: 29/10/2019
 *
-*    Última actualización: 12/11/2019
+*    Última actualización: 01/11/2019
 *
 *
 *
@@ -27,73 +27,71 @@
 *
 */
 
-/*                   Main                      */
-div.mapa {
-    width: 100%;
-    height: 70vh;  /*vh: tamaño respecto al aspecto de la pantalla. 100vh = a toda la pantalla*/
+
+/*              Content             */
+.sensor {
+    margin-top: 2em;
 }
 
-iframe.mapa {
-    width: 100%;
-    height: 100%;
-    border: 0;
+.datos {
+    margin: 0.5em 2em;
 }
 
-/*                   Login                      */
-
-@media (min-width:576px) {
-    .loginForm {
-        padding-left: 0 !important;
-        padding-right: 0;
-    }
+.datos .email {
+    margin-top: 1em;
 }
 
-.loginForm.col-12 {
-    padding: 0;
-    text-align: left;
+.datos label {
+    margin-left: 0.5em;
 }
 
-.loginLabel {
-    margin: 8px 0 0 0;
+/*              Estilo de los botones              */
+.row.editarEliminar {
+    position: absolute;
+    right: 1em;
 }
 
-.loginButton {
+.btn-primary {
     background-color: #00B49A;
+    color: #FAFAFA;
     border: none;
 }
 
-.loginButton:hover {
-    background-color: #00957f;
-    border: none;
-}
-
-.loginButton:focus,
-.loginButton.focus {
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
     background-color: #00957f !important;
-    border: none;
+    color: #FAFAFA;
 }
 
-.loginButton:active {
-    background-color: #00957f;
-    border: none;
+.btn-primary.editar {
+    height: 1.5em;
+    width: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-right: 1em;
 }
 
-.bd-placeholder-img {
-    font-size: 1.125rem;
-    text-anchor: middle;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+.btn-primary.eliminar {
+    height: 1.5em;
+    width: auto;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-right: 2em;
 }
 
-@media (min-width: 768px) {
-    .bd-placeholder-img-lg {
-        font-size: 3.5rem;
-    }
+.row.botones {
+    margin: 3em 1em;
 }
 
-/*                   Modal Login                    */
+.row.botones button {
+    width: 100%;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+
+/*                Modal sensores                   */
 
 .modal {
     display: none;
@@ -102,7 +100,7 @@ iframe.mapa {
     left: 0;
     top: 0;
     width: 100%;
-    height: auto;
+    height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
 }
 
@@ -129,7 +127,6 @@ iframe.mapa {
 
 .modal-body {
     padding: 20px;
-    height: 29em;
 }
 
 @media (max-width:992px) {
@@ -152,6 +149,11 @@ iframe.mapa {
     cursor: pointer;
 }
 
+.modal-body form div {
+    text-align: left;
+    margin: 1em 0.5em;
+}
+
 
 @keyframes animatetop {
     from {
@@ -165,54 +167,37 @@ iframe.mapa {
     }
 }
 
-/*                   Publicidad aplicacion                    */
+/*                 Tabla sesnores                 */
+.row.tablaSensores p {
+    margin-left: 1em;
+    font-size: 32px;
+}
 
-.publicidad {
-    background-color: #515160;
+tr.selected {
+    background-color: #00B49A;
     color: #FAFAFA;
-    padding: 3em 5em;
-    text-align: center;
 }
 
-.publicidad .col-sm-4 {
-    padding: 0em 2em;
+tr.selected a {
+    color: #FAFAFA;
+    text-decoration: underline;
 }
 
-.publicidad .indexIcon {
-    margin: 1rem 2rem;
+tr.selected a:hover,
+tr.selected a:focus,
+tr.selected a:active{
+    color: #F0F0F0;
+    text-decoration: underline;
 }
 
-/*                   Sobre nosotros                    */
-
-.sobreNosotros {
-    background-color: #FAFAFA;
+tr a {
     color: #000000;
-    padding: 3em 5em;
-    text-align: center;
+    text-decoration: underline;
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+tr a:hover,
+tr a:focus,
+tr a:active{
+    color: #393946;
+    text-decoration: underline;
+}
