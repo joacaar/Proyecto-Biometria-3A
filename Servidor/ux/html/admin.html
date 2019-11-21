@@ -49,6 +49,7 @@ CSS
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTrzSIM3o7jvT0ExtK8KpNExtDQc1pddw&libraries=visualization&callback=inicializarMapa" async defer></script>
 
     <!-- CSS del Nav Bar -->
     <link rel="stylesheet" href="../css/styles.css">
@@ -252,8 +253,9 @@ CSS
                 for (var i = 0; i < listaUsuarios.length; i++) {
                     elProxy.getUltimaMedidaDeUnUsuario(listaUsuarios[i].idUsuario, function(medida) {
                         var now = Date.now();
-                        if ((now - medida.tiempo) > 86400000) {
-                            console.log("Usuario más de 24h:")
+                        if ((now - medida.tiempo) > 300000) {
+                            //if ((now - medida.tiempo) > 86400000) {
+                            console.log("Usuario sin emitir durante de 5 minutos:")
                             console.log(medida.idUsuario);
 
                             var string = "El usuario de ID " + medida.idUsuario + " lleva más de 24h sin emitir medidas";
@@ -271,7 +273,7 @@ CSS
         // ------------------------------------------------------------------
         function getUltimaMedidaDeTodosLosUsuarios() {
             elProxy.getUsuarios(function(listaUsuarios) {
-                
+
                 for (var i = 0; i < listaUsuarios.length; i++) {
                     elProxy.getUltimaMedidaDeUnUsuario(listaUsuarios[i].idUsuario, function(medida) {
 
@@ -288,7 +290,7 @@ CSS
                         $("#tablaMedidas").append(newRow);
                     })
                 }
-                
+
             })
         }
 

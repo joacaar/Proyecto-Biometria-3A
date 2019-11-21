@@ -27,10 +27,11 @@
 *
 */
 
+@import url('https://fonts.googleapis.com/css?family=Roboto:300|Work+Sans:300&display=swap');
 
 body {
     background-color: #FAFAFA;
-    font-family: sans-serif;
+    font-family: 'Work Sans', 'Roboto', sans-serif;
 }
 
 /*                 Sidebar                     */
