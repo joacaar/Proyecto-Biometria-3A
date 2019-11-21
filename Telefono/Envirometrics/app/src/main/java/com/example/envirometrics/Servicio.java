@@ -23,6 +23,8 @@ import static com.example.envirometrics.R.mipmap.ic_envirometrics;
 
 public class Servicio extends Service {
 
+    private final String TAG = "---ServicioDebug---";
+
     private NotificationManager notificationManager;
     static final String CANAL_ID = "mi_canal";
     static final int NOTIFICACION_ID = 1;
@@ -34,6 +36,8 @@ public class Servicio extends Service {
     @Override
     public void onCreate(){
 
+        Log.e(TAG, "Se ha creado el servicio");
+
         receptor = new ReceptorBLE(this);
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -44,7 +48,6 @@ public class Servicio extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d("Service-------", "Servicio iniciado");
 
         Bitmap bm = BitmapFactory.decodeResource(getResources(), ic_envirometrics);
 
@@ -71,7 +74,7 @@ public class Servicio extends Service {
         //notificationManager.notify(NOTIFICACION_ID, notificacion.build()); Crea la notificacion
         startForeground(NOTIFICACION_ID, notificacion.build()); // Asocia la vida de la notificacion a la del servicio
         //Cuando este es destruido, la notificacion tambien.
-        receptor.obtenerCO();
+        //receptor.obtenerCO();
 
         return Service.START_STICKY;
     }

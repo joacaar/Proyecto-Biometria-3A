@@ -28,6 +28,9 @@ public class LocalizadorGPS {
     private LocationManager mLocMgr;
     private Location ultimaPosicionMedida;
 
+    private ReceptorBLE receptorBLE;
+
+
     //Minimo tiempo para updates en Milisegundos
     private static final long MIN_CAMBIO_DISTANCIA_PARA_UPDATES = 0; // 10 metros
     //Minimo tiempo para updates en Milisegundos
@@ -36,14 +39,18 @@ public class LocalizadorGPS {
     /*
     Constructor del objeto localzadorGPS donde se inicializa el LocationManager
      */
-    public LocalizadorGPS(Context mContext){
+    public LocalizadorGPS(Context mContext, ReceptorBLE receptor){
+
+        Log.e(TAG, "En el constructor del localizador");
+
         this.mContext = mContext;
+        this.receptorBLE = receptor;
         mLocMgr = (LocationManager) this.mContext.getSystemService(LOCATION_SERVICE);
         if(ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED &&
                 ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED)
         {
+            Log.e(TAG, "Se mide la ultima localizacion conocida");
             ultimaPosicionMedida = mLocMgr.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-
         }
         /*
         if(!mLocMgr.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER )) {
@@ -58,6 +65,8 @@ public class LocalizadorGPS {
      */
     public void ObtenerMiPosicionGPS (){
 
+        Log.e(TAG, "DEntro de obtener mi posicion GPS");
+
         if (ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             //Requiere permisos para Android 6.0
             Log.e(TAG, "No se tienen permisos necesarios!, se requieren.");
@@ -65,9 +74,11 @@ public class LocalizadorGPS {
             return;
         }else{
             Log.i(TAG, "Permisos necesarios OK!.");
+            Log.i(TAG, "Llamamos al callback de localiacion");
             //Los datos de tiempo y distancia son para saber cuando el dispositivo se ha movido para actualizar la posicion, pero para ello se debe de mover y haber pasap cierto tiempo, sino no se actualiza
-            //mLocMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIEMPO_ENTRE_UPDATES, MIN_CAMBIO_DISTANCIA_PARA_UPDATES, mLocListener, Looper.getMainLooper());
-            mLocMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIEMPO_ENTRE_UPDATES, MIN_CAMBIO_DISTANCIA_PARA_UPDATES, mLocListener, Looper.getMainLooper());
+            mLocMgr.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_TIEMPO_ENTRE_UPDATES, MIN_CAMBIO_DISTANCIA_PARA_UPDATES, mLocListener, Looper.getMainLooper());
+            //mLocMgr.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_TIEMPO_ENTRE_UPDATES, MIN_CAMBIO_DISTANCIA_PARA_UPDATES, mLocListener, Looper.getMainLooper());
+            Log.d(TAG, "Se ha llamado al callback de localizacion");
         }
     }
 
@@ -108,6 +119,8 @@ public class LocalizadorGPS {
     //----------------------------------------------------------------------------------------------
     private LocationListener mLocListener = new LocationListener() {
         public void onLocationChanged(Location location) {
+            Log.e(TAG, " La localizacion ha cambiado");
+            receptorBLE.obtenerCO();
             Log.i(TAG, "Lat " + location.getLatitude() + " Long " + location.getLongitude());
             ultimaPosicionMedida = location;
             Log.e(TAG, "Latitud: " + ultimaPosicionMedida.getLatitude() + " " + "Longitud: " + ultimaPosicionMedida.getLongitude());
