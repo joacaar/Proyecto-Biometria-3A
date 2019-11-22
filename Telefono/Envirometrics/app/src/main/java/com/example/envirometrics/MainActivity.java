@@ -81,7 +81,8 @@ public class MainActivity extends AppCompatActivity {
             preferences.edit().putBoolean("permisoServicio", false);
         }
         // creamos la intencionServicio que nos ejecutara el servicio y la notificacion en primer plano
-        intencionServicio = new Intent(MainActivity.this, Servicio.class);
+        intencionServicio = new Intent(getApplicationContext(), Servicio.class);
+        intencionServicio.setAction("com.example.envirometrics");
 
         //----------------------------------------------------
         //              NAVIGATION DRAWER
