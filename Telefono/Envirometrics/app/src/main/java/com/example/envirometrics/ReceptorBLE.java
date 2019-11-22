@@ -159,9 +159,7 @@ public class ReceptorBLE {
 
                 @Override //cada vez que descubre un dispositivo ejecuta la fucnion onLeScan
                 public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
-                    Log.e("--- DEBUG BT ---", "DEntro de onLeScan");
                     TramaIBeacon tramaAux = filtrarPorUUID(MI_UUID, scanRecord);
-                    Log.e("--- DEBUG BT ---", "Despues de filtrar los dispositivos encontrados");
 
                     if(tramaAux!= null) {
                         Log.e("--- Major Bluetooth ---", "Major: " + Utilidades.bytesToInt(tramaAux.getMajor()));
