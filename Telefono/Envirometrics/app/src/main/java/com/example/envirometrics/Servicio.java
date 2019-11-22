@@ -38,7 +38,7 @@ public class Servicio extends Service {
 
         Log.e(TAG, "Se ha creado el servicio");
 
-        receptor = new ReceptorBLE(this);
+        //receptor = new ReceptorBLE(this);
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = new NotificationChannel( CANAL_ID, "Mis Notificaciones", NotificationManager.IMPORTANCE_DEFAULT);
@@ -74,6 +74,7 @@ public class Servicio extends Service {
         //notificationManager.notify(NOTIFICACION_ID, notificacion.build()); Crea la notificacion
         startForeground(NOTIFICACION_ID, notificacion.build()); // Asocia la vida de la notificacion a la del servicio
         //Cuando este es destruido, la notificacion tambien.
+        receptor = new ReceptorBLE(this);
         //receptor.obtenerCO();
 
         return Service.START_STICKY;

@@ -1,9 +1,12 @@
 package com.example.envirometrics;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +17,7 @@ import android.widget.Switch;
 import com.example.envirometrics.ui.home.HomeFragment;
 import com.orhanobut.hawk.Hawk;
 
+import java.security.Permission;
 import java.util.List;
 import java.util.Objects;
 
@@ -23,6 +27,8 @@ public class Ajustes extends AppCompatActivity {
 
     SharedPreferences preferences;
     SharedPreferences.Editor editor;
+
+    ReceptorBLE receptor;
 
     RadioGroup rg;
     RadioButton rbSelected;
@@ -34,28 +40,51 @@ public class Ajustes extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ajustes);
 
+        receptor = new ReceptorBLE(this, 1);
+
         rg = findViewById(R.id.rg);
         btnServ = findViewById(R.id.btnServicio);
 
+
         Hawk.init(this).build();
-        //Para comprobar si es taxista y habilitar o no el servicio
-        if(Hawk.get("esTaxista", false)){
-            btnServ.setEnabled(true);
-        }
 
         //Declaramos unas preferencias para los ajustes en modo privado y su editor
         preferences = getSharedPreferences("Ajustes", MODE_PRIVATE);
         editor = preferences.edit();
-
+/*
         //Comprobamos que el permiso del servicio existe en las preferencias
         if(preferences.contains("permisoServicio")){
             if(preferences.getBoolean("permisoServicio", false))
             btnServ.setChecked(true);
             else
+                Log.e(TAG, "primero");
                 btnServ.setChecked(false);
         }else{
+            Log.e(TAG, "segundo");
             btnServ.setChecked(false);
         }
+
+ */
+
+        btnServ.setChecked(false);
+        preferences.edit().putBoolean("permisoServicio", false);
+
+        //Hacemos las comprobaciones para saber si el boto debe estar activado o no
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION ) == PackageManager.PERMISSION_GRANTED){
+            Log.e(TAG, "primero");
+            if(receptor.checkBtOn()){
+                Log.e(TAG, "segundo");
+                if(Hawk.get("esTaxista", false)){
+                    Log.e(TAG, "tercero");
+                    btnServ.setChecked(true);
+                    preferences.edit().putBoolean("permisoServicio", true);
+                }else{
+
+                }
+            }
+        }
+
+        preferences.edit().commit();
 
         //Comprobamos que el campo tipoMedida existe, en caso negativo mostraremos por defecto la primera opcion elegida
         if(!preferences.contains("tipoMedida")){
@@ -150,6 +179,8 @@ public class Ajustes extends AppCompatActivity {
             editor.putBoolean("permisoServicio", true);
         }else{
             editor.putBoolean("permisoServicio", false);
+            Intent i = new Intent(this, Servicio.class);
+            stopService(i);
         }
         editor.commit();
         startActivity(new Intent(this, MainActivity.class));
