@@ -73,21 +73,6 @@
             <button class="buttonLogOut btn btn-outline-dark" onclick="logOut()">Log Out</button>
         </div>
 
-        <!-- TOAST 
-        <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="toast-header">
-                <strong class="mr-auto">Alerta 24h</strong>
-                <small>menos de 1 minuto</small>
-                <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="toast-body" id="toast-body">
-                #
-            </div>
-        </div>
-        -->
-
         <!-- Dashboard -->
         <div class="dashboard">
 
@@ -221,14 +206,13 @@
 
             getUsuariosRegistrados();
             getCuantosUsuariosHay();
-            usuariosSinMedidasEn24H();
             getUltimaMedidaDeTodosLosUsuarios();
         }
 
         // ------------------------------------------------------------------
         // usuariosSinMedidasEn24H()
         // ------------------------------------------------------------------
-        function usuariosSinMedidasEn24H() {
+        /*function usuariosSinMedidasEn24H() {
             elProxy.getUsuarios(function(listaUsuarios) {
                 for (var i = 0; i < listaUsuarios.length; i++) {
                     elProxy.getUltimaMedidaDeUnUsuario(listaUsuarios[i].idUsuario, function(medida) {
@@ -239,14 +223,11 @@
                             console.log(medida.idUsuario);
 
                             var string = "El usuario de ID " + medida.idUsuario + " lleva más de 24h sin emitir medidas";
-                            //alert(string);
-                            //document.getElementById("toast-body").innerHTML = string;
-                            //$('.toast').toast();
                         }
                     })
                 }
             })
-        }
+        } */
 
         // ------------------------------------------------------------------
         // getUltimaMedidaDeUnUsuario()

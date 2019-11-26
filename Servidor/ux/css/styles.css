@@ -191,9 +191,7 @@ div.dropdown {
     display: inline;
 }
 
-/*                    Toast                            */
-div.toast {
-    position: absolute;
-    bottom: 0;
-    right: 0;
+/*                Alerta 24h             */
+#alerta24horas {
+    color: #ff5858;
 }
