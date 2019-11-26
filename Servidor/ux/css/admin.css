@@ -72,3 +72,7 @@ span.numero {
 .tabla p {
     font-size: 32px;
 }
+
+#alerta24horas {
+    color: #ff5858;
+}
