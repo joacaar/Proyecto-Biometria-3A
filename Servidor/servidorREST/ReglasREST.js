@@ -217,7 +217,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   //-----------------------------------------------------------------------------
   servidorExpress.post('/cambiarPassword',
     async function(peticion, respuesta) {
-      console.log(" * POST /insertarMedida ")
+      console.log(" * POST /cambiarPassword ")
       var datos = JSON.parse(peticion.body)
       // supuesto procesamiento
       console.log(peticion.body);
@@ -228,7 +228,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
         respuesta: "OK"
       });
       console.log("Peticion POST cambiarPassword recibido");
-    }) // post / insertarMedida
+    }) // post / cambiarPassword
 
   //-----------------------------------------------------------------------------
   // POST /cambiarEmail
@@ -237,7 +237,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   //-----------------------------------------------------------------------------
   servidorExpress.post('/cambiarEmail',
     async function(peticion, respuesta) {
-      console.log(" * POST /insertarMedida ")
+      console.log(" * POST /cambiarEmail ")
       var datos = JSON.parse(peticion.body)
       // supuesto procesamiento
       console.log(peticion.body);
@@ -257,7 +257,28 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       });
 
       console.log("Peticion POST cambiarEmail recibido");
-    }) // post / insertarMedida
+    }) // post / cambiarEmail
+
+    //-----------------------------------------------------------------------------
+    // POST /cambiarEmail
+    // peticion.body --> JSON
+    // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
+    //-----------------------------------------------------------------------------
+    servidorExpress.post('/cambiarTelefono',
+      async function(peticion, respuesta) {
+        console.log(" * POST /cambiarTelefono ")
+        var datos = JSON.parse(peticion.body)
+        // supuesto procesamiento
+        console.log(peticion.body);
+
+        await laLogica.cambiarTelefono(datos)
+        // enviarmos una respuesta que demuestra que todo ha salido correctamente
+        respuesta.send({
+          respuesta: true
+        });
+
+        console.log("Peticion POST cambiarTelefono recibido");
+      }) // post / cambiarTelefono
 
   //-----------------------------------------------------------------------------
   // POST /darAltaUsuario

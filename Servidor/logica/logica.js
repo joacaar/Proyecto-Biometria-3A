@@ -78,6 +78,26 @@ module.exports = class Logica {
   } // ()
 
   // .................................................................
+  // datos:{email:Texto, telefono:Texto}
+  // -->
+  // cambiarTelefono() -->
+  // .................................................................
+  cambiarTelefono(datos) {
+    var textoSQL =
+      'UPDATE Usuarios SET telefono = $telefono WHERE email = $email'
+
+    var valoresParaSQL = {
+      $telefono: datos.telefono,
+      $email: datos.email
+    }
+    return new Promise((resolver, rechazar) => {
+      this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+        (err ? rechazar(err) : resolver())
+      })
+    })
+  } // ()
+
+  // .................................................................
   // datos:{email:Texto, emailNuevo:Texto}
   // -->
   // cambiarEmail() -->

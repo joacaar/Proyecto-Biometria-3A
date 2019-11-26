@@ -13,7 +13,7 @@ const sjcl = require ('sjcl')
 // main ()
 // ........................................................
 
-describe( "TEST 13: relaciones Usuario Sensor", function() {
+describe( "TEST 12: darSensorAUsuario", function() {
 // ....................................................
 // ....................................................
 
@@ -39,11 +39,13 @@ describe( "TEST 13: relaciones Usuario Sensor", function() {
   it( "cambio la contraseña de un usuario",
   async function() {
 
-    var res = await laLogica.buscarRelacionesUsuarioSensor();
-    console.log(res);
-
-    assert.equal(res[0].idSensor, 1);
-    assert.equal(res[0].idUsuario, 1)
+    await laLogica.darAltaUsuario({email:"emiliet@xd", telefono:"3434", password:"1234"})
+    var res = await laLogica.buscarUsuarioPorEmail("emiliet@xd")
+    console.log(res);;
+    await laLogica.cambiarTelefono({email:"emiliet@xd", telefono:"62142"});
+    var res2 = await laLogica.buscarUsuarioPorEmail("emiliet@xd")
+    console.log(res2)
+    assert.equal(res2.telefono, "62142")
 
   }) // it
 

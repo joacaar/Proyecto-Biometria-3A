@@ -322,4 +322,32 @@ cambiarPassword(datos, callback) {
 
 }
 
+//----------------------------------------------------------------------------
+// datos:{email:Texto, telefono:Texto} -->
+// cambiarTelefono() -->
+//----------------------------------------------------------------------------
+cambiarTelefono(datos, callback) {
+
+  var datos = {
+    email: datos.email,
+    telefono: datos.telefono
+  }
+
+  fetch(IP_PUERTO + "/cambiarTelefono", {
+    method: 'POST', // or 'PUT'
+    body: JSON.stringify(datos), // data can be `string` or {object}!
+    headers: {
+      'User-Agent': 'jordi',
+      'Content-Type': 'application/json'
+    }
+  }).then((res) => {
+    return res.json()
+  }).catch((error) => {
+    return error
+  }).then((data) => {
+    callback(data)
+  })
+
+}
+
 }
