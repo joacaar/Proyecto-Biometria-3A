@@ -469,6 +469,25 @@ module.exports.cargar = function(servidorExpress, laLogica) {
 
       }) // post / darSensorAUsuario
 
+      //-----------------------------------------------------------------------------
+      // POST /borrarSensor/<idSensor>
+      // peticion.body --> JSON
+      // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
+      //-----------------------------------------------------------------------------
+      servidorExpress.post('/borrarSensor/:idSensor',
+        async function(peticion, respuesta) {
+
+          console.log(" * POST /borrarSensor ")
+
+          var idSensor = peticion.params.idSensor
+          await laLogica.borrarSensorPorIdSensor(idSensor);
+
+          respuesta.send("OK")
+
+          console.log("Peticion POST borrarSensor recibido");
+
+        }) // post / darSensorAUsuario
+
   //-----------------------------------------------------------------------------
   // GET /ux/<pagina>
   //-----------------------------------------------------------------------------

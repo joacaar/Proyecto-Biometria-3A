@@ -187,6 +187,50 @@ module.exports = class Logica {
     })
   } // ()
 
+  // .................................................................
+  // idSensor:N
+  // -->
+  // borrarRelacionUsuarioSensorPorIdSensor() -->
+  // .................................................................
+  borrarRelacionUsuarioSensorPorIdSensor(idSensor) {
+
+    var textoSQL =
+      'DELETE from UsuarioSensor where idSensor=$idSensor';
+
+    var valoresParaSQL = {
+      $idSensor: idSensor
+    }
+
+    return new Promise((resolver, rechazar) => {
+      this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+        (err ? rechazar(err) : resolver())
+      })
+    })
+  } // ()
+
+  // .................................................................
+  // idSensor:N
+  // -->
+  // borrarSensorPorIdSensor() -->
+  // .................................................................
+  async borrarSensorPorIdSensor(idSensor) {
+
+    await this.borrarRelacionUsuarioSensorPorIdSensor(idSensor);
+
+    var textoSQL =
+      'DELETE from Sensores where idSensor=$idSensor';
+
+    var valoresParaSQL = {
+      $idSensor : idSensor
+    }
+
+    return new Promise((resolver, rechazar) => {
+      this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+        (err ? rechazar(err) : resolver())
+      })
+    })
+  } // ()
+
 
   // .................................................................
   // datos:{valorMedida:R, tiempo:N: latitud:R, longitud:R, idMedida:N, idUsuario:N, idTipoMedida:N}
@@ -472,7 +516,12 @@ module.exports = class Logica {
     return new Promise((resolver, rechazar) => {
       this.laConexion.all(textoSQL, valoresParaSQL,
         (err, res) => {
-          (err ? rechazar(err) : resolver(res[0]))
+          if(err){
+            rechazar(err)
+          } if(res == undefined){
+            resolver(undefined)
+          }
+          resolver(res[0])
         })
     })
   }
