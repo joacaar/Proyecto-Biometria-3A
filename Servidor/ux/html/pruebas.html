@@ -7,7 +7,7 @@
 
 <body>
 
-    <button type="button" onclick="cambiarTelefono()">Try it</button>
+    <button type="button" onclick="borrarUsuario()">Try it</button>
 
     <script>
         var elProxy = new Proxy();
@@ -103,6 +103,11 @@
           })
         }
 
+        function borrarUsuario(){
+          elProxy.borrarUsuario( 2, function(res){
+            console.log(res);
+          })
+        }
     </script>
 
 </body>

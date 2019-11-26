@@ -12,25 +12,22 @@ const IP_PUERTO="http://localhost:8080"
 // ........................................................
 // main ()
 // ........................................................
-describe( "Test 13 : Probamos /cambiarTelefono", function() {
+describe( "Test 14 : Probamos /borrarUsuario", function() {
 
   // ....................................................
   // PROBAMOS POST /cambiarEmail
   // ....................................................
 
-  it( "probar post /cambiarTelefono", function( hecho ) {
-    var datosUsuario = {
-      email: "emilioxeraco@gmail.com", telefono: "842145547"
-    }
+  it( "probar post /borrarUsuario", function( hecho ) {
+
     request.post(
-      { url : IP_PUERTO+"/cambiarTelefono",
+      { url : IP_PUERTO+"/borrarUsuario/1",
       headers : { 'User-Agent' : 'jordi', 'Content-Type' : 'application/json' },
-      body : JSON.stringify( datosUsuario )
     },
     function( err, respuesta, carga ) {
       assert.equal( err, null, "¿ha habido un error?" )
       assert.equal( respuesta.statusCode, 200, "¿El código no es 200 (OK)" )
-      assert.equal( carga, '{"respuesta":true}' )
+      assert.equal( carga, "OK" )
       hecho()
     } // callback
     ) // .post
