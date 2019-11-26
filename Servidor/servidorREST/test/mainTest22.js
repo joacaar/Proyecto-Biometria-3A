@@ -15,10 +15,10 @@ const IP_PUERTO="http://localhost:8080"
 describe( "Test 12 : Probamos /relacionesUsuarioSensor", function() {
 
   // ....................................................
-  // PROBAMOS POST /cambiarEmail
+  // PROBAMOS get /relacionesUsuarioSensor
   // ....................................................
 
-  it( "probar post /relacionesUsuarioSensor", function( hecho ) {
+  it( "probar get /relacionesUsuarioSensor", function( hecho ) {
     request.get(
       { url : IP_PUERTO+"/relacionesUsuarioSensor", headers : { 'User-Agent' : 'jordi' }},
       function( err, respuesta, carga ) {

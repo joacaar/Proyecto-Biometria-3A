@@ -625,6 +625,22 @@ module.exports = class Logica {
   }
 
   // .................................................................
+  // idTipoDeMedida:N -->
+  // buscarUnTipoDeMedidas()
+  // --> [{{valorMedida:R, tiempo:N: latitud:R, longitud:R, idMedida:N, idUsuario:N, idTipoMedida:N}}]
+  // .................................................................
+  buscarUnTipoDeMedidas(idTipoMedida) {
+    var textoSQL = "select * from Medidas where idTipoMedida = $idTipoMedida";
+    var valoresParaSQL = { $idTipoMedida:idTipoMedida }
+    return new Promise((resolver, rechazar) => {
+      this.laConexion.all(textoSQL, valoresParaSQL,
+        (err, res) => {
+          (err ? rechazar(err) : resolver(res))
+        })
+    })
+  }
+
+  // .................................................................
   // email:Texto -->
   // getTodasLasMedidasDeUnUsuarioPorEmail()
   // --> [{{valorMedida:R, tiempo:N: latitud:R, longitud:R, idMedida:N, idUsuario:N, idTipoMedida:N}}]

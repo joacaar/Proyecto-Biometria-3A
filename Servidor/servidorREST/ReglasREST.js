@@ -187,6 +187,21 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       respuesta.send(JSON.stringify(res))
     }) // get /getTodasLasMedidas
 
+    // .......................................................
+    // GET /buscarUnTipoDeMedidas/<idTipoMedida>
+    // .......................................................
+    servidorExpress.get('/buscarUnTipoDeMedidas/:idTipoMedida',
+      async function(peticion, respuesta) {
+        console.log(" * GET /buscarUnTipoDeMedidas ")
+
+        var idTipoMedida = peticion.params.idTipoMedida
+
+        var res = await laLogica.buscarUnTipoDeMedidas(idTipoMedida)
+
+        // todo ok
+        respuesta.send(JSON.stringify(res))
+      }) // get /getTodasLasMedidas
+
 
   //-----------------------------------------------------------------------------
   // POST /insertarMedida

@@ -180,6 +180,34 @@ class Proxy {
   }
 
   //----------------------------------------------------------------------------
+  // buscarUnTipoDeMedidas() -->
+  // [ {valorMedida: R, latitud:R, longitud:R, tiempo:N, idMedida:N,
+  // idTipoMedida:N, idUsuario:N }]
+  //----------------------------------------------------------------------------
+  buscarUnTipoDeMedidas(idTipoMedida, callback) {
+
+    var myInit = {
+      method: 'GET',
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      cache: 'default'
+    };
+
+
+    fetch(IP_PUERTO + "/buscarUnTipoDeMedidas/" + idTipoMedida, myInit)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        callback(data);
+      })
+
+  }
+
+  //----------------------------------------------------------------------------
   // datos:{email:Texto, password:Texto, telefono:Texto} -->
   // darAltaUsuario() -->
   // {respuesta:v/f, idUsuario:N}

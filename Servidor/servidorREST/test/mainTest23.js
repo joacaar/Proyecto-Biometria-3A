@@ -15,7 +15,7 @@ const IP_PUERTO="http://localhost:8080"
 describe( "Test 13 : Probamos /cambiarTelefono", function() {
 
   // ....................................................
-  // PROBAMOS POST /cambiarEmail
+  // PROBAMOS POST /cambiarTelefono
   // ....................................................
 
   it( "probar post /cambiarTelefono", function( hecho ) {
