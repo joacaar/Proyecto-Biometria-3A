@@ -13,7 +13,7 @@ const sjcl = require ('sjcl')
 // main ()
 // ........................................................
 
-describe( "TEST 14: cambiarTelefono", function() {
+describe( "TEST 15: borrarUsuario", function() {
 // ....................................................
 // ....................................................
 
@@ -36,16 +36,13 @@ describe( "TEST 14: cambiarTelefono", function() {
 // ....................................................
 // ....................................................
 
-  it( "cambio el telefono de un usuario",
+  it( "borro el Usuario",
   async function() {
 
-    await laLogica.darAltaUsuario({email:"emiliet@xd", telefono:"3434", password:"1234"})
-    var res = await laLogica.buscarUsuarioPorEmail("emiliet@xd")
-    console.log(res);;
-    await laLogica.cambiarTelefono({email:"emiliet@xd", telefono:"62142"});
-    var res2 = await laLogica.buscarUsuarioPorEmail("emiliet@xd")
-    console.log(res2)
-    assert.equal(res2.telefono, "62142")
+    await laLogica.borrarUsuarioPorIdUsuario(2)
+    var res = await laLogica.buscarUsuarioPorEmail("emiliet@xd");
+    assert.equal(res, undefined)
+    console.log(res);
 
   }) // it
 

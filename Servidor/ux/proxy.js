@@ -350,4 +350,26 @@ cambiarTelefono(datos, callback) {
 
 }
 
+//----------------------------------------------------------------------------
+// idUsuario:N -->
+// cambiarTelefono() -->
+//----------------------------------------------------------------------------
+borrarUsuario(idUsuario, callback) {
+
+  fetch(IP_PUERTO + "/borrarUsuario/" + idUsuario, {
+    method: 'POST', // or 'PUT'
+    headers: {
+      'User-Agent': 'jordi',
+      'Content-Type': 'application/json'
+    }
+  }).then((res) => {
+    return res.json()
+  }).catch((error) => {
+    return error
+  }).then((data) => {
+    callback(data)
+  })
+
+}
+
 }

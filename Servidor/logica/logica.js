@@ -119,6 +119,74 @@ module.exports = class Logica {
     })
   } // ()
 
+  // .................................................................
+  // idUsuario:N
+  // -->
+  // borrarRelacionUsuarioSensorPorIdUsuario() -->
+  // .................................................................
+  borrarRelacionUsuarioSensorPorIdUsuario(idUsuario) {
+
+    var textoSQL =
+      'DELETE from UsuarioSensor where idUsuario=$idUsuario';
+
+    var valoresParaSQL = {
+      $idUsuario: idUsuario
+    }
+
+    return new Promise((resolver, rechazar) => {
+      this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+        (err ? rechazar(err) : resolver())
+      })
+    })
+  } // ()
+
+  // .................................................................
+  // idUsuario:N
+  // -->
+  // borrarMedidasDeUnUsuarioPorIdUsuario() -->
+  // .................................................................
+
+  borrarMedidasDeUnUsuarioPorIdUsuario(idUsuario){
+
+    var textoSQL =
+      'DELETE from Medidas where idUsuario=$idUsuario';
+
+    var valoresParaSQL = {
+      $idUsuario: idUsuario
+    }
+
+    return new Promise((resolver, rechazar) => {
+      this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+        (err ? rechazar(err) : resolver())
+      })
+    })
+
+  }
+
+  // .................................................................
+  // idUsuario:N
+  // -->
+  // borrarUsuarioPorIdUsuario() -->
+  // .................................................................
+  async borrarUsuarioPorIdUsuario(idUsuario) {
+
+    await this.borrarRelacionUsuarioSensorPorIdUsuario(idUsuario);
+    await this.borrarMedidasDeUnUsuarioPorIdUsuario(idUsuario);
+
+    var textoSQL =
+      'DELETE from Usuarios where idUsuario=$idUsuario';
+
+    var valoresParaSQL = {
+      $idUsuario : idUsuario
+    }
+
+    return new Promise((resolver, rechazar) => {
+      this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+        (err ? rechazar(err) : resolver())
+      })
+    })
+  } // ()
+
 
   // .................................................................
   // datos:{valorMedida:R, tiempo:N: latitud:R, longitud:R, idMedida:N, idUsuario:N, idTipoMedida:N}

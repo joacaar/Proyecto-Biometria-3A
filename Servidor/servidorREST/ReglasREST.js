@@ -450,6 +450,25 @@ module.exports.cargar = function(servidorExpress, laLogica) {
 
     }) // post / darSensorAUsuario
 
+    //-----------------------------------------------------------------------------
+    // POST /borrarUsuario/<idUsuario>
+    // peticion.body --> JSON
+    // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
+    //-----------------------------------------------------------------------------
+    servidorExpress.post('/borrarUsuario/:idUsuario',
+      async function(peticion, respuesta) {
+
+        console.log(" * POST /borrarUsuario ")
+
+        var idUsuario = peticion.params.idUsuario
+        await laLogica.borrarUsuarioPorIdUsuario(idUsuario);
+
+        respuesta.send("OK")
+
+        console.log("Peticion POST borrarUsuario recibido");
+
+      }) // post / darSensorAUsuario
+
   //-----------------------------------------------------------------------------
   // GET /ux/<pagina>
   //-----------------------------------------------------------------------------
