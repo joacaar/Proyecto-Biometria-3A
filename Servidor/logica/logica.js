@@ -373,6 +373,15 @@ module.exports = class Logica {
     })
   }
 
+  filtrarMedidasDelUltimoDia(lista){
+    for(var i = 0; i < lista.length; i++){
+      var now = Date.now()
+      if((now - lista[i].tiempo) > 86400000){
+        lista.splice(i, 1);
+      }
+    }
+  }
+
   // .................................................................
   // --> idUsuario: N
   // distanciaRecorridaEnUnDiaPorIdUsuario()
@@ -389,6 +398,7 @@ module.exports = class Logica {
           if(err){
             rechazar(err)
           }
+          this.filtrarMedidasDelUltimoDia(res)
           resolver(res)
         })
     })
@@ -408,7 +418,7 @@ module.exports = class Logica {
       return false
     }
 
-    if( res <= 2 ){
+    if( res < 2 ){
       return false
     }
 

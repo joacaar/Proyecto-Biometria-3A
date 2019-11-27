@@ -39,6 +39,8 @@ describe("TEST 17:distancia recorrida por un usuario en un dia", function() {
   it("distancia recorrida en un dia",
     async function() {
 
+      var now = Date.now()
+
       await laLogica.darAltaUsuario({
         email: "emilioxeraco@gmail.com",
         password: "1234",
@@ -47,7 +49,7 @@ describe("TEST 17:distancia recorrida por un usuario en un dia", function() {
 
       await laLogica.insertarMedida({
         valorMedida: 15,
-        tiempo: 100,
+        tiempo: now,
         latitud: 2,
         longitud: 2,
         idUsuario: 1,
@@ -56,7 +58,7 @@ describe("TEST 17:distancia recorrida por un usuario en un dia", function() {
 
       await laLogica.insertarMedida({
         valorMedida: 45,
-        tiempo: 100,
+        tiempo: 0,
         latitud: 1,
         longitud: 2,
         idUsuario: 1,
@@ -75,8 +77,9 @@ describe("TEST 17:distancia recorrida por un usuario en un dia", function() {
       //console.log(res2);
 
       var res3 = await laLogica.distanciaRecorridaEnUnDiaPorIdUsuario(1)
+      console.log(res3);
       var res4 = false;
-      if( res3 > 400 ){
+      if( res3 > 300 ){
         res4 = true;
       }
       assert.equal(res4, true)

@@ -38,15 +38,17 @@ describe( "TEST 4: INSERTAR UNA MEDICIÓN", function() {
   it( "Puedo insertar y buscar una Medición",
   async function() {
 
+    var now = Date.now()
+
     // INSERTAMOS UNA MEDIDA
     await laLogica.insertarMedida({
-      valorMedida: 15, tiempo: 100,
+      valorMedida: 15, tiempo: now,
       latitud: 0.0, longitud: 0.0,
       idUsuario: 1, idTipoMedida: 1,
     })
 
       await laLogica.insertarMedida({
-        valorMedida: 45, tiempo: 100,
+        valorMedida: 45, tiempo: now,
         latitud: 0.0, longitud: 0.0,
         idUsuario: 1, idTipoMedida: 1,
       })
