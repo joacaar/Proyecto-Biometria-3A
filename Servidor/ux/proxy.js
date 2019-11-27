@@ -209,6 +209,34 @@ class Proxy {
 
   //----------------------------------------------------------------------------
   // idUsuario:N -->
+  // distanciaRecorridaEnUnDia() -->
+  // R
+  //----------------------------------------------------------------------------
+  distanciaRecorridaEnUnDia(idUsuario, callback) {
+
+    var myInit = {
+      method: 'GET',
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      cache: 'default'
+    };
+
+
+    fetch(IP_PUERTO + "/distanciaRecorridaEnUnDia/" + idUsuario, myInit)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        callback(data);
+      })
+
+  }
+
+  //----------------------------------------------------------------------------
+  // idUsuario:N -->
   // buscarMedidasDelUltimoDiaDeUnUsuario() -->
   // [ {valorMedida: R, latitud:R, longitud:R, tiempo:N, idMedida:N,
   // idTipoMedida:N, idUsuario:N }]
@@ -226,7 +254,7 @@ class Proxy {
     };
 
 
-    fetch(IP_PUERTO + "/distanciaRecorridaEnUnDia/" + idUsuario, myInit)
+    fetch(IP_PUERTO + "/buscarMedidasDelUltimoDiaDeUnUsuario/" + idUsuario, myInit)
       .then((res) => {
         return res.json();
       })

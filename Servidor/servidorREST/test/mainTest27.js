@@ -90,4 +90,17 @@ describe( "Test 17 : Probamos /distanciaRecorridaEnUnDia", function() {
     ) // .get
   }) // it
 
+  it( "probar get /buscarMedidasDelUltimoDiaDeUnUsuario", function( hecho ) {
+
+    request.get(
+      { url : IP_PUERTO+"/buscarMedidasDelUltimoDiaDeUnUsuario/1", headers : { 'User-Agent' : 'jordi' }},
+      function( err, respuesta, carga ) {
+        var json = JSON.parse(carga);
+        assert.equal( err, null, "¿ha habido un error?" )
+        console.log(json);
+        hecho()
+      } // callback()
+    ) // .get
+  }) // it
+
 }) // describe

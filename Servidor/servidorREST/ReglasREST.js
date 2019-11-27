@@ -134,25 +134,47 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       respuesta.send(JSON.stringify(res))
     }) // get /relacionesUsuarioSensor
 
-    // ......................................................
-    // GET /distanciaRecorridaEnUnDia/<idUsuario>
-    // .......................................................
-    servidorExpress.get('/distanciaRecorridaEnUnDia/:idUsuario',
-      async function(peticion, respuesta) {
-        console.log(" * GET /usuarios ")
+  // ......................................................
+  // GET /distanciaRecorridaEnUnDia/<idUsuario>
+  // .......................................................
+  servidorExpress.get('/distanciaRecorridaEnUnDia/:idUsuario',
+    async function(peticion, respuesta) {
+      console.log(" * GET /usuarios ")
 
-        var idUsuario = peticion.params.idUsuario;
-        // busco las relacionesUsuarioSensor
-        var res = await laLogica.distanciaRecorridaEnUnDiaPorIdUsuario(idUsuario)
-        // si no hay resultados...
-        if (res == false) {
-          // 404: not found
-          respuesta.status(404).send("No hay medidas suficientes")
-          return
-        }
-        // todo ok
-        respuesta.send({respuesta: res})
-      }) // get /relacionesUsuarioSensor
+      var idUsuario = peticion.params.idUsuario;
+      // busco las relacionesUsuarioSensor
+      var res = await laLogica.distanciaRecorridaEnUnDiaPorIdUsuario(idUsuario)
+      // si no hay resultados...
+      if (res == false) {
+        // 404: not found
+        respuesta.status(404).send("No hay medidas suficientes")
+        return
+      }
+      // todo ok
+      respuesta.send({
+        respuesta: res
+      })
+    }) // get /distanciaRecorridaEnUnDia
+
+  // ......................................................
+  // GET /buscarMedidasDelUltimoDiaDeUnUsuario/<idUsuario>
+  // .......................................................
+  servidorExpress.get('/buscarMedidasDelUltimoDiaDeUnUsuario/:idUsuario',
+    async function(peticion, respuesta) {
+      console.log(" * GET /usuarios ")
+
+      var idUsuario = peticion.params.idUsuario;
+      // busco las relacionesUsuarioSensor
+      var res = await laLogica.buscarMedidasDelUltimoDiaDeUnUsuario(idUsuario)
+      // si no hay resultados...
+      if (res == undefined) {
+        // 404: not found
+        respuesta.status(404).send("No hay medidas suficientes")
+        return
+      }
+      // todo ok
+      respuesta.send(JSON.stringify(res))
+    }) // get /relacionesUsuarioSensor
 
   // .......................................................
   // GET /getTodasLasMedidas
@@ -207,20 +229,20 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       respuesta.send(JSON.stringify(res))
     }) // get /getTodasLasMedidas
 
-    // .......................................................
-    // GET /buscarUnTipoDeMedidas/<idTipoMedida>
-    // .......................................................
-    servidorExpress.get('/buscarUnTipoDeMedidas/:idTipoMedida',
-      async function(peticion, respuesta) {
-        console.log(" * GET /buscarUnTipoDeMedidas ")
+  // .......................................................
+  // GET /buscarUnTipoDeMedidas/<idTipoMedida>
+  // .......................................................
+  servidorExpress.get('/buscarUnTipoDeMedidas/:idTipoMedida',
+    async function(peticion, respuesta) {
+      console.log(" * GET /buscarUnTipoDeMedidas ")
 
-        var idTipoMedida = peticion.params.idTipoMedida
+      var idTipoMedida = peticion.params.idTipoMedida
 
-        var res = await laLogica.buscarUnTipoDeMedidas(idTipoMedida)
+      var res = await laLogica.buscarUnTipoDeMedidas(idTipoMedida)
 
-        // todo ok
-        respuesta.send(JSON.stringify(res))
-      }) // get /getTodasLasMedidas
+      // todo ok
+      respuesta.send(JSON.stringify(res))
+    }) // get /getTodasLasMedidas
 
 
   //-----------------------------------------------------------------------------
@@ -294,26 +316,26 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       console.log("Peticion POST cambiarEmail recibido");
     }) // post / cambiarEmail
 
-    //-----------------------------------------------------------------------------
-    // POST /cambiarEmail
-    // peticion.body --> JSON
-    // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
-    //-----------------------------------------------------------------------------
-    servidorExpress.post('/cambiarTelefono',
-      async function(peticion, respuesta) {
-        console.log(" * POST /cambiarTelefono ")
-        var datos = JSON.parse(peticion.body)
-        // supuesto procesamiento
-        console.log(peticion.body);
+  //-----------------------------------------------------------------------------
+  // POST /cambiarEmail
+  // peticion.body --> JSON
+  // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
+  //-----------------------------------------------------------------------------
+  servidorExpress.post('/cambiarTelefono',
+    async function(peticion, respuesta) {
+      console.log(" * POST /cambiarTelefono ")
+      var datos = JSON.parse(peticion.body)
+      // supuesto procesamiento
+      console.log(peticion.body);
 
-        await laLogica.cambiarTelefono(datos)
-        // enviarmos una respuesta que demuestra que todo ha salido correctamente
-        respuesta.send({
-          respuesta: true
-        });
+      await laLogica.cambiarTelefono(datos)
+      // enviarmos una respuesta que demuestra que todo ha salido correctamente
+      respuesta.send({
+        respuesta: true
+      });
 
-        console.log("Peticion POST cambiarTelefono recibido");
-      }) // post / cambiarTelefono
+      console.log("Peticion POST cambiarTelefono recibido");
+    }) // post / cambiarTelefono
 
   //-----------------------------------------------------------------------------
   // POST /darAltaUsuario
@@ -485,43 +507,43 @@ module.exports.cargar = function(servidorExpress, laLogica) {
 
     }) // post / darSensorAUsuario
 
-    //-----------------------------------------------------------------------------
-    // POST /borrarUsuario/<idUsuario>
-    // peticion.body --> JSON
-    // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
-    //-----------------------------------------------------------------------------
-    servidorExpress.post('/borrarUsuario/:idUsuario',
-      async function(peticion, respuesta) {
+  //-----------------------------------------------------------------------------
+  // POST /borrarUsuario/<idUsuario>
+  // peticion.body --> JSON
+  // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
+  //-----------------------------------------------------------------------------
+  servidorExpress.post('/borrarUsuario/:idUsuario',
+    async function(peticion, respuesta) {
 
-        console.log(" * POST /borrarUsuario ")
+      console.log(" * POST /borrarUsuario ")
 
-        var idUsuario = peticion.params.idUsuario
-        await laLogica.borrarUsuarioPorIdUsuario(idUsuario);
+      var idUsuario = peticion.params.idUsuario
+      await laLogica.borrarUsuarioPorIdUsuario(idUsuario);
 
-        respuesta.send("OK")
+      respuesta.send("OK")
 
-        console.log("Peticion POST borrarUsuario recibido");
+      console.log("Peticion POST borrarUsuario recibido");
 
-      }) // post / darSensorAUsuario
+    }) // post / darSensorAUsuario
 
-      //-----------------------------------------------------------------------------
-      // POST /borrarSensor/<idSensor>
-      // peticion.body --> JSON
-      // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
-      //-----------------------------------------------------------------------------
-      servidorExpress.post('/borrarSensor/:idSensor',
-        async function(peticion, respuesta) {
+  //-----------------------------------------------------------------------------
+  // POST /borrarSensor/<idSensor>
+  // peticion.body --> JSON
+  // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
+  //-----------------------------------------------------------------------------
+  servidorExpress.post('/borrarSensor/:idSensor',
+    async function(peticion, respuesta) {
 
-          console.log(" * POST /borrarSensor ")
+      console.log(" * POST /borrarSensor ")
 
-          var idSensor = peticion.params.idSensor
-          await laLogica.borrarSensorPorIdSensor(idSensor);
+      var idSensor = peticion.params.idSensor
+      await laLogica.borrarSensorPorIdSensor(idSensor);
 
-          respuesta.send("OK")
+      respuesta.send("OK")
 
-          console.log("Peticion POST borrarSensor recibido");
+      console.log("Peticion POST borrarSensor recibido");
 
-        }) // post / darSensorAUsuario
+    }) // post / darSensorAUsuario
 
   //-----------------------------------------------------------------------------
   // GET /ux/<pagina>
