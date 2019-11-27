@@ -146,7 +146,7 @@ module.exports = class Logica {
   // borrarMedidasDeUnUsuarioPorIdUsuario() -->
   // .................................................................
 
-  borrarMedidasDeUnUsuarioPorIdUsuario(idUsuario){
+  borrarMedidasDeUnUsuarioPorIdUsuario(idUsuario) {
 
     var textoSQL =
       'DELETE from Medidas where idUsuario=$idUsuario';
@@ -177,7 +177,7 @@ module.exports = class Logica {
       'DELETE from Usuarios where idUsuario=$idUsuario';
 
     var valoresParaSQL = {
-      $idUsuario : idUsuario
+      $idUsuario: idUsuario
     }
 
     return new Promise((resolver, rechazar) => {
@@ -221,7 +221,7 @@ module.exports = class Logica {
       'DELETE from Sensores where idSensor=$idSensor';
 
     var valoresParaSQL = {
-      $idSensor : idSensor
+      $idSensor: idSensor
     }
 
     return new Promise((resolver, rechazar) => {
@@ -373,6 +373,77 @@ module.exports = class Logica {
     })
   }
 
+  // .................................................................
+  // --> idUsuario: N
+  // distanciaRecorridaEnUnDiaPorIdUsuario()
+  // --> [JSON{valorMedida:R, latitud:R, longitud:R, idMedida:N, idUsuario:N, idTipoMedida:N}]
+  // .................................................................
+  buscarMedidasDelUltimoDiaDeUnUsuario(idUsuario) {
+    var textoSQL = "select * from Medidas where idUsuario=$idUsuario";
+    var valoresParaSQL = {
+      $idUsuario: idUsuario
+    }
+    return new Promise((resolver, rechazar) => {
+      this.laConexion.all(textoSQL, valoresParaSQL,
+        (err, res) => {
+          if(err){
+            rechazar(err)
+          }
+          resolver(res)
+        })
+    })
+  }
+
+  // .................................................................
+  // --> idUsuario: N
+  // distanciaRecorridaEnUnDiaPorIdUsuario()
+  // --> R
+  // .................................................................
+  async distanciaRecorridaEnUnDiaPorIdUsuario(idUsuario) {
+
+    var res = await this.buscarMedidasDelUltimoDiaDeUnUsuario(idUsuario);
+    /*console.log(res);
+    console.log(res[3].latitud);*/
+    if(res == undefined){
+      return false
+    }
+
+    if( res <= 2 ){
+      return false
+    }
+
+    return this.calcularDistanciaEntreLosPuntosDeUnaLista(res)
+
+  }
+
+  rad(x) {
+    return x * Math.PI / 180;
+  }
+
+  calcularDistanciaEntreDosPuntos(lat1, lon1, lat2, lon2) {
+    var R = 6378.137; //Radio de la tierra en km
+    var dLat = this.rad(lat2 - lat1);
+    var dLong = this.rad(lon2 - lon1);
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(this.rad(lat1)) * Math.cos(this.rad(lat2)) * Math.sin(dLong / 2) * Math.sin(dLong / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c;
+    return d; //Retorna tres decimales
+  }
+
+  calcularDistanciaEntreLosPuntosDeUnaLista(lista) {
+
+    var distancia = 0;
+
+    for (var i = 0; i < lista.length - 1; i++) {
+
+      distancia += this.calcularDistanciaEntreDosPuntos(lista[i].latitud, lista[i].longitud, lista[i + 1].latitud, lista[i + 1].longitud)
+
+    }
+
+    return distancia;
+
+  }
+
   //-------------------------------------------------------------------
   // email:Texto -->
   // elUsuarioExiste()
@@ -516,9 +587,10 @@ module.exports = class Logica {
     return new Promise((resolver, rechazar) => {
       this.laConexion.all(textoSQL, valoresParaSQL,
         (err, res) => {
-          if(err){
+          if (err) {
             rechazar(err)
-          } if(res == undefined){
+          }
+          if (res == undefined) {
             resolver(undefined)
           }
           resolver(res[0])
@@ -631,7 +703,9 @@ module.exports = class Logica {
   // .................................................................
   buscarUnTipoDeMedidas(idTipoMedida) {
     var textoSQL = "select * from Medidas where idTipoMedida = $idTipoMedida";
-    var valoresParaSQL = { $idTipoMedida:idTipoMedida }
+    var valoresParaSQL = {
+      $idTipoMedida: idTipoMedida
+    }
     return new Promise((resolver, rechazar) => {
       this.laConexion.all(textoSQL, valoresParaSQL,
         (err, res) => {

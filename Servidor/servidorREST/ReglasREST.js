@@ -134,6 +134,26 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       respuesta.send(JSON.stringify(res))
     }) // get /relacionesUsuarioSensor
 
+    // ......................................................
+    // GET /distanciaRecorridaEnUnDia/<idUsuario>
+    // .......................................................
+    servidorExpress.get('/distanciaRecorridaEnUnDia/:idUsuario',
+      async function(peticion, respuesta) {
+        console.log(" * GET /usuarios ")
+
+        var idUsuario = peticion.params.idUsuario;
+        // busco las relacionesUsuarioSensor
+        var res = await laLogica.distanciaRecorridaEnUnDiaPorIdUsuario(idUsuario)
+        // si no hay resultados...
+        if (res == false) {
+          // 404: not found
+          respuesta.status(404).send("No hay medidas suficientes")
+          return
+        }
+        // todo ok
+        respuesta.send({respuesta: res})
+      }) // get /relacionesUsuarioSensor
+
   // .......................................................
   // GET /getTodasLasMedidas
   // .......................................................
