@@ -35,4 +35,10 @@
         android:label="@string/cerrar_sesion"
         tools:layout="@layout/fragment_cerrar_sesion" />
 
+    <fragment
+        android:id="@+id/nav_QR"
+        android:name="com.example.envirometrics.ui.QR.QRFragment"
+        android:label="Escaner QR"
+        tools:layout="@layout/fragment_qr" />
+
 </navigation>

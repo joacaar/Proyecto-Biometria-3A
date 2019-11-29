@@ -43,5 +43,7 @@ dependencies {
     implementation 'com.heinrichreimersoftware:material-intro:2.0.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v2.2.4'
     implementation 'com.github.lecho:hellocharts-android:v1.5.8'
+    implementation 'me.ydcool.lib:qrmodule:latest.integration'
+
 
 }
