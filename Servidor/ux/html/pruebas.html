@@ -7,7 +7,7 @@
 
 <body>
 
-    <button type="button" onclick="buscarMedidasDelUltimoDiaDeUnUsuario()">Try it</button>
+    <button type="button" onclick="elUsuarioTieneMedidas()">Try it</button>
 
     <script>
         var elProxy = new Proxy();
@@ -129,6 +129,12 @@
 
         function buscarMedidasDelUltimoDiaDeUnUsuario(){
           elProxy.buscarMedidasDelUltimoDiaDeUnUsuario(1, function(res){
+            console.log(res);
+          })
+        }
+
+        function elUsuarioTieneMedidas(){
+          elProxy.elUsuarioTieneMedidas(1, function(res){
             console.log(res);
           })
         }

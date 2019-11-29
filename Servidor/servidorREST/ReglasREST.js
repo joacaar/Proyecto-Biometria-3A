@@ -68,7 +68,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       // llamo a la función adecuada de la lógica
       var res = await laLogica.getUltimaMedidaDeUnUsuario(idUsuario)
       // si no hay resultados...
-      if (res.length == 0) {
+      if (res == undefined) {
         // 404: not found
         respuesta.status(404).send("no encontré medidas con esa id " + idUsuario)
         return
@@ -76,6 +76,26 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       // todo ok
       respuesta.send(JSON.stringify(res))
     }) // get /medida/<idMedida>
+
+    // .......................................................
+    // GET /medidasPorIdUsuario/<idMedida>
+    // .......................................................
+    servidorExpress.get('/elUsuarioTieneMedidas/:idUsuario',
+      async function(peticion, respuesta) {
+        console.log(" * GET /elUsuarioTieneMedidas ")
+        // averiguo la fecha
+        var idUsuario = peticion.params.idUsuario
+        // llamo a la función adecuada de la lógica
+        var res = await laLogica.elUsuarioTieneMedidas(idUsuario)
+        // si no hay resultados...
+        if (res == false) {
+          // 404: not found
+          respuesta.send({respuesta:false})
+          return
+        }
+        // todo ok
+        respuesta.send({respuesta:true})
+      }) // get /medida/<idMedida>
 
   // .......................................................
   // GET /medidasPorIdUsuario/<idMedida>

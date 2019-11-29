@@ -209,6 +209,34 @@ class Proxy {
 
   //----------------------------------------------------------------------------
   // idUsuario:N -->
+  // elUsuarioTieneMedidas() -->
+  // {respuesta:V/F}
+  //----------------------------------------------------------------------------
+  elUsuarioTieneMedidas(idUsuario, callback) {
+
+    var myInit = {
+      method: 'GET',
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      cache: 'default'
+    };
+
+
+    fetch(IP_PUERTO + "/elUsuarioTieneMedidas/" + idUsuario, myInit)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        callback(data);
+      })
+
+  }
+
+  //----------------------------------------------------------------------------
+  // idUsuario:N -->
   // distanciaRecorridaEnUnDia() -->
   // R
   //----------------------------------------------------------------------------

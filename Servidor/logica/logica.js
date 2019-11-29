@@ -270,7 +270,12 @@ module.exports = class Logica {
     return new Promise((resolver, rechazar) => {
       this.laConexion.all(textoSQL, valoresParaSQL,
         (err, res) => {
-          (err ? rechazar(err) : resolver(res))
+          if(err){
+            rechazar(err)
+          } if(res == undefined){
+            resolver(null)
+          }
+          resolver(res)
         })
     })
   }
@@ -322,11 +327,32 @@ module.exports = class Logica {
     var res = await this.buscarMedidasPorIdUsuario(idUsuario);
 
     return new Promise((resolver, rechazar) => {
-      if (res.length > 0) {
-        resolver(res[res.length - 1])
-      } else {
-        rechazar(null)
+      if(res == null){
+        resolver(null)
       }
+      resolver(res[res.length - 1])
+    })
+
+  }
+
+
+  //-------------------------------------------------------------------------
+  // idUsuario:N -->
+  // elUsuarioTieneMedidas()
+  // --> V/F
+  //-------------------------------------------------------------------------
+  async elUsuarioTieneMedidas(idUsuario) {
+
+    var res = await this.buscarMedidasPorIdUsuario(idUsuario);
+
+    return new Promise((resolver, rechazar) => {
+
+      if (res == null) {
+        resolver(false)
+      }
+
+      resolver(true)
+
     })
 
   }
@@ -373,10 +399,10 @@ module.exports = class Logica {
     })
   }
 
-  filtrarMedidasDelUltimoDia(lista){
-    for(var i = 0; i < lista.length; i++){
+  filtrarMedidasDelUltimoDia(lista) {
+    for (var i = 0; i < lista.length; i++) {
       var now = Date.now()
-      if((now - lista[i].tiempo) > 86400000){
+      if ((now - lista[i].tiempo) > 86400000) {
         lista.splice(i, 1);
       }
     }
@@ -395,7 +421,7 @@ module.exports = class Logica {
     return new Promise((resolver, rechazar) => {
       this.laConexion.all(textoSQL, valoresParaSQL,
         (err, res) => {
-          if(err){
+          if (err) {
             rechazar(err)
           }
           this.filtrarMedidasDelUltimoDia(res)
@@ -414,11 +440,11 @@ module.exports = class Logica {
     var res = await this.buscarMedidasDelUltimoDiaDeUnUsuario(idUsuario);
     /*console.log(res);
     console.log(res[3].latitud);*/
-    if(res == undefined){
+    if (res == undefined) {
       return false
     }
 
-    if( res < 2 ){
+    if (res < 2) {
       return false
     }
 
