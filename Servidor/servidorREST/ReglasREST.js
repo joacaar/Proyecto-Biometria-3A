@@ -519,18 +519,10 @@ module.exports.cargar = function(servidorExpress, laLogica) {
 
       var datos = JSON.parse(peticion.body)
 
-      var res = await laLogica.darSensorAUsuario(datos);
+      //var res = await laLogica.darSensorAUsuario(datos);
 
-      if(res == 200){
-        respuesta.send("OK")
-      }else if(res == 500){
-        respuesta.send("No OK, sensor no existe en DB");
-      }else if(res == 300){
-        respuesta.send("No Ok, sensor ya pertenece a otra persona")
-      }else{
-        respuesta.send(res);
-      }
-
+      respuesta.sendStatus(200);
+      respuesta.send("OK");
       console.log("Peticion POST darSensorAUsuario recibido");
 
     }) // post / darSensorAUsuario
