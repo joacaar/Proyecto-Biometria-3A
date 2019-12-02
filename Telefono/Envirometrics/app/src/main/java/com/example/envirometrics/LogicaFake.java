@@ -134,16 +134,35 @@ public class LogicaFake {
     // -------------------------------------------------------------------------------------------------------
     //            idUsuario: String --> obtenerDistanciaRecorridaEnUnDia() --> elCallback
     // -------------------------------------------------------------------------------------------------------
-    public void obtenerDistanciaRecorridaEnUnDia(String idUsuario, PeticionarioREST.Callback elCallback) {
+    public void obtenerDistanciaRecorridaEnUnDia(int idUsuario, PeticionarioREST.Callback elCallback) {
 
         PeticionarioREST elPeticionario = new PeticionarioREST();
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("idUsuario",idUsuario);
+        params.put("idUsuario", String.valueOf(idUsuario));
 
         JSONObject eljson = new JSONObject(params);
 
         elPeticionario.hacerPeticionREST("GET", this.urlServidor + "distanciaRecorridaEnUnDia", eljson.toString(), elCallback,
+                "application/json; charset=utf-8"
+        );
+    }
+
+    // -------------------------------------------------------------------------------------------------------
+    //            idUsuario: String --> obtenerDistanciaRecorridaEnUnDia() --> elCallback
+    // -------------------------------------------------------------------------------------------------------
+    public void darSensorAUsuario(int idUsuario, int idSensor, PeticionarioREST.Callback elCallback) {
+
+        PeticionarioREST elPeticionario = new PeticionarioREST();
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("idUsuario", String.valueOf(idUsuario));
+        params.put("idSensor", String.valueOf(idSensor));
+
+
+        JSONObject eljson = new JSONObject(params);
+
+        elPeticionario.hacerPeticionREST("POST", this.urlServidor + "asociarSensorUsuario", eljson.toString(), elCallback,
                 "application/json; charset=utf-8"
         );
     }

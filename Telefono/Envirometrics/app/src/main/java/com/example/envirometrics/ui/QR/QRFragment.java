@@ -12,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.envirometrics.LogicaFake;
 import com.example.envirometrics.MainActivity;
+import com.example.envirometrics.PeticionarioREST;
 import com.example.envirometrics.R;
 import com.orhanobut.hawk.Hawk;
 
@@ -25,9 +27,13 @@ import static android.app.Activity.RESULT_OK;
 
 public class QRFragment extends Fragment {
 
+    private LogicaFake laLogica;
+
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_qr, container, false);
+        laLogica = new LogicaFake(getContext());
 
         return root;
     }
@@ -69,7 +75,7 @@ public class QRFragment extends Fragment {
                 idTaxista = Hawk.get("id");
                 informacionSensor.setText("Id del sensor: " + idSensor);
 
-                enviarDatosAlServidor(idTaxista,idSensor);
+                enviarDatosAlServidor(idTaxista, Integer.parseInt(idSensor));
 
             }else {
                 informacionSensor.setText("Nada escaneado");
@@ -83,8 +89,20 @@ public class QRFragment extends Fragment {
     // ---------------------------------------------------------------------------------------------------
     //                  String: idTaxista, String: idSensor --> enviarDatosAlServidor()
     // ---------------------------------------------------------------------------------------------------
-    private void enviarDatosAlServidor (int idTaxista, String idSensor){
+    private void enviarDatosAlServidor (int idTaxista, int idSensor){
         //Hacer llamada a método de la lógica para registrar sensor
+
+        laLogica.darSensorAUsuario(idTaxista,idSensor,
+                new PeticionarioREST.Callback () {
+                    @Override
+                    public void respuestaRecibida(int codigo, String cuerpo) {
+
+                        if(codigo==200){
+
+                        }
+
+                    }
+                });
 
     }
 

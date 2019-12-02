@@ -519,7 +519,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
 
       var datos = JSON.parse(peticion.body)
 
-      var res = await laLogica.darSensorAUsuario(datos);
+      var res = await laLogica.asociarSensorUsuario(datos);
 
       if(res == 200){
         respuesta.send("OK")
@@ -584,6 +584,8 @@ module.exports.cargar = function(servidorExpress, laLogica) {
     console.log(" * POST /asociarSensorUsuario")
 
     var datos = JSON.parse(peticion.body)
+
+    console.log("datos" + peticion.body);
 
     var res = await laLogica.asociarSensorUsuario(datos);
 

@@ -103,7 +103,7 @@ public class ResumenDiaFragment extends Fragment {
 
     private void obtenerDistanciaRecorrida (){
 
-        String idUsuario = Hawk.get("id");
+        int idUsuario = Hawk.get("id");
 
         laLogica.obtenerDistanciaRecorridaEnUnDia(idUsuario,
                 new PeticionarioREST.Callback () {
