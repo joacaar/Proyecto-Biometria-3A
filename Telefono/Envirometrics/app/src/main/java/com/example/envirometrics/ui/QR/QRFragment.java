@@ -1,6 +1,10 @@
 package com.example.envirometrics.ui.QR;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -10,14 +14,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
-
 import com.example.envirometrics.LogicaFake;
 import com.example.envirometrics.MainActivity;
 import com.example.envirometrics.PeticionarioREST;
 import com.example.envirometrics.R;
 import com.orhanobut.hawk.Hawk;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -28,12 +32,18 @@ import static android.app.Activity.RESULT_OK;
 public class QRFragment extends Fragment {
 
     private LogicaFake laLogica;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_qr, container, false);
         laLogica = new LogicaFake(getContext());
+
+        if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new  String[]{Manifest.permission.CAMERA}, 3);
+        }
 
         return root;
     }
@@ -50,6 +60,7 @@ public class QRFragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         if (requestCode == QrScannerActivity.QR_REQUEST_CODE) {
             Log.d("QR escaneado", resultCode == RESULT_OK ? data.getExtras().getString(QrScannerActivity.QR_RESULT_STR) : "Nada escaneado!");
 
@@ -97,13 +108,8 @@ public class QRFragment extends Fragment {
                     @Override
                     public void respuestaRecibida(int codigo, String cuerpo) {
 
-                        if(codigo==200){
-
-                        }
-
                     }
                 });
-
     }
 
 }

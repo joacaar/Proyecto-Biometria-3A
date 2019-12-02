@@ -22,7 +22,7 @@ public class LogicaFake {
     } // interface
 
 
-    private String urlServidor = "http://192.168.1.139:8080/";
+    private String urlServidor = "http://192.168.1.110:8080/";
 
     public LogicaFake(Context context){
             Hawk.init(context).build();
@@ -132,7 +132,7 @@ public class LogicaFake {
     }
 
     // -------------------------------------------------------------------------------------------------------
-    //            idUsuario: String, elCallback: Callback  --> distanciaRecorridaEnUnDia() -->
+    //            idUsuario: Z, elCallback: Callback  --> distanciaRecorridaEnUnDia() -->
     // -------------------------------------------------------------------------------------------------------
     public void distanciaRecorridaEnUnDia(int idUsuario, PeticionarioREST.Callback elCallback) {
 
@@ -143,13 +143,13 @@ public class LogicaFake {
 
         JSONObject eljson = new JSONObject(params);
 
-        elPeticionario.hacerPeticionREST("GET", this.urlServidor + "distanciaRecorridaEnUnDia/"+ idUsuario, eljson.toString(), elCallback,
+        elPeticionario.hacerPeticionREST("GET", this.urlServidor + "distanciaRecorridaEnUnDia/" + idUsuario, eljson.toString(), elCallback,
                 "application/json; charset=utf-8"
         );
     }
 
     // -------------------------------------------------------------------------------------------------------
-    //       idUsuario: String, elCallback: Callback --> asociarSensorUsuario() -->
+    //       idUsuario: Z, elCallback: Callback --> asociarSensorUsuario() -->
     // -------------------------------------------------------------------------------------------------------
     public void asociarSensorUsuario(int idUsuario, int idSensor, PeticionarioREST.Callback elCallback) {
 
@@ -163,6 +163,23 @@ public class LogicaFake {
         JSONObject eljson = new JSONObject(params);
 
         elPeticionario.hacerPeticionREST("POST", this.urlServidor + "asociarSensorUsuario", eljson.toString(), elCallback,
+                "application/json; charset=utf-8"
+        );
+    }
+
+    // -------------------------------------------------------------------------------------------------------
+    //       idUsuario: Z, elCallback: Callback --> asociarSensorUsuario() -->
+    // -------------------------------------------------------------------------------------------------------
+    public void buscarMedidasDelUltimoDiaDeUnUsuario(int idUsuario, PeticionarioREST.Callback elCallback) {
+
+        PeticionarioREST elPeticionario = new PeticionarioREST();
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("idUsuario", String.valueOf(idUsuario));
+
+        JSONObject eljson = new JSONObject(params);
+
+        elPeticionario.hacerPeticionREST("GET", this.urlServidor + "buscarMedidasDelUltimoDiaDeUnUsuario/" + idUsuario, eljson.toString(), elCallback,
                 "application/json; charset=utf-8"
         );
     }
