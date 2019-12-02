@@ -92,7 +92,7 @@ public class QRFragment extends Fragment {
     private void enviarDatosAlServidor (int idTaxista, int idSensor){
         //Hacer llamada a método de la lógica para registrar sensor
 
-        laLogica.darSensorAUsuario(idTaxista,idSensor,
+        laLogica.asociarSensorUsuario(idTaxista,idSensor,
                 new PeticionarioREST.Callback () {
                     @Override
                     public void respuestaRecibida(int codigo, String cuerpo) {

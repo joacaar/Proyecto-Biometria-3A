@@ -2,6 +2,7 @@ package com.example.envirometrics.ui.resumenDia;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,9 @@ import com.example.envirometrics.LogicaFake;
 import com.example.envirometrics.PeticionarioREST;
 import com.example.envirometrics.R;
 import com.orhanobut.hawk.Hawk;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -105,11 +109,18 @@ public class ResumenDiaFragment extends Fragment {
 
         int idUsuario = Hawk.get("id");
 
-        laLogica.obtenerDistanciaRecorridaEnUnDia(idUsuario,
+        laLogica.distanciaRecorridaEnUnDia(idUsuario,
                 new PeticionarioREST.Callback () {
                     @Override
                     public void respuestaRecibida(int codigo, String cuerpo) {
-                        distancia.setText(cuerpo);
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(cuerpo);
+                            distancia.setText(jsonObject.get("respuesta").toString());
+
+                        }catch (JSONException err){
+                            Log.d("Error", err.toString());
+                        }
                     }
                 });
     }

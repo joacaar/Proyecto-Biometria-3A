@@ -22,7 +22,7 @@ public class LogicaFake {
     } // interface
 
 
-    private String urlServidor = "http://172.20.10.5:8080/";
+    private String urlServidor = "http://192.168.1.139:8080/";
 
     public LogicaFake(Context context){
             Hawk.init(context).build();
@@ -114,7 +114,7 @@ public class LogicaFake {
     }
 
     // ----------------------------------------------------------------------------------------------
-    //            email: String, emailNuevo: String --> getTodasLasMedidas() --> elCallback
+    //       email: String, emailNuevo: String, elCallback: Callback --> getTodasLasMedidas() -->
     // ----------------------------------------------------------------------------------------------
     public void cambiarEmail(String email,String emailNuevo,PeticionarioREST.Callback elCallback) {
 
@@ -132,9 +132,9 @@ public class LogicaFake {
     }
 
     // -------------------------------------------------------------------------------------------------------
-    //            idUsuario: String --> obtenerDistanciaRecorridaEnUnDia() --> elCallback
+    //            idUsuario: String, elCallback: Callback  --> distanciaRecorridaEnUnDia() -->
     // -------------------------------------------------------------------------------------------------------
-    public void obtenerDistanciaRecorridaEnUnDia(int idUsuario, PeticionarioREST.Callback elCallback) {
+    public void distanciaRecorridaEnUnDia(int idUsuario, PeticionarioREST.Callback elCallback) {
 
         PeticionarioREST elPeticionario = new PeticionarioREST();
 
@@ -143,15 +143,15 @@ public class LogicaFake {
 
         JSONObject eljson = new JSONObject(params);
 
-        elPeticionario.hacerPeticionREST("GET", this.urlServidor + "distanciaRecorridaEnUnDia", eljson.toString(), elCallback,
+        elPeticionario.hacerPeticionREST("GET", this.urlServidor + "distanciaRecorridaEnUnDia/"+ idUsuario, eljson.toString(), elCallback,
                 "application/json; charset=utf-8"
         );
     }
 
     // -------------------------------------------------------------------------------------------------------
-    //            idUsuario: String --> obtenerDistanciaRecorridaEnUnDia() --> elCallback
+    //       idUsuario: String, elCallback: Callback --> asociarSensorUsuario() -->
     // -------------------------------------------------------------------------------------------------------
-    public void darSensorAUsuario(int idUsuario, int idSensor, PeticionarioREST.Callback elCallback) {
+    public void asociarSensorUsuario(int idUsuario, int idSensor, PeticionarioREST.Callback elCallback) {
 
         PeticionarioREST elPeticionario = new PeticionarioREST();
 
