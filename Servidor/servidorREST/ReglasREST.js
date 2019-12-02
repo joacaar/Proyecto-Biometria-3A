@@ -519,9 +519,17 @@ module.exports.cargar = function(servidorExpress, laLogica) {
 
       var datos = JSON.parse(peticion.body)
 
-      await laLogica.darSensorAUsuario(datos);
+      var res = await laLogica.darSensorAUsuario(datos);
 
-      respuesta.send("OK")
+      if(res == 200){
+        respuesta.send("OK")
+      }else if(res == 500){
+        respuesta.send("No OK, sensor no existe en DB");
+      }else if(res == 300){
+        respuesta.send("No Ok, sensor ya pertenece a otra persona")
+      }else{
+        respuesta.send(res);
+      }
 
       console.log("Peticion POST darSensorAUsuario recibido");
 
@@ -564,6 +572,37 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       console.log("Peticion POST borrarSensor recibido");
 
     }) // post / darSensorAUsuario
+
+  //-----------------------------------------------------------------------------
+  // POST /asociarSensorUsuario
+  // peticion.body --> JSON
+  // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
+  //-----------------------------------------------------------------------------
+  servidorExpress.post('/asociarSensorUsuario',
+  async function(peticion, respuesta) {
+
+    console.log(" * POST /asociarSensorUsuario")
+
+    var datos = JSON.parse(peticion.body)
+
+    var res = await laLogica.asociarSensorUsuario(datos);
+
+    if(res == 200){
+      //respuesta.send("OK")
+      respuesta.sendStatus(200);
+    }else if(res == 404){
+      //respuesta.send("No OK, sensor no existe en DB");
+      respuesta.sendStatus(404);
+    }else if(res == 300){
+      //respuesta.send("No Ok, sensor ya pertenece a otra persona")
+      respuesta.sendStatus(300);
+    }else{
+      respuesta.send(res);
+    }
+
+    console.log("Peticion POST asociarSensorUsuario recibida");
+
+  }) // post / asociarSensorUsuario
 
   //-----------------------------------------------------------------------------
   // GET /ux/<pagina>

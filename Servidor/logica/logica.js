@@ -540,20 +540,69 @@ module.exports = class Logica {
 
   // .................................................................
   // -->{idUsuario:N, idSensor:N}
-  // darSensorAUsuario()
+  // comprobarSensorEsDeUsuario()
+  // -->{V/F}
+  //Comprobamos que un sensor este asociado a un usuario o no
+  // Si pertenece a usuario devolvemos true y sino false
   // .................................................................
-  darSensorAUsuario(datos) {
-    var textoSQL =
-      'insert into UsuarioSensor values ( $idUsuario, $idSensor );'
-    var valoresParaSQL = {
-      $idUsuario: datos.idUsuario,
+  comprobarSensorEsDeUsuario(datos){
+    var valoresSQL = {
       $idSensor: datos.idSensor
     }
+    var sqlText = "select idSensor from UsuarioSensor where idSensor=$idSensor";
+
     return new Promise((resolver, rechazar) => {
-      this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
-        (err ? rechazar(err) : resolver())
+      this.laConexion.all(sqlText, valoresSQL, function(err, res){
+        console.log("En el callback de la promesa de comprobar" + res.length);
+        if(err){
+          rechazar(err);
+        }else if(res.length > 0){
+          resolver (true)
+        }else{
+          resolver(false);
+        }
       })
     })
+  }
+
+  // .................................................................
+  // -->{idUsuario:N, idSensor:N}
+  // asociarSensorUsuario()
+  // -->codigo:N
+  // .................................................................
+  async asociarSensorUsuario(datos) {
+
+    //Llamada a buscarSensor()
+    var res = await this.buscarSensor(datos.idSensor);
+    console.log(res);
+    if(res == undefined){
+      return new Promise((resolver, rechazar) => {
+        resolver(404);
+      });
+    }else{
+      //Llamada a comprobarSensorDeusuario
+      res = await this.comprobarSensorEsDeUsuario(datos);
+      if(res){
+        //Es verdadero y por tanto el sensor ya pertenece a otro usuario
+        return new Promise((resolver, rechazar) =>{
+          resolver(300);
+        });
+      }else{
+        //EL sensor existe y no pertenece a ningun usuario
+        var textoSQL ='insert into UsuarioSensor values ( $idUsuario, $idSensor );'
+        var valoresParaSQL = {
+          $idUsuario: datos.idUsuario,
+          $idSensor: datos.idSensor
+        }
+        return new Promise((resolver, rechazar) => {
+          console.log("Dentro de la promsea de darSesor");
+          this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+            console.log("Dentro del callback de la promesa de dar sensor");
+            (err ? rechazar(err) : resolver(200))
+          })
+        })
+      }
+    }
   }
 
   // .................................................................
