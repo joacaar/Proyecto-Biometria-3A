@@ -99,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
             navigationView = findViewById(R.id.nav_view_taxista);
 
             mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_map, R.id.nav_perfil, R.id.nav_ajustes, R.id.nav_cerrar_sesion)
+                    R.id.nav_map, R.id.nav_perfil, R.id.nav_ajustes, R.id.nav_QR, R.id.nav_cerrar_sesion)
                     .setDrawerLayout(drawer)
                     .build();
 
