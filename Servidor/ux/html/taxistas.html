@@ -129,8 +129,14 @@
 
             <div class="row editarEliminar">
                 <button class="editar btn btn-primary" id="editar">editar</button>
-                <button class="eliminar btn btn-primary" id="eliminar">eliminar</button>
+                <button class="eliminar btn btn-primary" id="eliminar" onclick="borrarTaxista()">eliminar</button>
             </div>
+
+            <div class="row datos">
+                <label for="" class="id ">ID:</label>
+                <label for="" class="id" id="idLabel"></label>
+            </div>
+
             <div class="row datos">
                 <label for="" class="email ">E-mail:</label>
                 <label for="" class="email" id="emailLabel"></label>
@@ -249,20 +255,18 @@
             elProxy.getUsuarios(function(res) {
                 for (var i = 0; i < res.length; i++) {
                     if (res[i].email.includes("@taxista.com")) {
+                        console.log(res[i]);
                         var newRow = $("<tr>");
                         var cols = "";
                         cols += '<td scope="row">' + res[i].idUsuario + '</td>';
                         cols += '<td><a href="#" onclick="getInformacionTaxista(' + [i] + ')" class="enlaceTaxista" id="enlaceTaxista">' + res[i].email + '</a></td>';
                         cols += '<td>' + res[i].telefono + '</td>';
                         cols += '<td>' + i + '</td>';
-
+// TODO: cambiar de ultima medida de usuario a comprobar que 
                         elProxy.getUltimaMedidaDeUnUsuario(res[i].idUsuario, function(medida) {
-
                             var now = Date.now();
                             if ((now - medida.tiempo) > 86400000) {
-
                                 cols += '<td>' + '<i class="fa fa-exclamation-triangle" id="alerta24horas"></i>' + '</td>';
-
                             } else {
                                 cols += '<td>' + '</td>';
                             }
@@ -270,6 +274,7 @@
                             newRow.append(cols);
                             $("#tablaTaxistas").append(newRow);
                         })
+                        
                     } else {
                         console.log("No es taxista");
                     }
@@ -278,27 +283,33 @@
         }
 
         // ------------------------------------------------------------------
-        // usuariosSinMedidasEn24H()
+        // borrarTaxista()
+        // 
+        // Borra al taxista "seleccionado"
         // ------------------------------------------------------------------
-        function usuariosSinMedidasEn24H() {
+        function borrarTaxista() {
+            console.log("inicio borrado");
             elProxy.getUsuarios(function(listaUsuarios) {
+                console.log("for");
                 for (var i = 0; i < listaUsuarios.length; i++) {
-                    elProxy.getUltimaMedidaDeUnUsuario(listaUsuarios[i].idUsuario, function(medida) {
-                        var now = Date.now();
-                        if ((now - medida.tiempo) > 86400000) {
-                            console.log("Usuario más de 24h:")
-                            console.log(medida.idUsuario);
-                        }
-                    })
+                    if (document.getElementById("idLabel").innerHTML == listaUsuarios[i].idUsuario) {
+                        console.log("borrado");
+                        elProxy.borrarUsuario(listaUsuarios[i].idUsuario, function() {
+                            console.log("location reload");
+                            location.reload();
+                        })
+                    }
                 }
             })
         }
+
 
         // ------------------------------------------------------------------
         // getInformacionTaxista()
         // ------------------------------------------------------------------
         function getInformacionTaxista(orden) {
             elProxy.getUsuarios(function(res) {
+                document.getElementById("idLabel").innerHTML = res[orden].idUsuario;
                 document.getElementById("emailLabel").innerHTML = res[orden].email;
                 document.getElementById("telefonoLabel").innerHTML = res[orden].telefono;
             });
