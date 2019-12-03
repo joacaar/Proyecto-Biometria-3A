@@ -741,6 +741,67 @@ module.exports = class Logica {
 
   }
 
+  //-----------------------------------------------------------------------
+  // getTaxistas() -->
+  // [{email:Texto, telefono:Texto, password:Texto, idUsuario:N}]
+  //-----------------------------------------------------------------------
+  async getTaxistas(){
+
+    var res = await this.getUsuarios();
+    var taxistas = [];
+
+    return new Promise(function (resolver, rechazar){
+
+      if( res != undefined ){
+        for( var i = 0; i < res.length; i++ ){
+          if( res[i].email.includes("@taxista.com")){
+            taxistas.push(res[i])
+          }
+        }
+        resolver(taxistas)
+      } else{
+        resolver(false)
+      }
+
+    })
+
+  }
+
+  async filtrarTaxistasQueNoHanEnviadoEn24H(){
+
+    var now = Date.now();
+
+    var losTaxistas = await this.getTaxistas();
+
+    var json = { email: "", telefono:"", idUsuario: 0, seHaPasado24HSinEnviar: false }
+
+    var taxistasFiltrados = [];
+
+    for( var i = 0; i < losTaxistas.length; i++ ){
+
+      json.email = losTaxistas[i].email;
+      json.telefono = losTaxistas[i].telefono;
+      json.idUsuario = losTaxistas[i].idUsuario;
+
+      var laMedida = await this.getUltimaMedidaDeUnUsuario(json.idUsuario);
+
+      if( laMedida != null ){
+          if((now - laMedida.tiempo) > 86400000){
+            json.seHaPasado24HSinEnviar = true;
+          }
+      }
+            taxistasFiltrados.push(json)
+    }
+
+    return new Promise(function(resolver, rechazar){
+      if(taxistasFiltrados.length == 0){
+        rechazar()
+      }
+      resolver(taxistasFiltrados)
+    })
+
+  }
+
   // --------------------------------------------------------
   // {nombre:Texto, password:Texto}
   // iniciarSesion()
