@@ -7,7 +7,7 @@
 
 <body>
 
-    <button type="button" onclick="borrarUsuario()">Try it</button>
+    <button type="button" onclick="elUsuarioTieneMedidas()">Try it</button>
 
     <script>
         var elProxy = new Proxy();
@@ -108,6 +108,37 @@
             console.log(res);
           })
         }
+
+        function borrarSensor(){
+          elProxy.borrarSensor( 1, function(res){
+            console.log(res);
+          })
+        }
+
+        function buscarUnTipoDeMedidas(){
+          elProxy.buscarUnTipoDeMedidas(1, function(res){
+            console.log(res);
+          })
+        }
+
+        function distanciaRecorridaEnUnDia(){
+          elProxy.distanciaRecorridaEnUnDia(1, function(res){
+            console.log(res);
+          })
+        }
+
+        function buscarMedidasDelUltimoDiaDeUnUsuario(){
+          elProxy.buscarMedidasDelUltimoDiaDeUnUsuario(1, function(res){
+            console.log(res);
+          })
+        }
+
+        function elUsuarioTieneMedidas(){
+          elProxy.elUsuarioTieneMedidas(1, function(res){
+            console.log(res);
+          })
+        }
+
     </script>
 
 </body>

@@ -180,6 +180,119 @@ class Proxy {
   }
 
   //----------------------------------------------------------------------------
+  // buscarUnTipoDeMedidas() -->
+  // [ {valorMedida: R, latitud:R, longitud:R, tiempo:N, idMedida:N,
+  // idTipoMedida:N, idUsuario:N }]
+  //----------------------------------------------------------------------------
+  buscarUnTipoDeMedidas(idTipoMedida, callback) {
+
+    var myInit = {
+      method: 'GET',
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      cache: 'default'
+    };
+
+
+    fetch(IP_PUERTO + "/buscarUnTipoDeMedidas/" + idTipoMedida, myInit)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        callback(data);
+      })
+
+  }
+
+  //----------------------------------------------------------------------------
+  // idUsuario:N -->
+  // elUsuarioTieneMedidas() -->
+  // {respuesta:V/F}
+  //----------------------------------------------------------------------------
+  elUsuarioTieneMedidas(idUsuario, callback) {
+
+    var myInit = {
+      method: 'GET',
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      cache: 'default'
+    };
+
+
+    fetch(IP_PUERTO + "/elUsuarioTieneMedidas/" + idUsuario, myInit)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        callback(data);
+      })
+
+  }
+
+  //----------------------------------------------------------------------------
+  // idUsuario:N -->
+  // distanciaRecorridaEnUnDia() -->
+  // R
+  //----------------------------------------------------------------------------
+  distanciaRecorridaEnUnDia(idUsuario, callback) {
+
+    var myInit = {
+      method: 'GET',
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      cache: 'default'
+    };
+
+
+    fetch(IP_PUERTO + "/distanciaRecorridaEnUnDia/" + idUsuario, myInit)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        callback(data);
+      })
+
+  }
+
+  //----------------------------------------------------------------------------
+  // idUsuario:N -->
+  // buscarMedidasDelUltimoDiaDeUnUsuario() -->
+  // [ {valorMedida: R, latitud:R, longitud:R, tiempo:N, idMedida:N,
+  // idTipoMedida:N, idUsuario:N }]
+  //----------------------------------------------------------------------------
+  buscarMedidasDelUltimoDiaDeUnUsuario(idUsuario, callback) {
+
+    var myInit = {
+      method: 'GET',
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      cache: 'default'
+    };
+
+
+    fetch(IP_PUERTO + "/buscarMedidasDelUltimoDiaDeUnUsuario/" + idUsuario, myInit)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        callback(data);
+      })
+
+  }
+
+  //----------------------------------------------------------------------------
   // datos:{email:Texto, password:Texto, telefono:Texto} -->
   // darAltaUsuario() -->
   // {respuesta:v/f, idUsuario:N}
@@ -352,11 +465,33 @@ cambiarTelefono(datos, callback) {
 
 //----------------------------------------------------------------------------
 // idUsuario:N -->
-// cambiarTelefono() -->
+// borrarUsuario() -->
 //----------------------------------------------------------------------------
 borrarUsuario(idUsuario, callback) {
 
   fetch(IP_PUERTO + "/borrarUsuario/" + idUsuario, {
+    method: 'POST', // or 'PUT'
+    headers: {
+      'User-Agent': 'jordi',
+      'Content-Type': 'application/json'
+    }
+  }).then((res) => {
+    return res.json()
+  }).catch((error) => {
+    return error
+  }).then((data) => {
+    callback(data)
+  })
+
+}
+
+//----------------------------------------------------------------------------
+// idSensor:N -->
+// borrarSensor() -->
+//----------------------------------------------------------------------------
+borrarSensor(idSensor, callback) {
+
+  fetch(IP_PUERTO + "/borrarSensor/" + idSensor, {
     method: 'POST', // or 'PUT'
     headers: {
       'User-Agent': 'jordi',

@@ -1,57 +1,53 @@
 package com.example.envirometrics.ui.resumenDia;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-import com.example.envirometrics.IntroActivity;
+import com.example.envirometrics.LogicaFake;
+import com.example.envirometrics.PeticionarioREST;
 import com.example.envirometrics.R;
-import com.github.mikephil.charting.charts.BarChart;
-import com.github.mikephil.charting.charts.Chart;
-import com.github.mikephil.charting.data.BarData;
-import com.github.mikephil.charting.data.BarDataSet;
-import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.ChartData;
-import com.github.mikephil.charting.utils.ColorTemplate;
+import com.orhanobut.hawk.Hawk;
 
-import java.text.SimpleDateFormat;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import lecho.lib.hellocharts.formatter.SimpleColumnChartValueFormatter;
-import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
-import lecho.lib.hellocharts.model.Column;
-import lecho.lib.hellocharts.model.ColumnChartData;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
-import lecho.lib.hellocharts.model.SubcolumnValue;
-import lecho.lib.hellocharts.model.Viewport;
-import lecho.lib.hellocharts.view.ColumnChartView;
+
 import lecho.lib.hellocharts.view.LineChartView;
 
 public class ResumenDiaFragment extends Fragment {
 
-    LineChartView chart;
-
+    private LineChartView chart;
+    private TextView distancia;
+    private LogicaFake laLogica;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_resumen_diario, container, false);
 
+        Hawk.init(getContext()).build();
+
+        laLogica = new LogicaFake(getContext());
         chart = root.findViewById(R.id.chart);
+        distancia = root.findViewById(R.id.textViewDistancia);
 
         generateData();
-        chart.startDataAnimation(500);
+        obtenerDistanciaRecorrida();
 
         return root;
 
@@ -107,7 +103,26 @@ public class ResumenDiaFragment extends Fragment {
         //Le pasamos toda la informacion a la vista de la grafica
         chart.setLineChartData(data);
 
+    }
 
+    private void obtenerDistanciaRecorrida (){
+
+        int idUsuario = Hawk.get("id");
+
+        laLogica.distanciaRecorridaEnUnDia(idUsuario,
+                new PeticionarioREST.Callback () {
+                    @Override
+                    public void respuestaRecibida(int codigo, String cuerpo) {
+
+                        try {
+                            JSONObject jsonObject = new JSONObject(cuerpo);
+                            distancia.setText(jsonObject.get("respuesta").toString());
+
+                        }catch (JSONException err){
+                            Log.d("Error", err.toString());
+                        }
+                    }
+                });
     }
 
 }

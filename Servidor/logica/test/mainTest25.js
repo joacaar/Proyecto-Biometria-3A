@@ -42,7 +42,6 @@ describe( "TEST 15: borrarUsuario", function() {
     await laLogica.borrarUsuarioPorIdUsuario(2)
     var res = await laLogica.buscarUsuarioPorEmail("emiliet@xd");
     assert.equal(res, undefined)
-    console.log(res);
 
   }) // it
 

@@ -146,7 +146,7 @@ module.exports = class Logica {
   // borrarMedidasDeUnUsuarioPorIdUsuario() -->
   // .................................................................
 
-  borrarMedidasDeUnUsuarioPorIdUsuario(idUsuario){
+  borrarMedidasDeUnUsuarioPorIdUsuario(idUsuario) {
 
     var textoSQL =
       'DELETE from Medidas where idUsuario=$idUsuario';
@@ -177,7 +177,51 @@ module.exports = class Logica {
       'DELETE from Usuarios where idUsuario=$idUsuario';
 
     var valoresParaSQL = {
-      $idUsuario : idUsuario
+      $idUsuario: idUsuario
+    }
+
+    return new Promise((resolver, rechazar) => {
+      this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+        (err ? rechazar(err) : resolver())
+      })
+    })
+  } // ()
+
+  // .................................................................
+  // idSensor:N
+  // -->
+  // borrarRelacionUsuarioSensorPorIdSensor() -->
+  // .................................................................
+  borrarRelacionUsuarioSensorPorIdSensor(idSensor) {
+
+    var textoSQL =
+      'DELETE from UsuarioSensor where idSensor=$idSensor';
+
+    var valoresParaSQL = {
+      $idSensor: idSensor
+    }
+
+    return new Promise((resolver, rechazar) => {
+      this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+        (err ? rechazar(err) : resolver())
+      })
+    })
+  } // ()
+
+  // .................................................................
+  // idSensor:N
+  // -->
+  // borrarSensorPorIdSensor() -->
+  // .................................................................
+  async borrarSensorPorIdSensor(idSensor) {
+
+    await this.borrarRelacionUsuarioSensorPorIdSensor(idSensor);
+
+    var textoSQL =
+      'DELETE from Sensores where idSensor=$idSensor';
+
+    var valoresParaSQL = {
+      $idSensor: idSensor
     }
 
     return new Promise((resolver, rechazar) => {
@@ -226,7 +270,12 @@ module.exports = class Logica {
     return new Promise((resolver, rechazar) => {
       this.laConexion.all(textoSQL, valoresParaSQL,
         (err, res) => {
-          (err ? rechazar(err) : resolver(res))
+          if(err){
+            rechazar(err)
+          } if(res == undefined){
+            resolver(null)
+          }
+          resolver(res)
         })
     })
   }
@@ -278,11 +327,32 @@ module.exports = class Logica {
     var res = await this.buscarMedidasPorIdUsuario(idUsuario);
 
     return new Promise((resolver, rechazar) => {
-      if (res.length > 0) {
-        resolver(res[res.length - 1])
-      } else {
-        rechazar(null)
+      if(res == null){
+        resolver(null)
       }
+      resolver(res[res.length - 1])
+    })
+
+  }
+
+
+  //-------------------------------------------------------------------------
+  // idUsuario:N -->
+  // elUsuarioTieneMedidas()
+  // --> V/F
+  //-------------------------------------------------------------------------
+  async elUsuarioTieneMedidas(idUsuario) {
+
+    var res = await this.buscarMedidasPorIdUsuario(idUsuario);
+
+    return new Promise((resolver, rechazar) => {
+
+      if (res == null) {
+        resolver(false)
+      }
+
+      resolver(true)
+
     })
 
   }
@@ -327,6 +397,87 @@ module.exports = class Logica {
           (err ? rechazar(err) : resolver(res[0]))
         })
     })
+  }
+
+  filtrarMedidasDelUltimoDia(lista) {
+    for (var i = 0; i < lista.length; i++) {
+      var now = Date.now()
+      if ((now - lista[i].tiempo) > 86400000) {
+        lista.splice(i, 1);
+      }
+    }
+  }
+
+  // .................................................................
+  // --> idUsuario: N
+  // distanciaRecorridaEnUnDiaPorIdUsuario()
+  // --> [JSON{valorMedida:R, latitud:R, longitud:R, idMedida:N, idUsuario:N, idTipoMedida:N}]
+  // .................................................................
+  buscarMedidasDelUltimoDiaDeUnUsuario(idUsuario) {
+    var textoSQL = "select * from Medidas where idUsuario=$idUsuario";
+    var valoresParaSQL = {
+      $idUsuario: idUsuario
+    }
+    return new Promise((resolver, rechazar) => {
+      this.laConexion.all(textoSQL, valoresParaSQL,
+        (err, res) => {
+          if (err) {
+            rechazar(err)
+          }
+          this.filtrarMedidasDelUltimoDia(res)
+          resolver(res)
+        })
+    })
+  }
+
+  // .................................................................
+  // --> idUsuario: N
+  // distanciaRecorridaEnUnDiaPorIdUsuario()
+  // --> R
+  // .................................................................
+  async distanciaRecorridaEnUnDiaPorIdUsuario(idUsuario) {
+
+    var res = await this.buscarMedidasDelUltimoDiaDeUnUsuario(idUsuario);
+    /*console.log(res);
+    console.log(res[3].latitud);*/
+    if (res == undefined) {
+      return false
+    }
+
+    if (res < 2) {
+      return false
+    }
+
+    return this.calcularDistanciaEntreLosPuntosDeUnaLista(res)
+
+  }
+
+  rad(x) {
+    return x * Math.PI / 180;
+  }
+
+  calcularDistanciaEntreDosPuntos(lat1, lon1, lat2, lon2) {
+    var R = 6378.137; //Radio de la tierra en km
+    var dLat = this.rad(lat2 - lat1);
+    var dLong = this.rad(lon2 - lon1);
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(this.rad(lat1)) * Math.cos(this.rad(lat2)) * Math.sin(dLong / 2) * Math.sin(dLong / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c;
+    return d; //Retorna tres decimales
+  }
+
+  calcularDistanciaEntreLosPuntosDeUnaLista(lista) {
+
+    var distancia = 0;
+
+    for (var i = 0; i < lista.length - 1; i++) {
+
+      distancia += this.calcularDistanciaEntreDosPuntos(lista[i].latitud, lista[i].longitud, lista[i + 1].latitud, lista[i + 1].longitud)
+
+    }
+
+    return distancia;
+
   }
 
   //-------------------------------------------------------------------
@@ -389,20 +540,69 @@ module.exports = class Logica {
 
   // .................................................................
   // -->{idUsuario:N, idSensor:N}
-  // darSensorAUsuario()
+  // comprobarSensorEsDeUsuario()
+  // -->{V/F}
+  //Comprobamos que un sensor este asociado a un usuario o no
+  // Si pertenece a usuario devolvemos true y sino false
   // .................................................................
-  darSensorAUsuario(datos) {
-    var textoSQL =
-      'insert into UsuarioSensor values ( $idUsuario, $idSensor );'
-    var valoresParaSQL = {
-      $idUsuario: datos.idUsuario,
+  comprobarSensorEsDeUsuario(datos){
+    var valoresSQL = {
       $idSensor: datos.idSensor
     }
+    var sqlText = "select idSensor from UsuarioSensor where idSensor=$idSensor";
+
     return new Promise((resolver, rechazar) => {
-      this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
-        (err ? rechazar(err) : resolver())
+      this.laConexion.all(sqlText, valoresSQL, function(err, res){
+        console.log("En el callback de la promesa de comprobar" + res.length);
+        if(err){
+          rechazar(err);
+        }else if(res.length > 0){
+          resolver (true)
+        }else{
+          resolver(false);
+        }
       })
     })
+  }
+
+  // .................................................................
+  // -->{idUsuario:N, idSensor:N}
+  // asociarSensorUsuario()
+  // -->codigo:N
+  // .................................................................
+  async asociarSensorUsuario(datos) {
+
+    //Llamada a buscarSensor()
+    var res = await this.buscarSensor(datos.idSensor);
+    console.log(res);
+    if(res == undefined){
+      return new Promise((resolver, rechazar) => {
+        resolver(404);
+      });
+    }else{
+      //Llamada a comprobarSensorDeusuario
+      res = await this.comprobarSensorEsDeUsuario(datos);
+      if(res){
+        //Es verdadero y por tanto el sensor ya pertenece a otro usuario
+        return new Promise((resolver, rechazar) =>{
+          resolver(300);
+        });
+      }else{
+        //EL sensor existe y no pertenece a ningun usuario
+        var textoSQL ='insert into UsuarioSensor values ( $idUsuario, $idSensor );'
+        var valoresParaSQL = {
+          $idUsuario: datos.idUsuario,
+          $idSensor: datos.idSensor
+        }
+        return new Promise((resolver, rechazar) => {
+          console.log("Dentro de la promsea de darSesor");
+          this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+            console.log("Dentro del callback de la promesa de dar sensor");
+            (err ? rechazar(err) : resolver(200))
+          })
+        })
+      }
+    }
   }
 
   // .................................................................
@@ -472,7 +672,13 @@ module.exports = class Logica {
     return new Promise((resolver, rechazar) => {
       this.laConexion.all(textoSQL, valoresParaSQL,
         (err, res) => {
-          (err ? rechazar(err) : resolver(res[0]))
+          if (err) {
+            rechazar(err)
+          }
+          if (res == undefined) {
+            resolver(undefined)
+          }
+          resolver(res[0])
         })
     })
   }
@@ -567,6 +773,24 @@ module.exports = class Logica {
   getTodasLasMedidas() {
     var textoSQL = "select * from Medidas";
     var valoresParaSQL = {}
+    return new Promise((resolver, rechazar) => {
+      this.laConexion.all(textoSQL, valoresParaSQL,
+        (err, res) => {
+          (err ? rechazar(err) : resolver(res))
+        })
+    })
+  }
+
+  // .................................................................
+  // idTipoDeMedida:N -->
+  // buscarUnTipoDeMedidas()
+  // --> [{{valorMedida:R, tiempo:N: latitud:R, longitud:R, idMedida:N, idUsuario:N, idTipoMedida:N}}]
+  // .................................................................
+  buscarUnTipoDeMedidas(idTipoMedida) {
+    var textoSQL = "select * from Medidas where idTipoMedida = $idTipoMedida";
+    var valoresParaSQL = {
+      $idTipoMedida: idTipoMedida
+    }
     return new Promise((resolver, rechazar) => {
       this.laConexion.all(textoSQL, valoresParaSQL,
         (err, res) => {

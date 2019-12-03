@@ -105,21 +105,6 @@ public class ReceptorBLE {
     public void actualizarMediciones( TramaIBeacon trama){
 
         Date date = new Date();
-        long dateTimeFinal = date.getTime() + 300000;
-/*
-        //Controlamos que hay almenos una ubicacion actual, en caso contrario no se enviarian las medidiones debidoa que se habrian realizado en interior
-        if(!localizador.hayUltimaPosicion()){
-            while(date.getTime() < dateTimeFinal){
-                if(localizador.hayUltimaPosicion()){
-                   break ;
-                }
-            }
-            if(date.getTime() > dateTimeFinal)
-                stopScan();
-                return;
-        }
-
- */
 
         stopScan();
 
@@ -165,8 +150,14 @@ public class ReceptorBLE {
                         Log.e("--- Major Bluetooth ---", "Major: " + Utilidades.bytesToInt(tramaAux.getMajor()));
                         Log.e("--- Minor Bluetooth ---", "Minor: " + Utilidades.bytesToInt(tramaAux.getMinor()));
 
-                        laTrama = tramaAux;
-                        actualizarMediciones(tramaAux);
+                        if(Utilidades.bytesToInt(tramaAux.getMinor())==1){
+                            Log.d(TAG, "La medida es correcta");
+                            laTrama = tramaAux;
+                            actualizarMediciones(tramaAux);
+                        }else{
+                            Log.d(TAG, "La medida no es correcta, dejamos de escanear");
+                            stopScan();
+                        }
                         //stopScan();
                     }
                     /*

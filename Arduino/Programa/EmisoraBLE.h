@@ -59,7 +59,12 @@ class EmisoraBLE
     void anunciarCalidadAire(int indiceCalidadAire)
     {
       //Serial.println(indiceCalidadAire);
-      cambiarBeacon(indiceCalidadAire, 4);
+      // Se hace una comprobacion del valor obtenido para saber si esta dentro de un rango normal
+      if(indiceCalidadAire > 500 || indiceCalidadAire < 3){
+        cambiarBeacon(indiceCalidadAire, 0);
+        //En el caso que la medida no sea normal, enviaremos un 0 en el minor para desde android detectar el problema y no leer el sensor mas veces.
+      }
+      cambiarBeacon(indiceCalidadAire, 1);
     }
 
     //-------------------------

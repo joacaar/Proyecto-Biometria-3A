@@ -12,23 +12,25 @@ const IP_PUERTO="http://localhost:8080"
 // ........................................................
 // main ()
 // ........................................................
-describe( "Test 12 : Probamos /relacionesUsuarioSensor", function() {
+describe( "Test 15 : Probamos /borrarSensor", function() {
 
   // ....................................................
-  // PROBAMOS get /relacionesUsuarioSensor
+  // PROBAMOS POST /borrarSensor
   // ....................................................
 
-  it( "probar get /relacionesUsuarioSensor", function( hecho ) {
-    request.get(
-      { url : IP_PUERTO+"/relacionesUsuarioSensor", headers : { 'User-Agent' : 'jordi' }},
-      function( err, respuesta, carga ) {
-        var listaJson = JSON.parse(carga);
-        assert.equal( err, null, "¿ha habido un error?" )
-        console.log(listaJson)
-        assert.equal( listaJson.length, 1)
-        hecho()
-      } // callback()
-    ) // .get
+  it( "probar post /borrarSensor", function( hecho ) {
+
+    request.post(
+      { url : IP_PUERTO+"/borrarSensor/1",
+      headers : { 'User-Agent' : 'jordi', 'Content-Type' : 'application/json' },
+    },
+    function( err, respuesta, carga ) {
+      assert.equal( err, null, "¿ha habido un error?" )
+      assert.equal( respuesta.statusCode, 200, "¿El código no es 200 (OK)" )
+      assert.equal( carga, "OK" )
+      hecho()
+    } // callback
+    ) // .post
   }) // it
 
 }) // describe
