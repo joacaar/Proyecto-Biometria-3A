@@ -36,15 +36,40 @@ describe( "TEST 12: darSensorAUsuario", function() {
 // ....................................................
 // ....................................................
 
-  it( "cambio la contraseña de un usuario",
+  it( "ASociar un sensor no asociado a un usuario",
   async function() {
 
-    await laLogica.darSensorAUsuario({idSensor:1, idUsuario:1})
-    var res = await laLogica.buscarIDUsuarioQueTieneElSensor(1);
+    var res = await laLogica.asociarSensorUsuario({idSensor:1, idUsuario:1})
 
-    assert.equal(res.idUsuario, 1)
+    assert.equal(res, 200)
+    
 
   }) // it
+
+  // ....................................................
+// ....................................................
+
+it( "Asociar un sensor ya asociado a un usuario",
+async function() {
+
+  var res = await laLogica.asociarSensorUsuario({idSensor:1, idUsuario:1})
+
+  assert.equal(res, 300)
+  
+
+}) // it
+
+// ....................................................
+// ....................................................
+
+it( "Asociar un sensor que no existe",
+async function() {
+
+  var res = await laLogica.asociarSensorUsuario({idSensor:12, idUsuario:1})
+
+  assert.equal(res, 404)
+
+}) // it
 
 // ....................................................
 // ....................................................
