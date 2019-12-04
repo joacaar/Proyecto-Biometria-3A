@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
@@ -40,10 +42,20 @@ public class QRFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_qr, container, false);
         laLogica = new LogicaFake(getContext());
+        Hawk.init(getContext()).build();
 
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new  String[]{Manifest.permission.CAMERA}, 3);
         }
+
+        if(Hawk.contains("sensorAsociado")) {
+            Intent intent = new Intent(getActivity(), QrScannerActivity.class);
+            startActivityForResult(intent, QrScannerActivity.QR_REQUEST_CODE);
+        }
+
+        TextView textoSensorId;
+
+
 
         return root;
     }
@@ -51,9 +63,8 @@ public class QRFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Intent intent = new Intent(getActivity(), QrScannerActivity.class);
-        startActivityForResult(intent, QrScannerActivity.QR_REQUEST_CODE);
-        Hawk.init(getContext()).build();
+
+
 
     }
 
@@ -100,13 +111,22 @@ public class QRFragment extends Fragment {
     // ---------------------------------------------------------------------------------------------------
     //                  String: idTaxista, String: idSensor --> enviarDatosAlServidor()
     // ---------------------------------------------------------------------------------------------------
-    private void enviarDatosAlServidor (int idTaxista, int idSensor){
+    private void enviarDatosAlServidor (int idTaxista, final int idSensor){
         //Hacer llamada a método de la lógica para registrar sensor
 
         laLogica.asociarSensorUsuario(idTaxista,idSensor,
                 new PeticionarioREST.Callback () {
                     @Override
                     public void respuestaRecibida(int codigo, String cuerpo) {
+                        if(codigo==200){
+                            //Todo OK
+                            Hawk.put("sensorAsociado",true);
+                            Hawk.put("idSensor",idSensor);
+                        }
+
+                        if (codigo == 300) {
+                            //Ya está registrado el sensor
+                        }
 
                     }
                 });

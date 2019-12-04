@@ -22,7 +22,7 @@ public class LogicaFake {
     } // interface
 
 
-    private String urlServidor = "http://192.168.1.110:8080/";
+    private String urlServidor = "http://172.20.10.5:8080/";
 
     public LogicaFake(Context context){
             Hawk.init(context).build();
@@ -149,7 +149,7 @@ public class LogicaFake {
     }
 
     // -------------------------------------------------------------------------------------------------------
-    //       idUsuario: Z, elCallback: Callback --> asociarSensorUsuario() -->
+    //       idUsuario: N, idSensor: N, elCallback: Callback --> asociarSensorUsuario() -->
     // -------------------------------------------------------------------------------------------------------
     public void asociarSensorUsuario(int idUsuario, int idSensor, PeticionarioREST.Callback elCallback) {
 
@@ -159,9 +159,9 @@ public class LogicaFake {
         params.put("idUsuario", String.valueOf(idUsuario));
         params.put("idSensor", String.valueOf(idSensor));
 
-
         JSONObject eljson = new JSONObject(params);
 
+        //Envio los datos al servidor
         elPeticionario.hacerPeticionREST("POST", this.urlServidor + "asociarSensorUsuario", eljson.toString(), elCallback,
                 "application/json; charset=utf-8"
         );

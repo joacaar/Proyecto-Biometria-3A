@@ -14,8 +14,10 @@ import androidx.fragment.app.Fragment;
 import com.example.envirometrics.LogicaFake;
 import com.example.envirometrics.PeticionarioREST;
 import com.example.envirometrics.R;
+import com.google.gson.JsonArray;
 import com.orhanobut.hawk.Hawk;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,39 +36,70 @@ public class ResumenDiaFragment extends Fragment {
     private LineChartView chart;
     private TextView distancia;
     private LogicaFake laLogica;
+    private int idUsuario;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        Log.d("SOY ONCREATEVIEW","zzzzzz");
         View root = inflater.inflate(R.layout.fragment_resumen_diario, container, false);
 
         Hawk.init(getContext()).build();
+
+        idUsuario = Hawk.get("id");
+
 
         laLogica = new LogicaFake(getContext());
         chart = root.findViewById(R.id.chart);
         distancia = root.findViewById(R.id.textViewDistancia);
 
-        generateData();
         obtenerDistanciaRecorrida();
+        empezarHacerDibujoContaminacionDiaria();
 
         return root;
 
     }
 
+    // -----------------------------------------------------------------------------
+    //  JSONArray -> f()
+    // -----------------------------------------------------------------------------
+    private void hacerDibujoContaminacionDiaria(JSONArray jsonArrayMedidas) throws JSONException {
 
-    private void generateData() {
+        Log.d("SOY hacerDibujoCont","zzzzzz");
 
         chart.setInteractive(true);
 
         List<PointValue> values = new ArrayList<PointValue>();
-        values.add(new PointValue(0, 2));
+
+        values.add(new PointValue(1, 2));
         values.add(new PointValue(1, 3));
         values.add(new PointValue(2, 4));
         values.add(new PointValue(3, 3));
         values.add(new PointValue(4, 4));
 
+        //
+        //
+        //
+        /*
+        for(int i=0; i < 5; i++) {
 
-        //In most cased you can call data model methods in builder-pattern-like manner.
+            JSONObject object = jsonArrayMedidas.getJSONObject(i);
+
+            double medida = object.getDouble("valorMedida");
+
+            values.add(new PointValue(i, i++));
+            Log.d("VALOR GRAFICA", String.valueOf(medida));
+
+            //values.add(new PointValue(1, 56));
+            //values.add(new PointValue(2, 4));
+            //values.add(new PointValue(3, 3));
+            //values.add(new PointValue(4, 4));
+        }*/
+
+
+        //
+        // In most cased you can call data model methods in builder-pattern-like manner.
+        //
         Line line = new Line(values).setColor(Color.rgb(0,180,154)).setCubic(true).setHasLabels(true);
         List<Line> lines = new ArrayList<Line>();
         lines.add(line);
@@ -80,6 +113,9 @@ public class ResumenDiaFragment extends Fragment {
         String[] horas = {"8:00", "12:00", "18:00", "20:00", "22:00"};
         String[] contaminacion = new String[horas.length];
 
+        //
+        //
+        //
         for (int i = 0; i < horas.length; i++){
             contaminacion[i]=horas[i];
             axisValueX = new AxisValue(i).setLabel(contaminacion[i]);// se le asigna a cada posicion el label que se desea
@@ -90,7 +126,9 @@ public class ResumenDiaFragment extends Fragment {
         Axis axisX = new Axis().setValues(valores);
         //Axis axisY = Axis.generateAxisFromRange(0, 200, 10);// para añadir un rango al eje Y
 
+        //
         // Añadimos titulo a los indices
+        //
         //axisX.setName("Horas");
         //axisY.setName("Contaminación %");
 
@@ -105,9 +143,40 @@ public class ResumenDiaFragment extends Fragment {
 
     }
 
-    private void obtenerDistanciaRecorrida (){
+    // -----------------------------------------------------------------------------
+    //
+    // -----------------------------------------------------------------------------
+    private void empezarHacerDibujoContaminacionDiaria(){
 
-        int idUsuario = Hawk.get("id");
+        Log.d("obtenerContaminacionDia", "zzzzzz");
+
+        //
+        // busco las medidas para el dibujo
+        //
+        laLogica.buscarMedidasDelUltimoDiaDeUnUsuario(idUsuario,
+                new PeticionarioREST.Callback () {
+                    @Override
+                    public void respuestaRecibida(int codigo, String cuerpo) {
+
+
+                        try {
+                            JSONArray jsonArrayMedidas = new JSONArray(cuerpo);
+                            Log.d("------Medidas------", jsonArrayMedidas.toString());
+
+                            //
+                            // ya tengo los datos, llamo a hacer el dibujo
+                            //
+                            hacerDibujoContaminacionDiaria(jsonArrayMedidas);
+
+
+                        }catch (JSONException err){
+                            Log.d("Error", err.toString());
+                        }
+                    }
+                });
+    }
+
+    private void obtenerDistanciaRecorrida (){
 
         laLogica.distanciaRecorridaEnUnDia(idUsuario,
                 new PeticionarioREST.Callback () {
