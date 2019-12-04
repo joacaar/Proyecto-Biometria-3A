@@ -184,6 +184,21 @@ public class LogicaFake {
         );
     }
 
+    // -------------------------------------------------------------------------------------------------------
+    //        elCallback(): Callback --> asociarSensorUsuario() -->
+    // -------------------------------------------------------------------------------------------------------
+    public void obtenerDatosEstacionGandia(PeticionarioREST.Callback elCallback) {
+
+        PeticionarioREST elPeticionario = new PeticionarioREST();
+
+        Map<String, String> params = new HashMap<String, String>();
+        JSONObject eljson = new JSONObject(params);
+
+        elPeticionario.hacerPeticionREST("GET", this.urlServidor + "obtenerDatosEstacionGandia", eljson.toString(), elCallback,
+                "application/json; charset=utf-8"
+        );
+    }
+
 
 } // class
 

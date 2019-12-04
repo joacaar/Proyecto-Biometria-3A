@@ -884,7 +884,7 @@ module.exports = class Logica {
 
   // .................................................................
   // getDatosEstacionGandia()
-  // --> [{{valorMedida:R, tiempo:N: latitud:R, longitud:R, idMedida:N, idUsuario:N, idTipoMedida:N}}]
+  // --> [{{tiempo: N, so2: R, co: R, no: R, no2: R, nox: R, o3: R}}]
   // .................................................................
   async getDatosEstacionGandia() {
     var estacionGandia = require('./estacionGandia')
