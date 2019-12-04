@@ -399,18 +399,25 @@ module.exports = class Logica {
     })
   }
 
+  // .................................................................
+  // --> lista[Medida]
+  // filtrarMedidasDelUltimoDia()
+  // --> lista[Medida]
+  // .................................................................
   filtrarMedidasDelUltimoDia(lista) {
+    var laLista = []
     for (var i = 0; i < lista.length; i++) {
       var now = Date.now()
-      if ((now - lista[i].tiempo) > 86400000) {
-        lista.splice(i, 1);
+      if ((now - lista[i].tiempo) < 86400000) {
+        laLista.push(lista[i])
       }
     }
+    return laLista;
   }
 
   // .................................................................
   // --> idUsuario: N
-  // distanciaRecorridaEnUnDiaPorIdUsuario()
+  // buscarMedidasDelUltimoDiaDeUnUsuario()
   // --> [JSON{valorMedida:R, latitud:R, longitud:R, idMedida:N, idUsuario:N, idTipoMedida:N}]
   // .................................................................
   buscarMedidasDelUltimoDiaDeUnUsuario(idUsuario) {
@@ -424,10 +431,57 @@ module.exports = class Logica {
           if (err) {
             rechazar(err)
           }
-          this.filtrarMedidasDelUltimoDia(res)
-          resolver(res)
+          if(res == undefined){
+            resolver(false)
+          }
+          var lista = this.filtrarMedidasDelUltimoDia(res)
+          resolver(lista)
         })
     })
+  }
+
+  // .................................................................
+  // buscarMedidasDelUltimoDia()
+  // --> [JSON{valorMedida:R, latitud:R, longitud:R, idMedida:N, idUsuario:N, idTipoMedida:N}]
+  // .................................................................
+  buscarMedidasDelUltimoDia() {
+    var textoSQL = "select * from Medidas";
+    var valoresParaSQL = {
+    }
+    return new Promise((resolver, rechazar) => {
+      this.laConexion.all(textoSQL, valoresParaSQL,
+        (err, res) => {
+          if (err) {
+            rechazar(err)
+          } if( res == undefined ){
+            resolver(false)
+          }
+          var lista = this.filtrarMedidasDelUltimoDia(res)
+          resolver(lista)
+        })
+    })
+  }
+
+  // .................................................................
+  // idUsuario:N -->
+  // calidadDelAireRespiradoEnElUltimoDiaPorUnUsuario()
+  // --> R
+  // .................................................................
+  async calidadDelAireRespiradoEnElUltimoDiaPorUnUsuario(idUsuario) {
+
+    var medidas = await this.buscarMedidasDelUltimoDiaDeUnUsuario(idUsuario)
+
+    return new Promise ( function (resolver, rechazar){
+        if( medidas == false ){
+          resolver(false)
+        }
+        var res = 0;
+        for( var i = 0; i < medidas.length; i++ ){
+          res += medidas[i].valorMedida;
+        }
+        resolver( res/medidas.length );
+    })
+
   }
 
   // .................................................................
@@ -444,7 +498,7 @@ module.exports = class Logica {
       return false
     }
 
-    if (res < 2) {
+    if (res.length < 2) {
       return false
     }
 

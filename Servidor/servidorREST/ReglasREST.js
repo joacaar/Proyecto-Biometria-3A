@@ -180,6 +180,52 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       })
     }) // get /distanciaRecorridaEnUnDia
 
+    // ......................................................
+    // GET /medidasDelUltimoDiaDeUnUsuario/<idUsuario>
+    // .......................................................
+    servidorExpress.get('/medidasDelUltimoDiaDeUnUsuario/:idUsuario',
+      async function(peticion, respuesta) {
+        console.log(" * GET /distanciaRecorrida ")
+
+        var idUsuario = peticion.params.idUsuario;
+
+        // busco las relacionesUsuarioSensor
+        var res = await laLogica.buscarMedidasDelUltimoDiaDeUnUsuario(idUsuario)
+
+        // si no hay resultados...
+        if (res == false) {
+          // 404: not found
+          respuesta.status(404).send("No hay medidas suficientes")
+          return
+        }
+
+        //console.log("distancia " + res);
+        // todo ok
+        respuesta.send({
+          respuesta: res
+        })
+      }) // get /medidasDelUltimoDiaDeUnUsuario
+
+    // ......................................................
+    // GET /medidasDelUltimoDia
+    // .......................................................
+    servidorExpress.get('/medidasDelUltimoDia',
+      async function(peticion, respuesta) {
+        console.log(" * GET /medidasDelUltimoDia ")
+
+        // busco las relacionesUsuarioSensor
+        var res = await laLogica.buscarMedidasDelUltimoDia()
+
+        // si no hay resultados...
+        if (res == false) {
+          // 404: not found
+          respuesta.status(404).send("No hay medidas suficientes")
+          return
+        }
+
+        respuesta.send(res)
+      }) // get /medidasDelUltimoDia
+
   // ......................................................
   // GET /buscarMedidasDelUltimoDiaDeUnUsuario/<idUsuario>
   // .......................................................
@@ -190,15 +236,36 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       var idUsuario = peticion.params.idUsuario;
       // busco las relacionesUsuarioSensor
       var res = await laLogica.buscarMedidasDelUltimoDiaDeUnUsuario(idUsuario)
+      console.log(res);
       // si no hay resultados...
-      if (res == undefined) {
+      if (res == false) {
         // 404: not found
         respuesta.status(404).send("No hay medidas suficientes")
         return
       }
       // todo ok
-      respuesta.send(JSON.stringify(res))
+      respuesta.send(res)
     }) // get /relacionesUsuarioSensor
+
+    // ......................................................
+    // GET /calidadDelAireRespiradoEnElUltimo/<idUsuario>
+    // .......................................................
+    servidorExpress.get('/calidadDelAireRespiradoEnElUltimoDia/:idUsuario',
+      async function(peticion, respuesta) {
+        console.log(" * GET /usuarios ")
+
+        var idUsuario = peticion.params.idUsuario;
+        // busco las relacionesUsuarioSensor
+        var res = await laLogica.calidadDelAireRespiradoEnElUltimoDiaPorUnUsuario(idUsuario)
+        // si no hay resultados...
+        if (res == false) {
+          // 404: not found
+          respuesta.status(404).send("No hay medidas suficientes")
+          return
+        }
+        // todo ok
+        respuesta.send({respuesta:res})
+      }) // get /relacionesUsuarioSensor
 
   // .......................................................
   // GET /getTodasLasMedidas
@@ -215,7 +282,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
         return
       }
       // todo ok
-      respuesta.send(JSON.stringify(res))
+      respuesta.send(res)
     }) // get /getTodasLasMedidas
 
   // .......................................................
