@@ -883,6 +883,24 @@ module.exports = class Logica {
   }
 
   // .................................................................
+  // getDatosEstacionGandia()
+  // --> [{{valorMedida:R, tiempo:N: latitud:R, longitud:R, idMedida:N, idUsuario:N, idTipoMedida:N}}]
+  // .................................................................
+  async getDatosEstacionGandia() {
+    var estacionGandia = require('./estacionGandia')
+
+    var res = estacionGandia.obtenerDatosEstacionGandia()
+
+    return new Promise((resolver, rechazar) => {
+      try {
+        resolver(res)
+      } catch (error) {
+        rechazar(error)
+      }
+    })
+  }
+
+  // .................................................................
   // cerrar() -->
   // .................................................................
   cerrar() {

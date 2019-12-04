@@ -280,6 +280,20 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       respuesta.send(JSON.stringify(res))
     }) // get /getTodasLasMedidas
 
+    // .......................................................
+  // GET /obtenerDatosEstacionGandia
+  // .......................................................
+  servidorExpress.get('/obtenerDatosEstacionGandia',
+  async function(peticion, respuesta) {
+    console.log(" * GET /obtenerDatosEstacionGandia ")
+
+    var res = await laLogica.getDatosEstacionGandia()
+
+    console.log(res)
+    // todo ok
+    respuesta.send(JSON.stringify(res))
+  }) // get /obtenerDatosEstacionGandia
+
 
   //-----------------------------------------------------------------------------
   // POST /insertarMedida

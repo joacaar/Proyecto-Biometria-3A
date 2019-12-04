@@ -11,7 +11,7 @@ const options = {
 const urlDatosGandia = "http://www.cma.gva.es/cidam/emedio/atmosfera/jsp/pde.jsp?PDE.CONT=912&estacion=5&titulo=46131002-Gandia&provincia=null&municipio=null&red=0&PDE.SOLAPAS.Mostrar=1111";
 const urlDatos = "http://www.cma.gva.es/cidam/emedio/atmosfera/jsp/datos_on_line.jsp";
 
-(async function () {
+exports.obtenerDatosEstacionGandia = async function () {
   // Array donde guardaremos las medidas
   let data = [];
 
@@ -44,6 +44,14 @@ const urlDatos = "http://www.cma.gva.es/cidam/emedio/atmosfera/jsp/datos_on_line
     }
   })
   // Mostramos array medidas
-  console.log(data);
+  //console.log(data);
+
+  return new Promise((resolver, rechazar) => {
+    try {
+      resolver(data)
+    } catch (error) {
+      rechazar(error)
+    }
+  })
   //console.log(JSON.stringify(data));
-}())
+}
