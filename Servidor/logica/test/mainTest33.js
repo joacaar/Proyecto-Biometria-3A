@@ -13,7 +13,7 @@ const sjcl = require('sjcl')
 // main ()
 // ........................................................
 
-describe("TEST 21: filtrarTaxistasQueNoHanEnviadoEn24H", function() {
+describe("TEST 23: calidadDelAireRespiradoEnElUltimoDiaPorUnUsuario", function() {
   // ....................................................
   // ....................................................
 
@@ -37,18 +37,11 @@ describe("TEST 21: filtrarTaxistasQueNoHanEnviadoEn24H", function() {
   // ....................................................
   // ....................................................
 
-  it("filtrarTaxistasQueNoHanEnviadoEn24H",
+  it("calidadDelAireRespiradoEnElUltimoDiaPorUnUsuario",
     async function() {
 
-      // INSERTAMOS UNA MEDIDA
-      await laLogica.insertarMedida({
-        valorMedida: 15, tiempo: 100,
-        latitud: 0.0, longitud: 0.0,
-        idUsuario: 3, idTipoMedida: 1,
-      })
-
-      var res = await laLogica.filtrarTaxistasQueNoHanEnviadoEn24H();
-      assert.equal(res.length, 1)
+      var res = await laLogica.calidadDelAireRespiradoEnElUltimoDiaPorUnUsuario(3)
+      assert.equal(res, 15)
 
     }) // it
 

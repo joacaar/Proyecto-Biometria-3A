@@ -18,10 +18,12 @@ describe( "Test 17 : Probamos /distanciaRecorridaEnUnDia", function() {
   // PROBAMOS GET /buscarUnTipoDeMedidas
   // ....................................................
 
+  var now = Date.now()
+
 
   it( "probar POST /insertarMedida", function( hecho ) {
     var datosMedida = {
-      valorMedida : 56, tiempo : 1500,
+      valorMedida : 56, tiempo : now,
       latitud : 0.0, longitud: 0.0,
       idUsuario: 1, idTipoMedida: 1
     }
@@ -40,7 +42,7 @@ describe( "Test 17 : Probamos /distanciaRecorridaEnUnDia", function() {
 
   it( "probar POST /insertarMedida", function( hecho ) {
     var datosMedida = {
-      valorMedida : 56, tiempo : 1500,
+      valorMedida : 56, tiempo : now,
       latitud : 3, longitud: 4,
       idUsuario: 1, idTipoMedida: 1
     }
@@ -59,7 +61,7 @@ describe( "Test 17 : Probamos /distanciaRecorridaEnUnDia", function() {
 
   it( "probar POST /insertarMedida", function( hecho ) {
     var datosMedida = {
-      valorMedida : 56, tiempo : 1500,
+      valorMedida : 56, tiempo : now,
       latitud : 1, longitud: 2,
       idUsuario: 1, idTipoMedida: 1
     }
