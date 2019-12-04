@@ -36,8 +36,12 @@
     margin: 0.5em 2em;
 }
 
-.datos .email {
+.datos .id {
     margin-top: 1em;
+}
+
+.datos #idLabel {
+    margin-left: 1em;
 }
 
 .datos #emailLabel {

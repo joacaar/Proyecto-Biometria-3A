@@ -13,7 +13,7 @@ const sjcl = require('sjcl')
 // main ()
 // ........................................................
 
-describe("TEST 18:distancia recorrida por un usuario en un dia", function() {
+describe("TEST 19: getTaxistas", function() {
   // ....................................................
   // ....................................................
 
@@ -36,53 +36,19 @@ describe("TEST 18:distancia recorrida por un usuario en un dia", function() {
   // ....................................................
   // ....................................................
 
-  it("distancia recorrida en un dia",
+  it("busco los taxistas",
     async function() {
 
-      var now = Date.now()
 
+      //DOY DE ALTA AL USUARIO
       await laLogica.darAltaUsuario({
-        email: "emilioxeraco@gmail.com",
+        email: "emilioxeraco@taxista.com",
         password: "1234",
         telefono: "646601542"
       })
 
-      await laLogica.insertarMedida({
-        valorMedida: 15,
-        tiempo: now,
-        latitud: 2,
-        longitud: 2,
-        idUsuario: 1,
-        idTipoMedida: 1,
-      })
-
-      await laLogica.insertarMedida({
-        valorMedida: 45,
-        tiempo: 0,
-        latitud: 1,
-        longitud: 2,
-        idUsuario: 1,
-        idTipoMedida: 1,
-      })
-
-      var lista = [{
-        latitud: 1,
-        longitud: 2
-      }, {
-        latitud: 2,
-        longitud: 2
-      }];
-
-      var res2 = laLogica.calcularDistanciaEntreLosPuntosDeUnaLista(lista);
-      //console.log(res2);
-
-      var res3 = await laLogica.distanciaRecorridaEnUnDiaPorIdUsuario(1)
-      console.log(res3);
-      var res4 = false;
-      if( res3 > 300 ){
-        res4 = true;
-      }
-      assert.equal(res4, true)
+      var res = await laLogica.getTaxistas();
+      console.log(res);
 
     }) // it
 

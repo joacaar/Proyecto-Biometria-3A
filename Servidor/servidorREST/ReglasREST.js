@@ -238,6 +238,18 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       respuesta.send(JSON.stringify(res))
     }) // get /getTodasLasMedidas
 
+    // .......................................................
+    // GET /taxistasFiltradosQueNoHanEnviadoEn24H
+    // .......................................................
+    servidorExpress.get('/taxistasFiltradosQueNoHanEnviadoEn24H',
+      async function(peticion, respuesta) {
+        console.log(" * GET /taxistasFiltradosQueNoHanEnviadoEn24H ")
+
+        var res = await laLogica.filtrarTaxistasQueNoHanEnviadoEn24H()
+        // todo ok
+        respuesta.send(JSON.stringify(res))
+      }) // get /taxistasFiltradosQueNoHanEnviadoEn24H
+
   // .......................................................
   // GET /getTodasLasMedidasDeUnUsuarioPorEmail/<email>
   // .......................................................

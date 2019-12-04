@@ -7,7 +7,7 @@
 
 <body>
 
-    <button type="button" onclick="elUsuarioTieneMedidas()">Try it</button>
+    <button type="button" onclick="taxistasFiltradosQueNoHanEnviadoEn24H()">Try it</button>
 
     <script>
         var elProxy = new Proxy();
@@ -135,6 +135,12 @@
 
         function elUsuarioTieneMedidas(){
           elProxy.elUsuarioTieneMedidas(1, function(res){
+            console.log(res);
+          })
+        }
+
+        function taxistasFiltradosQueNoHanEnviadoEn24H(){
+          elProxy.taxistasFiltradosQueNoHanEnviadoEn24H(function(res){
             console.log(res);
           })
         }

@@ -13,10 +13,11 @@ const sjcl = require('sjcl')
 // main ()
 // ........................................................
 
-describe("TEST 18:distancia recorrida por un usuario en un dia", function() {
+describe("TEST 21: getUltimaMedidaDeTodosLosTaxitas", function() {
   // ....................................................
   // ....................................................
 
+  var now = Date.now()
   var laLogica = null
 
   // ....................................................
@@ -36,53 +37,17 @@ describe("TEST 18:distancia recorrida por un usuario en un dia", function() {
   // ....................................................
   // ....................................................
 
-  it("distancia recorrida en un dia",
+  it("busco los taxistas",
     async function() {
 
-      var now = Date.now()
-
-      await laLogica.darAltaUsuario({
-        email: "emilioxeraco@gmail.com",
-        password: "1234",
-        telefono: "646601542"
-      })
-
+      // INSERTAMOS UNA MEDIDA
       await laLogica.insertarMedida({
-        valorMedida: 15,
-        tiempo: now,
-        latitud: 2,
-        longitud: 2,
-        idUsuario: 1,
-        idTipoMedida: 1,
+        valorMedida: 15, tiempo: 100,
+        latitud: 0.0, longitud: 0.0,
+        idUsuario: 3, idTipoMedida: 1,
       })
 
-      await laLogica.insertarMedida({
-        valorMedida: 45,
-        tiempo: 0,
-        latitud: 1,
-        longitud: 2,
-        idUsuario: 1,
-        idTipoMedida: 1,
-      })
-
-      var lista = [{
-        latitud: 1,
-        longitud: 2
-      }, {
-        latitud: 2,
-        longitud: 2
-      }];
-
-      var res2 = laLogica.calcularDistanciaEntreLosPuntosDeUnaLista(lista);
-      //console.log(res2);
-
-      var res3 = await laLogica.distanciaRecorridaEnUnDiaPorIdUsuario(1)
-      console.log(res3);
-      var res4 = false;
-      if( res3 > 300 ){
-        res4 = true;
-      }
-      assert.equal(res4, true)
+      var res = await laLogica.filtrarTaxistasQueNoHanEnviadoEn24H();
 
     }) // it
 

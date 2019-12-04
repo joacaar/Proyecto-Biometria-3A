@@ -264,6 +264,33 @@ class Proxy {
   }
 
   //----------------------------------------------------------------------------
+  // taxistasFiltradosQueNoHanEnviadoEn24H() -->
+  // [{email:Texto, telefono:Texto, idUsuario:N, seHaPasado24HSinEnviar:V/F}]
+  //----------------------------------------------------------------------------
+  taxistasFiltradosQueNoHanEnviadoEn24H(callback) {
+
+    var myInit = {
+      method: 'GET',
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      cache: 'default'
+    };
+
+
+    fetch(IP_PUERTO + "/taxistasFiltradosQueNoHanEnviadoEn24H", myInit)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        callback(data);
+      })
+
+  }
+
+  //----------------------------------------------------------------------------
   // idUsuario:N -->
   // buscarMedidasDelUltimoDiaDeUnUsuario() -->
   // [ {valorMedida: R, latitud:R, longitud:R, tiempo:N, idMedida:N,
