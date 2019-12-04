@@ -18,6 +18,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.TileOverlay;
 import com.google.android.gms.maps.model.TileOverlayOptions;
 import com.google.gson.JsonObject;
@@ -64,7 +66,7 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
                 try {
                     if(codigo==200) {
                         JSONArray jsonObject = new JSONArray(cuerpo);
-                        addHeatMap(jsonObject);
+                        mostrarDatosContaminacion(jsonObject);
                     }
 
                 }catch (JSONException err){
@@ -89,7 +91,6 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
             if (locationManager != null) {
                 Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
-
                 if (location != null) {
                     googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 13));
 
@@ -104,11 +105,16 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
             }
         }
 
+        //
+        //
+        //
+        mostrarDatosEstacionContaminacionGandia(googleMap);
+
     }
 
 
     //MAPA DE COLOR
-    private void addHeatMap(JSONArray jsonObject) {
+    private void mostrarDatosContaminacion(JSONArray jsonObject) {
 
         List<WeightedLatLng> list = null;
 
@@ -126,7 +132,7 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
 
         //Obtener una lista con la latitud, longitud y valor de la medida
         try {
-            list = readItems(jsonObject);
+            list = leerDatosJson(jsonObject);
         } catch (JSONException e) {
             Toast.makeText(context, "Problem reading list of locations.", Toast.LENGTH_LONG).show();
         }
@@ -138,7 +144,7 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
 
     }
 
-    private List<WeightedLatLng> readItems(JSONArray jsonObject) throws JSONException {
+    private List<WeightedLatLng> leerDatosJson(JSONArray jsonObject) throws JSONException {
 
         ArrayList<WeightedLatLng> listValorMedida = new ArrayList<WeightedLatLng>();
 
@@ -153,4 +159,39 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
         return listValorMedida;
     }
 
+    private void mostrarDatosEstacionContaminacionGandia (final GoogleMap googleMap){
+
+        laLogica.obtenerDatosEstacionGandia(new PeticionarioREST.Callback () {
+            @Override
+            public void respuestaRecibida(int codigo, String cuerpo) {
+                try {
+
+                    JSONArray jsonObject = new JSONArray(cuerpo);
+
+                    //Obtener ultimo valor medido en la estación
+                    JSONObject object = jsonObject.getJSONObject(jsonObject.length()-1);
+
+                    String hora = object.getString("hora");
+                    double s02 = object.getDouble("s02");
+                    double co = object.getDouble("co");
+                    double no = object.getDouble("no");
+                    double no2 = object.getDouble("no2");
+                    double nox = object.getDouble("nox");
+                    double o3 = object.getDouble("o3");
+
+                    //Añado la estación de medida de Gandia
+                    LatLng estacionMedidaGandia = new LatLng(38.968148, -0.189648);
+                    googleMap.addMarker(new MarkerOptions().position(estacionMedidaGandia)
+                            .title("Estación de calidad del aire")
+                            .snippet("Hora: " + hora + " s02: " + s02 + " co: " + co + " no: " + no +
+                                    " no2: " + no2 + " nox: " + nox + " o3: " + o3));
+
+                }catch (JSONException err){
+                    Log.d("Error", err.toString());
+                }
+            }
+        });
+
+
+    }
 }

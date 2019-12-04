@@ -22,7 +22,7 @@ public class LogicaFake {
     } // interface
 
 
-    private String urlServidor = "http://172.20.10.5:8080/";
+    private String urlServidor = "http://192.168.1.139:8080/";
 
     public LogicaFake(Context context){
             Hawk.init(context).build();
