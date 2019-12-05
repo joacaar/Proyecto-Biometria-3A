@@ -6,6 +6,7 @@
 // .....................................................................
 const sjcl = require('sjcl')
 const sqlite3 = require("sqlite3")
+var estacionGandia = require('./estacionGandia')
 /*const SimpleCrypto = require("simple-crypto-js").default;*/
 // .....................................................................
 // .....................................................................
@@ -940,7 +941,6 @@ module.exports = class Logica {
   // --> [{{tiempo: N, so2: R, co: R, no: R, no2: R, nox: R, o3: R}}]
   // .................................................................
   async getDatosEstacionGandia() {
-    var estacionGandia = require('./estacionGandia')
 
     var res = estacionGandia.obtenerDatosEstacionGandia()
 
