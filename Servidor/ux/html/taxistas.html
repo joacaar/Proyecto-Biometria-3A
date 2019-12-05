@@ -208,7 +208,7 @@
                     <button class="btn btn-primary" id="cambiarContraseña"> Cambiar contraseña </button>
                 </div>
                 <div class="col-4">
-                    <button class="btn btn-primary" id="verRegistroDatos"> Ver el registro de datos </button>
+                    <button class="btn btn-primary" id="verRegistroDatos" disabled> Ver el registro de datos </button>
                 </div>
             </div>
         </div>
@@ -332,17 +332,9 @@
         // Borra al taxista "seleccionado"
         // ------------------------------------------------------------------
         function borrarTaxista() {
-            elProxy.getUsuarios(function(listaUsuarios) {
-                console.log("for");
-                for (var i = 0; i < listaUsuarios.length; i++) {
-                    if (document.getElementById("idLabel").innerHTML == listaUsuarios[i].idUsuario) {
-                        console.log("borrado");
-                        elProxy.borrarUsuario(listaUsuarios[i].idUsuario, function() {
-                            console.log("location reload");
-                            location.reload();
-                        })
-                    }
-                }
+            elProxy.borrarUsuario(document.getElementById("idLabel").innerHTML, function() {
+                console.log("location reload");
+                location.reload();
             })
         }
 

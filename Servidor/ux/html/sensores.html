@@ -113,8 +113,7 @@
         <div class="sensor">
 
             <div class="row editarEliminar">
-                <button class="editar btn btn-primary" id="editar">editar</button>
-                <button class="eliminar btn btn-primary" id="eliminar">eliminar</button>
+                <button class="eliminar btn btn-primary" id="eliminar" disabled>eliminar</button>
             </div>
             <div class="row datos">
                 <label for="" class="idSensor">ID:</label>
@@ -137,7 +136,7 @@
                     <button class="btn btn-primary" id="introducirNuevoSensor"> Introducir nuevo sensor </button>
                 </div>
                 <div class="col-4">
-                    <button class="btn btn-primary" id="verRegistroDatos"> Ver el registro de datos </button>
+                    <button class="btn btn-primary" id="verRegistroDatos" disabled> Ver el registro de datos </button>
                 </div>
             </div>
         </div>
@@ -177,43 +176,12 @@
         var elProxy = new Proxy();
 
         // ------------------------------------------------------------------
-        // darAltaTaxista()
-        // ------------------------------------------------------------------
-
-        function darAltaSensor() {
-            setAlertHide()
-            elProxy.darAltaSensor(1, function(res) {
-                if (document.getElementById("inputIdSensor").value.length != 0 && document.getElementById("inputIdTaxista").value.length != 0) {
-                    var idSensor = document.getElementById("inputIdSensor").value;
-                    var idTaxista = document.getElementById("inputIdTaxista").value;
-                    elProxy.darSensorAUsuario({
-                        idSensor: idSensor,
-                        idUsuario: idTaxista
-                    }, function(res) {
-                        console.log(res);
-                    })
-                    location.reload();
-                } else {
-                    $("#errorSensor").show();
-                }
-            });
-        }
-
-        // ------------------------------------------------------------------
-        // setAlertHide()
-        // ------------------------------------------------------------------
-
-        function setAlertHide() {
-            $("#errorSensor").hide();
-        }
-
-        // ------------------------------------------------------------------
         // getSensores()
         // ------------------------------------------------------------------
         function getSensores() {
             elProxy.buscarRelacionesUsuarioSensor(function(res) {
                 for (var i = 0; i < res.length; i++) {
-                    var newRow = $("<tr>");
+                    var newRow = $("<tr class='filaDeTablaSensores fila" + (i) + "'>");
                     var cols = "";
                     cols += '<td scope="row"><a href="#" onclick="getInformacionSensor(' + [i] + ')" class="enlaceSensor" id="enlaceSensor">' + res[i].idSensor + '</a></td>';
                     cols += '<td> Calidad del aire </td>';
@@ -236,6 +204,46 @@
                 }
             });
         }
+
+        // ------------------------------------------------------------------
+        // darAltaSensor()
+        // ------------------------------------------------------------------
+
+        function darAltaSensor() {
+            setAlertHide()
+            elProxy.darAltaSensor(1, function(res) {
+                if (document.getElementById("inputIdSensor").value.length != 0 && document.getElementById("inputIdTaxista").value.length != 0) {
+                    var idSensor = document.getElementById("inputIdSensor").value;
+                    var idTaxista = document.getElementById("inputIdTaxista").value;
+                    elProxy.darSensorAUsuario({
+                        idSensor: idSensor,
+                        idUsuario: idTaxista
+                    }, function(res) {
+                        console.log(res);
+                    })
+                    location.reload();
+                } else {
+                    $("#errorSensor").show();
+                }
+            });
+        }
+
+        // ------------------------------------------------------------------
+        // borrarSensor()
+        // ------------------------------------------------------------------
+        
+        function borrarSensor() {
+            
+        }
+
+        // ------------------------------------------------------------------
+        // setAlertHide()
+        // ------------------------------------------------------------------
+
+        function setAlertHide() {
+            $("#errorSensor").hide();
+        }
+
 
         // ------------------------------------------------------------------
         // usuariosSinMedidasEn24H()
@@ -264,6 +272,15 @@
                 document.getElementById("medidaLabel").innerHTML = "Calidad del aire";
                 document.getElementById("usuarioAsociadoLabel").innerHTML = res[orden].idUsuario;
             });
+
+            for (var i = 0; i < document.getElementsByClassName("filaDeTablaSensores").length; i++) {
+                document.getElementsByClassName("filaDeTablaSensores")[i].classList.remove("selected");
+            }
+
+            var clase = "fila" + orden;
+            document.getElementsByClassName(clase)[0].classList.add("selected");
+
+            document.getElementById("eliminar").disabled = false;
         }
 
         // ------------------------------------------------------------------

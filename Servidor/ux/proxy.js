@@ -416,7 +416,7 @@ class Proxy {
       idUsuario: datos.idUsuario
     }
 
-    fetch(IP_PUERTO + "/darSensorAUsuario", {
+    fetch(IP_PUERTO + "/asociarSensorUsuario", {
       method: 'POST', // or 'PUT'
       body: JSON.stringify(datosSensorUsuario), // data can be `string` or {object}!
       headers: {
