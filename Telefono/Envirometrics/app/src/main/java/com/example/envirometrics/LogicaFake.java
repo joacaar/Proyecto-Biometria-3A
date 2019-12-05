@@ -114,7 +114,7 @@ public class LogicaFake {
     }
 
     // ----------------------------------------------------------------------------------------------
-    //       email: String, emailNuevo: String --> getTodasLasMedidas() --> elCallback: Callback
+    //       email: String, emailNuevo: String --> cambiarEmail() --> elCallback: Callback
     // ----------------------------------------------------------------------------------------------
     public void cambiarEmail(String email,String emailNuevo,PeticionarioREST.Callback elCallback) {
 
