@@ -59,7 +59,7 @@ public class LogicaFake {
     }
 
     // ----------------------------------------------------------------------------------------
-    //                  usuario: Usuario --> darAltaUsuario() --> elCallback()
+    //                  usuario: Usuario --> darAltaUsuario() --> elCallback: Callback
     // ----------------------------------------------------------------------------------------
     public void darAltaUsuario(Usuario usuario, PeticionarioREST.Callback elCallback) {
 
@@ -78,7 +78,7 @@ public class LogicaFake {
 
 
     // ------------------------------------------------------------------------------------------
-    //        email: String, password:String --> iniciarSesion() --> elCallback()
+    //        email: String, password:String --> iniciarSesion() --> elCallback: Callback
     // ------------------------------------------------------------------------------------------
     public void iniciarSesion(String email, String password, PeticionarioREST.Callback elCallback) {
 
@@ -98,7 +98,7 @@ public class LogicaFake {
     }
 
     // -------------------------------------------------------------------------------
-    //                      getTodasLasMedidas() --> elCallback
+    //                    --> getTodasLasMedidas() --> elCallback: Callback
     // -------------------------------------------------------------------------------
     public void getTodasLasMedidas(PeticionarioREST.Callback elCallback) {
 
@@ -114,7 +114,7 @@ public class LogicaFake {
     }
 
     // ----------------------------------------------------------------------------------------------
-    //       email: String, emailNuevo: String, elCallback: Callback --> getTodasLasMedidas() -->
+    //       email: String, emailNuevo: String --> getTodasLasMedidas() --> elCallback: Callback
     // ----------------------------------------------------------------------------------------------
     public void cambiarEmail(String email,String emailNuevo,PeticionarioREST.Callback elCallback) {
 
@@ -131,8 +131,27 @@ public class LogicaFake {
         );
     }
 
+    // ----------------------------------------------------------------------------------------------
+    //       email: String, passwordNueva: String --> cambiarPassword() --> elCallback: Callback
+    // ----------------------------------------------------------------------------------------------
+    public void cambiarPassword(String email,String passwordNueva,PeticionarioREST.Callback elCallback) {
+
+        PeticionarioREST elPeticionario = new PeticionarioREST();
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("email",email);
+        params.put("password",passwordNueva);
+
+        JSONObject eljson = new JSONObject(params);
+
+        elPeticionario.hacerPeticionREST("POST", this.urlServidor + "cambiarPassword", eljson.toString(), elCallback,
+                "application/json; charset=utf-8"
+        );
+    }
+
+
     // -------------------------------------------------------------------------------------------------------
-    //            idUsuario: Z, elCallback: Callback  --> distanciaRecorridaEnUnDia() -->
+    //            idUsuario: N  --> distanciaRecorridaEnUnDia() --> elCallback: Callback
     // -------------------------------------------------------------------------------------------------------
     public void distanciaRecorridaEnUnDia(int idUsuario, PeticionarioREST.Callback elCallback) {
 
@@ -149,7 +168,7 @@ public class LogicaFake {
     }
 
     // -------------------------------------------------------------------------------------------------------
-    //       idUsuario: N, idSensor: N, elCallback: Callback --> asociarSensorUsuario() -->
+    //       idUsuario: N, idSensor: N --> asociarSensorUsuario() --> elCallback: Callback
     // -------------------------------------------------------------------------------------------------------
     public void asociarSensorUsuario(int idUsuario, int idSensor, PeticionarioREST.Callback elCallback) {
 
@@ -168,7 +187,7 @@ public class LogicaFake {
     }
 
     // -------------------------------------------------------------------------------------------------------
-    //       idUsuario: Z, elCallback: Callback --> asociarSensorUsuario() -->
+    //       idUsuario: N --> asociarSensorUsuario() --> elCallback: Callback
     // -------------------------------------------------------------------------------------------------------
     public void buscarMedidasDelUltimoDiaDeUnUsuario(int idUsuario, PeticionarioREST.Callback elCallback) {
 
@@ -185,7 +204,7 @@ public class LogicaFake {
     }
 
     // -------------------------------------------------------------------------------------------------------
-    //        elCallback(): Callback --> asociarSensorUsuario() -->
+    //                      --> asociarSensorUsuario() --> elCallback: Callback
     // -------------------------------------------------------------------------------------------------------
     public void obtenerDatosEstacionGandia(PeticionarioREST.Callback elCallback) {
 
