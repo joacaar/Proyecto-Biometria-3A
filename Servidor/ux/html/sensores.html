@@ -113,7 +113,7 @@
         <div class="sensor">
 
             <div class="row editarEliminar">
-                <button class="eliminar btn btn-primary" id="eliminar" disabled>eliminar</button>
+                <button class="eliminar btn btn-primary" id="eliminar" onclick="borrarSensor()" disabled>eliminar</button>
             </div>
             <div class="row datos">
                 <label for="" class="idSensor">ID:</label>
@@ -231,9 +231,12 @@
         // ------------------------------------------------------------------
         // borrarSensor()
         // ------------------------------------------------------------------
-        
+
         function borrarSensor() {
-            
+            elProxy.borrarSensor(document.getElementById("idSensorLabel").innerHTML, function(res) {
+                console.log("location reload");
+                location.reload();
+            })
         }
 
         // ------------------------------------------------------------------
