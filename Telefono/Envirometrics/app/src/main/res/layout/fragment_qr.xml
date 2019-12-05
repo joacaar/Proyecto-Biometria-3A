@@ -7,16 +7,14 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="0dp"
-        android:layout_height="199dp"
-        app:layout_constraintBottom_toTopOf="@+id/informacionSensor"
+        android:id="@+id/imagenResultadoQr"
+        android:layout_width="234dp"
+        android:layout_height="208dp"
+        android:layout_marginTop="100dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tituloQR"
-        app:layout_constraintVertical_bias="0.57"
-        app:srcCompat="@drawable/success" />
+        app:layout_constraintTop_toBottomOf="@+id/tituloQR" />
 
     <TextView
         android:id="@+id/tituloQR"
@@ -24,7 +22,6 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
         android:gravity="center"
-        android:text="Sensor enlazado con éxito"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,10 +33,14 @@
         android:id="@+id/informacionSensor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:autoText="false"
+        android:padding="5dp"
+        android:textAlignment="center"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
+        app:layout_constraintTop_toBottomOf="@+id/imagenResultadoQr"
+        app:layout_constraintVertical_bias="0.41000003" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
