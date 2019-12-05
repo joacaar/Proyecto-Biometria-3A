@@ -187,7 +187,7 @@ public class LogicaFake {
     }
 
     // -------------------------------------------------------------------------------------------------------
-    //       idUsuario: N --> asociarSensorUsuario() --> elCallback: Callback
+    //       idUsuario: N --> buscarMedidasDelUltimoDiaDeUnUsuario() --> elCallback: Callback
     // -------------------------------------------------------------------------------------------------------
     public void buscarMedidasDelUltimoDiaDeUnUsuario(int idUsuario, PeticionarioREST.Callback elCallback) {
 
@@ -204,7 +204,7 @@ public class LogicaFake {
     }
 
     // -------------------------------------------------------------------------------------------------------
-    //                      --> asociarSensorUsuario() --> elCallback: Callback
+    //                      --> obtenerDatosEstacionGandia() --> elCallback: Callback
     // -------------------------------------------------------------------------------------------------------
     public void obtenerDatosEstacionGandia(PeticionarioREST.Callback elCallback) {
 
