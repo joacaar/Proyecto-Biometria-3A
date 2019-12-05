@@ -259,7 +259,7 @@
                         var newRow = $("<tr>");
                         var cols = "";
                         cols += '<td scope="row">' + res[i].idUsuario + '</td>';
-                        cols += '<td><a href="#" onclick="getInformacionTaxista(' + [i] + ')" class="enlaceTaxista" id="enlaceTaxista">' + res[i].email + '</a></td>';
+                        cols += '<td><a href="#" onclick="getInformacionTaxista(' + [(i+1)] + ')" class="enlaceTaxista" id="enlaceTaxista">' + res[i].email + '</a></td>';
                         cols += '<td>' + res[i].telefono + '</td>';
                         cols += '<td>' + i + '</td>';
 
