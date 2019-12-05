@@ -53,51 +53,7 @@
 }
 
 
-/*              Estilo de los botones              */
-.row.editarEliminar {
-    position: absolute;
-    right: 1em;
-}
 
-.btn-primary {
-    background-color: #00B49A;
-    color: #FAFAFA;
-    border: none;
-}
-
-.btn-primary:hover,
-.btn-primary:focus,
-.btn-primary:active {
-    background-color: #00957f !important;
-    color: #FAFAFA;
-}
-
-.btn-primary.editar {
-    height: 1.5em;
-    width: auto;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin-right: 1em;
-}
-
-.btn-primary.eliminar {
-    height: 1.5em;
-    width: auto;
-    padding-top: 0;
-    padding-bottom: 0;
-    margin-right: 2em;
-}
-
-.row.botones {
-    margin: 3em 1em;
-    margin-top: 5em;
-}
-
-.row.botones button {
-    width: 100%;
-    padding-top: 0;
-    padding-bottom: 0;
-}
 
 
 
@@ -119,7 +75,7 @@ tr.selected a {
 
 tr.selected a:hover,
 tr.selected a:focus,
-tr.selected a:active{
+tr.selected a:active {
     color: #F0F0F0;
     text-decoration: underline;
 }
@@ -131,7 +87,7 @@ tr a {
 
 tr a:hover,
 tr a:focus,
-tr a:active{
+tr a:active {
     color: #393946;
     text-decoration: underline;
 }
