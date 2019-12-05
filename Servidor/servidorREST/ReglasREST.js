@@ -616,7 +616,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
 
       var datos = JSON.parse(peticion.body)
 
-      //var res = await laLogica.darSensorAUsuario(datos);
+      var res = await laLogica.asociarSensorUsuario(datos);
 
       respuesta.sendStatus(200);
       respuesta.send("OK");

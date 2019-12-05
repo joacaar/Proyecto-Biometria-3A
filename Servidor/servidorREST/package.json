@@ -12,6 +12,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "*",
+    "jsdom": "^15.2.1",
     "request": "*",
     "simple-crypto-js": "^2.2.0",
     "sqlite3": "*"

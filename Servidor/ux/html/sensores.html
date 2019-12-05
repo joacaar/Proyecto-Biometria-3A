@@ -219,7 +219,7 @@
                     cols += '<td> Calidad del aire </td>';
                     cols += '<td>' + res[i].idUsuario + '</td>';
 
-                    elProxy.getUltimaMedidaDeUnUsuario(res[i].idUsuario, function(medida) {
+                    /*elProxy.getUltimaMedidaDeUnUsuario(res[i].idUsuario, function(medida) {
                         var now = Date.now();
                         if ((now - medida.tiempo) > 86400000) {
                             
@@ -230,7 +230,9 @@
                         
                         newRow.append(cols);
                         $("#tablaSensores").append(newRow);
-                    })
+                    })*/
+                    newRow.append(cols);
+                    $("#tablaSensores").append(newRow);
                 }
             });
         }
