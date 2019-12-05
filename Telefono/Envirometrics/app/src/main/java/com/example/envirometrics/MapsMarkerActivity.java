@@ -172,19 +172,20 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
                     JSONObject object = jsonObject.getJSONObject(jsonObject.length()-1);
 
                     String hora = object.getString("hora");
-                    double s02 = object.getDouble("s02");
                     double co = object.getDouble("co");
+
+                    /*
+                    double s02 = object.getDouble("s02");
                     double no = object.getDouble("no");
                     double no2 = object.getDouble("no2");
                     double nox = object.getDouble("nox");
-                    double o3 = object.getDouble("o3");
+                    double o3 = object.getDouble("o3");*/
 
                     //Añado la estación de medida de Gandia
                     LatLng estacionMedidaGandia = new LatLng(38.968148, -0.189648);
                     googleMap.addMarker(new MarkerOptions().position(estacionMedidaGandia)
                             .title("Estación de calidad del aire")
-                            .snippet("Hora: " + hora + " s02: " + s02 + " co: " + co + " no: " + no +
-                                    " no2: " + no2 + " nox: " + nox + " o3: " + o3));
+                            .snippet("Hora: " + hora + " co: " + co));
 
                 }catch (JSONException err){
                     Log.d("Error", err.toString());

@@ -115,6 +115,13 @@
             android:paddingLeft="1dp"
             android:paddingTop="1dp"
             android:textColor="#FF5858" />
+
+        <TextView
+            android:id="@+id/mensajeSuccess"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center" />
     </LinearLayout>
 
     <Button

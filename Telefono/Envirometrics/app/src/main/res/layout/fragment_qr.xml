@@ -14,12 +14,12 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9"
+        app:layout_constraintTop_toBottomOf="@+id/tituloQR"
         app:layout_constraintVertical_bias="0.57"
         app:srcCompat="@drawable/success" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/tituloQR"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-light"
@@ -36,7 +36,6 @@
         android:id="@+id/informacionSensor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Información sensor"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

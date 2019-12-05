@@ -35,7 +35,7 @@ public class QRFragment extends Fragment {
 
     private LogicaFake laLogica;
     static final int REQUEST_IMAGE_CAPTURE = 1;
-
+    private TextView tituloQR;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -48,13 +48,13 @@ public class QRFragment extends Fragment {
             ActivityCompat.requestPermissions(getActivity(), new  String[]{Manifest.permission.CAMERA}, 3);
         }
 
-        if(Hawk.contains("sensorAsociado")) {
+        if(!Hawk.contains("sensorAsociado")) {
             Intent intent = new Intent(getActivity(), QrScannerActivity.class);
             startActivityForResult(intent, QrScannerActivity.QR_REQUEST_CODE);
         }
-
-        TextView textoSensorId;
-
+        else{
+            tituloQR = root.findViewById(R.id.tituloQR);
+        }
 
 
         return root;
@@ -120,12 +120,13 @@ public class QRFragment extends Fragment {
                     public void respuestaRecibida(int codigo, String cuerpo) {
                         if(codigo==200){
                             //Todo OK
-                            Hawk.put("sensorAsociado",true);
+                            Hawk.put("sensorAsociado",idSensor);
                             Hawk.put("idSensor",idSensor);
                         }
 
                         if (codigo == 300) {
                             //Ya está registrado el sensor
+                            tituloQR.setText("Sensor ya registrado");
                         }
 
                     }
