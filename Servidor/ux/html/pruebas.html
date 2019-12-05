@@ -7,7 +7,7 @@
 
 <body>
 
-    <button type="button" onclick="taxistasFiltradosQueNoHanEnviadoEn24H()">Try it</button>
+    <button type="button" onclick="obtenerDatosEstacionGandia()">Try it</button>
 
     <script>
         var elProxy = new Proxy();
@@ -67,6 +67,12 @@
         function buscarRelacionesUsuarioSensor() {
             elProxy.buscarRelacionesUsuarioSensor(function(res) {
                 console.log(res)
+            })
+        }
+
+        function obtenerDatosEstacionGandia() {
+            elProxy.obtenerDatosEstacionGandia(function(res) {
+                console.log(res[res.length - 1])
             })
         }
 
