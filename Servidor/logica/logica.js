@@ -827,23 +827,22 @@ module.exports = class Logica {
 
     var losTaxistas = await this.getTaxistas();
 
-    var json = { email: "", telefono:"", idUsuario: 0, seHaPasado24HSinEnviar: false }
+
 
     var taxistasFiltrados = [];
 
     for( var i = 0; i < losTaxistas.length; i++ ){
 
-      json.email = losTaxistas[i].email;
-      json.telefono = losTaxistas[i].telefono;
-      json.idUsuario = losTaxistas[i].idUsuario;
-
-      var laMedida = await this.getUltimaMedidaDeUnUsuario(json.idUsuario);
+      var laMedida = await this.getUltimaMedidaDeUnUsuario(losTaxistas[i].idUsuario);
 
       if( laMedida != null ){
           if((now - laMedida.tiempo) > 86400000){
-            json.seHaPasado24HSinEnviar = true;
+            var json = { email: losTaxistas[i].email, telefono:losTaxistas[i].telefono,
+               idUsuario: losTaxistas[i].idUsuario, seHaPasado24HSinEnviar: true }
           }
       }
+      var json = { email: losTaxistas[i].email, telefono:losTaxistas[i].telefono, idUsuario:
+         losTaxistas[i].idUsuario, seHaPasado24HSinEnviar: false }
             taxistasFiltrados.push(json)
     }
 

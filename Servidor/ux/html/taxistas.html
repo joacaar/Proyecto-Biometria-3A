@@ -252,7 +252,7 @@
         // getTaxistas()
         // ------------------------------------------------------------------
         function getTaxistas() {
-            elProxy.getUsuarios(function(res) {
+            elProxy.taxistasFiltradosQueNoHanEnviadoEn24H(function(res) {
                 for (var i = 0; i < res.length; i++) {
                     if (res[i].email.includes("@taxista.com")) {
                         console.log(res[i]);
@@ -262,19 +262,16 @@
                         cols += '<td><a href="#" onclick="getInformacionTaxista(' + [i] + ')" class="enlaceTaxista" id="enlaceTaxista">' + res[i].email + '</a></td>';
                         cols += '<td>' + res[i].telefono + '</td>';
                         cols += '<td>' + i + '</td>';
-// TODO: cambiar de ultima medida de usuario a comprobar que 
-                        elProxy.getUltimaMedidaDeUnUsuario(res[i].idUsuario, function(medida) {
-                            var now = Date.now();
-                            if ((now - medida.tiempo) > 86400000) {
-                                cols += '<td>' + '<i class="fa fa-exclamation-triangle" id="alerta24horas"></i>' + '</td>';
-                            } else {
-                                cols += '<td>' + '</td>';
-                            }
 
-                            newRow.append(cols);
-                            $("#tablaTaxistas").append(newRow);
-                        })
+                        if (res[i].seHaPasado24HSinEnviar) {
+                            cols += '<td>' + '<i class="fa fa-exclamation-triangle" id="alerta24horas"></i>' + '</td>';
+                        } else {
+                            cols += '<td>' + '</td>';
+                        }
                         
+                        newRow.append(cols);
+                        $("#tablaTaxistas").append(newRow);
+
                     } else {
                         console.log("No es taxista");
                     }
