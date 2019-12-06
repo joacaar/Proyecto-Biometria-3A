@@ -40,5 +40,10 @@
         android:name="com.example.envirometrics.ui.QR.QRFragment"
         android:label="Escaner QR"
         tools:layout="@layout/fragment_qr" />
+    <fragment
+        android:id="@+id/nav_info"
+        android:name="com.example.envirometrics.ui.informacion.InfoFragment"
+        android:label="Información"
+        tools:layout="@layout/fragment_info" />
 
 </navigation>

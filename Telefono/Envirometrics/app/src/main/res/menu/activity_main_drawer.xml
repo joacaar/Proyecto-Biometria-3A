@@ -17,6 +17,10 @@
             android:icon="@drawable/ic_resumen"
             android:title="@string/resumen_diario" />
         <item
+            android:id="@+id/nav_info"
+            android:icon="@drawable/ic_info"
+            android:title="Información" />
+        <item
             android:id="@+id/nav_ajustes"
             android:icon="@drawable/ic_settings"
             android:title="@string/menu_tools" />
