@@ -21,13 +21,13 @@
             android:icon="@drawable/ic_codigo_qr"
             android:drawableTint="#FFFFFF"
             android:title="Escaner QR" />
+    </group>
+
+    <group android:id="@+id/group2" android:checkableBehavior="single">
         <item
             android:id="@+id/nav_ajustes"
             android:icon="@drawable/ic_settings"
             android:title="@string/menu_tools" />
-    </group>
-
-    <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_cerrar_sesion"
             android:icon="@drawable/ic_cerrar_sesion"
