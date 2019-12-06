@@ -61,12 +61,14 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:fontFamily="sans-serif-condensed-light"
                 android:text="Distancia recorrida:"
                 android:textSize="24sp" />
@@ -76,7 +78,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="sans-serif-condensed-light"
-                android:paddingLeft="10dp"
+                android:paddingLeft="5dp"
                 android:text="10 km"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -99,7 +101,7 @@
                 android:textSize="30sp" />
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/textoMediaContaminacion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"

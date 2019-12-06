@@ -21,6 +21,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import lecho.lib.hellocharts.model.Axis;
@@ -37,6 +38,7 @@ public class ResumenDiaFragment extends Fragment {
     private TextView distancia;
     private LogicaFake laLogica;
     private int idUsuario;
+    private TextView textoMediaContaminacion;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,9 +54,11 @@ public class ResumenDiaFragment extends Fragment {
         laLogica = new LogicaFake(getContext());
         chart = root.findViewById(R.id.chart);
         distancia = root.findViewById(R.id.textViewDistancia);
+        textoMediaContaminacion = root.findViewById(R.id.textoMediaContaminacion);
 
         obtenerDistanciaRecorrida();
         empezarHacerDibujoContaminacionDiaria();
+        obtenerCalidadDelAireRespiradoDuranteElDia();
 
         return root;
 
@@ -71,7 +75,7 @@ public class ResumenDiaFragment extends Fragment {
 
         List<PointValue> values = new ArrayList<PointValue>();
 
-        values.add(new PointValue(1, 2));
+        values.add(new PointValue(0, 2));
         values.add(new PointValue(1, 3));
         values.add(new PointValue(2, 4));
         values.add(new PointValue(3, 3));
@@ -147,9 +151,6 @@ public class ResumenDiaFragment extends Fragment {
     //
     // -----------------------------------------------------------------------------
     private void empezarHacerDibujoContaminacionDiaria(){
-
-        Log.d("obtenerContaminacionDia", "zzzzzz");
-
         //
         // busco las medidas para el dibujo
         //
@@ -157,8 +158,6 @@ public class ResumenDiaFragment extends Fragment {
                 new PeticionarioREST.Callback () {
                     @Override
                     public void respuestaRecibida(int codigo, String cuerpo) {
-
-
                         try {
                             JSONArray jsonArrayMedidas = new JSONArray(cuerpo);
                             Log.d("------Medidas------", jsonArrayMedidas.toString());
@@ -178,17 +177,36 @@ public class ResumenDiaFragment extends Fragment {
 
     private void obtenerDistanciaRecorrida (){
 
+
         laLogica.distanciaRecorridaEnUnDia(idUsuario,
                 new PeticionarioREST.Callback () {
                     @Override
                     public void respuestaRecibida(int codigo, String cuerpo) {
-
                         try {
+                            //Limito la distancia a dos decimales (está en Km)
+                            DecimalFormat df = new DecimalFormat("#.0");
                             JSONObject jsonObject = new JSONObject(cuerpo);
-                            distancia.setText(jsonObject.get("respuesta").toString());
+                            distancia.setText(df.format(jsonObject.get("respuesta")) + " Km");
 
                         }catch (JSONException err){
                             Log.d("Error", err.toString());
+                        }
+                    }
+                });
+    }
+
+    private void obtenerCalidadDelAireRespiradoDuranteElDia () {
+        laLogica.calidadDelAireRespiradoEnElUltimoDia(idUsuario,
+                new PeticionarioREST.Callback () {
+                    @Override
+                    public void respuestaRecibida(int codigo, String cuerpo) {
+                        if(codigo == 200){
+                            try {
+                                JSONObject jsonObject = new JSONObject(cuerpo);
+                                textoMediaContaminacion.setText(jsonObject.get("respuesta").toString() + " ppb");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
                 });

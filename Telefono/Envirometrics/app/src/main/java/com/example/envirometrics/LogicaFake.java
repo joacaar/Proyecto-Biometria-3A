@@ -218,6 +218,23 @@ public class LogicaFake {
         );
     }
 
+    // -------------------------------------------------------------------------------------------------------
+    //                    idUsuario: N --> calidadDelAireRespiradoEnElUltimoDia() --> elCallback: Callback
+    // -------------------------------------------------------------------------------------------------------
+    public void calidadDelAireRespiradoEnElUltimoDia(int idUsuario,PeticionarioREST.Callback elCallback) {
+
+        PeticionarioREST elPeticionario = new PeticionarioREST();
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("idUsuario", String.valueOf(idUsuario));
+
+        JSONObject eljson = new JSONObject(params);
+
+        elPeticionario.hacerPeticionREST("GET", this.urlServidor + "calidadDelAireRespiradoEnElUltimoDia/" + idUsuario, eljson.toString(), elCallback,
+                "application/json; charset=utf-8"
+        );
+    }
+
 
 } // class
 

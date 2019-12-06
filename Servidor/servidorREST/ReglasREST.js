@@ -231,7 +231,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // .......................................................
   servidorExpress.get('/buscarMedidasDelUltimoDiaDeUnUsuario/:idUsuario',
     async function(peticion, respuesta) {
-      console.log(" * GET /usuarios ")
+      console.log(" * GET /buscarMedidasDelUltimoDiaDeUnUsuario ")
 
       var idUsuario = peticion.params.idUsuario;
       // busco las relacionesUsuarioSensor
@@ -252,7 +252,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
     // .......................................................
     servidorExpress.get('/calidadDelAireRespiradoEnElUltimoDia/:idUsuario',
       async function(peticion, respuesta) {
-        console.log(" * GET /usuarios ")
+        console.log(" * GET /calidadDelAireRespiradoEnElUltimoDia ")
 
         var idUsuario = peticion.params.idUsuario;
         // busco las relacionesUsuarioSensor
