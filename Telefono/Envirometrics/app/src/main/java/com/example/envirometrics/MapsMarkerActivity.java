@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -184,8 +185,9 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
                     //Añado la estación de medida de Gandia
                     LatLng estacionMedidaGandia = new LatLng(38.968148, -0.189648);
                     googleMap.addMarker(new MarkerOptions().position(estacionMedidaGandia)
-                            .title("Estación de calidad del aire")
-                            .snippet("Hora: " + hora + " co: " + co));
+                            .title("Estación Gandía")
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.ic_estacion))
+                            .snippet(" Nivel CO: " + co + "   Hora: " + hora));
 
                 }catch (JSONException err){
                     Log.d("Error", err.toString());

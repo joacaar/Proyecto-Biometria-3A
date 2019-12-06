@@ -947,8 +947,7 @@ module.exports = class Logica {
   // .................................................................
   async getDatosEstacionGandia() {
 
-    //var res = estacionGandia.obtenerDatosEstacionGandia()
-    var res;
+    var res = estacionGandia.obtenerDatosEstacionGandia()
 
     return new Promise((resolver, rechazar) => {
       try {

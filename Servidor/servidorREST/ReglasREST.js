@@ -356,7 +356,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
 
     var res = await laLogica.getDatosEstacionGandia()
 
-    console.log(res)
+    //console.log(res)
     // todo ok
     respuesta.send(JSON.stringify(res))
   }) // get /obtenerDatosEstacionGandia

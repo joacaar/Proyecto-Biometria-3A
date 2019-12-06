@@ -43,7 +43,7 @@ public class ResumenDiaFragment extends Fragment {
     private int idUsuario;
     private TextView textoMediaContaminacion;
     private int numberOfPoints = 5;
-    
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_resumen_diario, container, false);
