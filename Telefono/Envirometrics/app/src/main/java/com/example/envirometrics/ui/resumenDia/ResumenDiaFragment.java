@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 import com.example.envirometrics.LogicaFake;
 import com.example.envirometrics.PeticionarioREST;
 import com.example.envirometrics.R;
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.orhanobut.hawk.Hawk;
 
 import org.json.JSONArray;
@@ -43,15 +44,21 @@ public class ResumenDiaFragment extends Fragment {
     private int idUsuario;
     private TextView textoMediaContaminacion;
     private int numberOfPoints = 5;
+    private CircularProgressView progressView;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_resumen_diario, container, false);
 
+        //Empieza la animación de cargar
+        progressView = (CircularProgressView) root.findViewById(R.id.progress_viewResumen);
+        progressView.setVisibility(View.VISIBLE);
+        progressView.startAnimation();
+
+
         Hawk.init(getContext()).build();
 
         idUsuario = Hawk.get("id");
-
 
         laLogica = new LogicaFake(getContext());
         chart = root.findViewById(R.id.chart);
@@ -159,6 +166,9 @@ public class ResumenDiaFragment extends Fragment {
 
         //Le pasamos toda la informacion a la vista de la grafica
         chart.setLineChartData(data);
+
+        progressView.stopAnimation();
+        progressView.setVisibility(View.INVISIBLE);
 
     }
 
