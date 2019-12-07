@@ -1,3 +1,9 @@
+// .....................................................................
+// Autor: Santiago Pérez Torres
+// Fecha inicio: 24/10/2019
+// Última actualización: 7/12/2019
+// LogicaFake.java
+// .....................................................................
 package com.example.envirometrics;
 
 import android.content.Context;
