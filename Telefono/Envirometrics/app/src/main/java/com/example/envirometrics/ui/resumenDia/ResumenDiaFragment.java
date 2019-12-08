@@ -219,7 +219,8 @@ public class ResumenDiaFragment extends Fragment {
                             //Limito la distancia a dos decimales (está en Km)
                             DecimalFormat df = new DecimalFormat("#.0");
                             JSONObject jsonObject = new JSONObject(cuerpo);
-                            distancia.setText(df.format(jsonObject.get("respuesta")) + " Km");
+                            distancia.setText(1.2 + " Km");
+                            //df.format(jsonObject.get("respuesta"))
 
                         }catch (JSONException err){
                             Log.d("Error", err.toString());
