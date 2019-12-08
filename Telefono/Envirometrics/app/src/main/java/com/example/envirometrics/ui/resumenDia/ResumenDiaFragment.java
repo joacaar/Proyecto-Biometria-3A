@@ -217,7 +217,7 @@ public class ResumenDiaFragment extends Fragment {
                     public void respuestaRecibida(int codigo, String cuerpo) {
                         try {
                             //Limito la distancia a dos decimales (está en Km)
-                            DecimalFormat df = new DecimalFormat("#.0");
+                            DecimalFormat df = new DecimalFormat("#.#");
                             JSONObject jsonObject = new JSONObject(cuerpo);
                             distancia.setText(1.2 + " Km");
                             //df.format(jsonObject.get("respuesta"))
@@ -236,7 +236,7 @@ public class ResumenDiaFragment extends Fragment {
                     public void respuestaRecibida(int codigo, String cuerpo) {
                         if(codigo == 200){
                             try {
-                                DecimalFormat df = new DecimalFormat("#.0");
+                                DecimalFormat df = new DecimalFormat("#.#");
                                 JSONObject jsonObject = new JSONObject(cuerpo);
                                 textoMediaContaminacion.setText(df.format(jsonObject.get("respuesta"))+ " ppm");
                             } catch (JSONException e) {
