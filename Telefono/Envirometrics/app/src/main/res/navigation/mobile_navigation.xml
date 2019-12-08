@@ -43,7 +43,7 @@
     <fragment
         android:id="@+id/nav_info"
         android:name="com.example.envirometrics.ui.informacion.InfoFragment"
-        android:label="Información"
+        android:label="Información gases"
         tools:layout="@layout/fragment_info" />
 
 </navigation>

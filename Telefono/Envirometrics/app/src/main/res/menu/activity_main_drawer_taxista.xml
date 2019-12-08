@@ -17,6 +17,10 @@
             android:icon="@drawable/ic_resumen"
             android:title="@string/resumen_diario" />
         <item
+            android:id="@+id/nav_info"
+            android:icon="@drawable/ic_info"
+            android:title="Información gases" />
+        <item
             android:id="@+id/nav_QR"
             android:icon="@drawable/ic_codigo_qr"
             android:drawableTint="#FFFFFF"

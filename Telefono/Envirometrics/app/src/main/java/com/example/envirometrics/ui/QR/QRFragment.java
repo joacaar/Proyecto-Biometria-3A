@@ -103,7 +103,14 @@ public class QRFragment extends Fragment {
                 }
 
                 idTaxista = Hawk.get("id");
-                enviarDatosAlServidor(idTaxista, Integer.parseInt(idSensor));
+
+                if(idSensor.equals("")) {
+                    enviarDatosAlServidor(idTaxista, -1);
+                }else{
+                    enviarDatosAlServidor(idTaxista, Integer.parseInt(idSensor));
+                }
+
+
 
             }else {
                 informacionSensor.setText("Nada escaneado");
@@ -140,7 +147,7 @@ public class QRFragment extends Fragment {
                             imagenResultadoQr.setImageResource(R.drawable.error);
                         }
 
-                        if(codigo == 404){
+                        if(codigo == 404 || idSensor == -1){
                             //Error al conectarse con el servidor
                             tituloQR.setText("Error al registrar sensor");
                             informacionSensor.setText("");
