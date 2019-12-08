@@ -53,14 +53,27 @@
 }
 
 
+/*                  Boton añadir                  */
 
+.row.botones {
+    margin-top: 1em;
+}
 
+.row.botones button {
+    margin-top: 0.8em;
+}
+
+.row.botones button#introducirNuevoTaxista {
+    width: auto;
+    margin-left: 1.5em;
+}
 
 
 /*                 Tabla taxistas                 */
 .row.tablaTaxistas p {
     margin-left: 1em;
     font-size: 32px;
+    float: left;
 }
 
 tr.selected {

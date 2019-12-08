@@ -124,7 +124,7 @@ div#sidebar {
 p.empresa {
     color: #FFFFFF;
     font-size: 32px;
-    margin-left: 1em;
+    text-align: center;
 }
 
 p.empresaIndex {
