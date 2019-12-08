@@ -200,22 +200,17 @@
                 <label for="" class="telefono" id="telefonoLabel"></label>
             </div>
 
-            <div class="row botones">
-                <div class="col-4">
-                    <button class="btn btn-primary" id="introducirNuevoTaxista"> Introducir nuevo taxista </button>
-                </div>
-                <div class="col-4">
-                    <button class="btn btn-primary" id="cambiarContraseña"> Cambiar contraseña </button>
-                </div>
-                <div class="col-4">
-                    <button class="btn btn-primary" id="verRegistroDatos" disabled> Ver el registro de datos </button>
-                </div>
-            </div>
         </div>
 
         <!-- Tabla de taxistas -->
-        <div class="row tablaTaxistas">
-            <p>Todos los taxistas</p>
+        <div class="row tablaTaxistas botones">
+            <div class="col-8">
+                <p>Todos los taxistas</p>
+                <button class="btn btn-primary" id="introducirNuevoTaxista"> Añadir </button>
+            </div>
+            <div class="col-4">
+                <button class="btn btn-primary" id="verRegistroDatos" disabled> Ver el registro de datos </button>
+            </div>
             <table id="tablaTaxistas" class="table">
                 <thead>
                     <tr>
@@ -223,7 +218,7 @@
                         <th>E-mail</th>
                         <th>Teléfono</th>
                         <th>Sensor enlazado</th>
-                        <th></th>
+                        <th>Alertas 24h</th>
                     </tr>
                 </thead>
                 <tbody>
