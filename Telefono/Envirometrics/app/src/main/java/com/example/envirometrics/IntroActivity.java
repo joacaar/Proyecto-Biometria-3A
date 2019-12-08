@@ -73,6 +73,14 @@ public class IntroActivity extends com.heinrichreimersoftware.materialintro.app.
                         return true;
                     }
                 }
+
+                if(position==2){
+                    pedirPermisoCamara();
+
+                    if (ContextCompat.checkSelfPermission(getBaseContext(), Manifest.permission.CAMERA ) == PackageManager.PERMISSION_GRANTED) {
+                        return true;
+                    }
+                }
                 return true;
             }
 
@@ -89,6 +97,13 @@ public class IntroActivity extends com.heinrichreimersoftware.materialintro.app.
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED //&&
             /*ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED*/) {
             ActivityCompat.requestPermissions(this, new  String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 3);
+        }
+    }
+
+    public void pedirPermisoCamara(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED //&&
+            /*ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED*/) {
+            ActivityCompat.requestPermissions(this, new  String[]{Manifest.permission.CAMERA}, 3);
         }
     }
 

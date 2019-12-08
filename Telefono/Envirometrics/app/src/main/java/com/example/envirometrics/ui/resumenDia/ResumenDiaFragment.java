@@ -235,8 +235,9 @@ public class ResumenDiaFragment extends Fragment {
                     public void respuestaRecibida(int codigo, String cuerpo) {
                         if(codigo == 200){
                             try {
+                                DecimalFormat df = new DecimalFormat("#.0");
                                 JSONObject jsonObject = new JSONObject(cuerpo);
-                                textoMediaContaminacion.setText(jsonObject.get("respuesta").toString() + " ppb");
+                                textoMediaContaminacion.setText(df.format(jsonObject.get("respuesta"))+ " ppb");
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

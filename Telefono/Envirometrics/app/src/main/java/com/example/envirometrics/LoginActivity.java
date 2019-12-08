@@ -28,6 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     private TextView textoError;
     public LogicaFake laLogica;
     private Boolean firstTime = null;
+    private CircularProgressView progressView;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -37,6 +38,8 @@ public class LoginActivity extends AppCompatActivity {
         laLogica = new LogicaFake(this);
         btnIniciarSesion = findViewById(R.id.btnLog);
         textoError = findViewById(R.id.textoError);
+        progressView = (CircularProgressView) findViewById(R.id.progress_view);
+
 
         Hawk.init(this).build();
 
@@ -66,7 +69,6 @@ public class LoginActivity extends AppCompatActivity {
                 btnIniciarSesion.setText("");
 
                 //Empieza la animación de cargar
-                final CircularProgressView progressView = (CircularProgressView) findViewById(R.id.progress_view);
                 progressView.setVisibility(View.VISIBLE);
                 progressView.startAnimation();
 
