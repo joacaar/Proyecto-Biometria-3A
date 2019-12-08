@@ -27,7 +27,7 @@ public class ReceptorBLE {
     private long time;
 
     // Stops scanning after 10 seconds.
-    private static final long SCAN_PERIOD = 1000 * 60 * 3;
+    private static final long SCAN_PERIOD = 1000 * 30;
     private final String MI_UUID = "EPSG-GTI-PROY-E2";
 //    private final String MI_UUID = "EPSG-GTI-PROY-E2";
 
@@ -144,6 +144,19 @@ public class ReceptorBLE {
 
                 @Override //cada vez que descubre un dispositivo ejecuta la fucnion onLeScan
                 public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
+
+                    Log.e(TAG, "Dentro de onLeScan");
+                    Log.e(TAG, time + "");
+                    Log.e(TAG, System.currentTimeMillis() + "");
+
+                    long timer = time + SCAN_PERIOD;
+
+                    Log.e(TAG, timer + "");
+
+                    if(System.currentTimeMillis() > time+SCAN_PERIOD){
+                        stopScan();
+                    }
+
                     TramaIBeacon tramaAux = filtrarPorUUID(MI_UUID, scanRecord);
 
                     if(tramaAux!= null) {
@@ -158,14 +171,7 @@ public class ReceptorBLE {
                             Log.d(TAG, "La medida no es correcta, dejamos de escanear");
                             stopScan();
                         }
-                        //stopScan();
                     }
-                    /*
-                    if((time + SCAN_PERIOD) >= System.currentTimeMillis()){
-                        stopScan();
-                    }
-
-                     */
                 }
             };
 }

@@ -12,7 +12,10 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Build;
+import android.os.Handler;
+import android.os.HandlerThread;
 import android.os.IBinder;
+import android.os.Looper;
 import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
@@ -30,6 +33,8 @@ public class Servicio extends Service {
     static final int NOTIFICACION_ID = 1;
     private Notification.Builder notificacion;
 
+    private Handler mServiceHandler;
+
     private ReceptorBLE receptor;
 
 
@@ -37,6 +42,11 @@ public class Servicio extends Service {
     public void onCreate(){
 
         Log.e(TAG, "Se ha creado el servicio");
+
+        HandlerThread handlerThread = new HandlerThread("MyHandlerThread");
+        handlerThread.start();
+        Looper loop = handlerThread.getLooper();
+        mServiceHandler =  new Handler(loop);
 
         //receptor = new ReceptorBLE(this);
         notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -84,6 +94,7 @@ public class Servicio extends Service {
     public IBinder onBind(Intent intent) {
         return null;
     }
+
 
     @Override
     public void onDestroy() {

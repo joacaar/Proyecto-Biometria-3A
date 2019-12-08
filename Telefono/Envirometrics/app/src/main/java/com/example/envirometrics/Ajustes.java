@@ -67,7 +67,7 @@ public class Ajustes extends AppCompatActivity {
  */
 
         btnServ.setChecked(false);
-        preferences.edit().putBoolean("permisoServicio", false);
+        editor.putBoolean("permisoServicio", false).commit();
 
         //Hacemos las comprobaciones para saber si el boto debe estar activado o no
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION ) == PackageManager.PERMISSION_GRANTED){
@@ -77,20 +77,18 @@ public class Ajustes extends AppCompatActivity {
                 if(Hawk.get("esTaxista", false)){
                     Log.e(TAG, "tercero");
                     btnServ.setChecked(true);
-                    preferences.edit().putBoolean("permisoServicio", true);
+                    editor.putBoolean("permisoServicio", true).commit();
                 }else{
 
                 }
             }
         }
 
-        preferences.edit().commit();
-
         //Comprobamos que el campo tipoMedida existe, en caso negativo mostraremos por defecto la primera opcion elegida
         if(!preferences.contains("tipoMedida")){
             Log.d(TAG, "tipoMedida no existe");
             rg.check(R.id.rb1);
-            editor.putString("tipoMedida", "1");
+            editor.putString("tipoMedida", "1").commit();
             Log.d(TAG, preferences.getString("tipoMedida", "error: nulo"));
         }else{//En caso afirmativo se obtiene la opcion elegida para mostrar en las opciones la actual
             Log.d(TAG, "Tipo medida existe");
@@ -136,38 +134,37 @@ public class Ajustes extends AppCompatActivity {
         switch (v.getId()) {
             case R.id.rb1:
                 if (marcado) {
-                    editor.putString("tipoMedida", "1");
+                    editor.putString("tipoMedida", "1").commit();
                 }
                 break;
 
             case R.id.rb2:
                 if (marcado) {
-                    editor.putString("tipoMedida", "2");
+                    editor.putString("tipoMedida", "2").commit();
                 }
                 break;
 
             case R.id.rb3:
                 if (marcado) {
-                    editor.putString("tipoMedida", "3");
+                    editor.putString("tipoMedida", "3").commit();
                 }
                 break;
             case R.id.rb4:
                 if (marcado) {
-                    editor.putString("tipoMedida", "4");
+                    editor.putString("tipoMedida", "4").commit();
                 }
                 break;
             case R.id.rb5:
                 if (marcado) {
-                    editor.putString("tipoMedida", "5");
+                    editor.putString("tipoMedida", "5").commit();
                 }
                 break;
             case R.id.rb6:
                 if (marcado) {
-                    editor.putString("tipoMedida", "6");
+                    editor.putString("tipoMedida", "6").commit();
                 }
                 break;
         }
-        editor.commit();
         Log.d("Debug-Preferences", preferences.getString("tipoMedida","error"));
         startActivity(new Intent(this, MainActivity.class));
         finish();
@@ -176,13 +173,12 @@ public class Ajustes extends AppCompatActivity {
     //Funcion para permitir o no el funcionamiento del servicio en segundo plano
     public void permitirServicio(View v){
         if(btnServ.isChecked()){
-            editor.putBoolean("permisoServicio", true);
+            editor.putBoolean("permisoServicio", true).commit();
         }else{
-            editor.putBoolean("permisoServicio", false);
+            editor.putBoolean("permisoServicio", false).commit();
             Intent i = new Intent(this, Servicio.class);
             stopService(i);
         }
-        editor.commit();
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }

@@ -25,6 +25,7 @@ import com.orhanobut.hawk.Hawk;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 
 import android.util.Log;
 import android.view.Menu;
@@ -34,6 +35,7 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity {
 
     private final String TAG = "---MainActivityDebug---";
+    private final String pServicio = "permisoServicio";
 
     public static int REQUEST_BLUETOOTH = 1;
 
@@ -74,12 +76,25 @@ public class MainActivity extends AppCompatActivity {
         //----------------------------------------------------
         //                  Beacon
         //----------------------------------------------------
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION ) == PackageManager.PERMISSION_GRANTED && esTaxista){
-            if(esTaxista)
-            preferences.edit().putBoolean("permisoServicio", true);
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION ) == PackageManager.PERMISSION_GRANTED ){
+            Log.d(TAG, "Permisos localizacion concedidos");
+            if(esTaxista) {
+                Log.d(TAG, "Es taxista");
+                Log.d(TAG, "permisoServicio concedido");
+                //Si contiene los permisos, es taxista y permite que funcione el servicio, el servicio se inicia
+                preferences.edit().putBoolean(pServicio, true).commit();
+            }else{
+                Log.d(TAG, "No Es taxista");
+                preferences.edit().putBoolean(pServicio, false).commit();
+            }
         }else{
-            preferences.edit().putBoolean("permisoServicio", false);
+            Log.d(TAG, "No permisos localizacion");
+            preferences.edit().putBoolean(pServicio, false).commit();
         }
+
+        Log.d(TAG,preferences.getAll() + "");
+
         // creamos la intencionServicio que nos ejecutara el servicio y la notificacion en primer plano
         intencionServicio = new Intent(getApplicationContext(), Servicio.class);
         intencionServicio.setAction("com.example.envirometrics");
@@ -132,12 +147,20 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart (){
         super.onStart();
         if(esTaxista) {
+            Log.d(TAG, "Es taxista para iniciar");
             //Coprueba si los permisos de localizacion estan concedidos
             if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                Log.d(TAG, "PErmisos localizacion para iniciar");
                 //Comprueba si el BT esta activado siempre que sea taxista
                 if (receptorBle.checkBtOn()) {
+                    Log.d(TAG, "BT on para iniciar");
                     if(!comprobarEstadoServicio()){
-                        startService(intencionServicio);
+                        Log.d(TAG, "Servicio apagado OK para iniciar");
+                        Log.d(TAG, preferences.contains(pServicio) + " " + preferences.getBoolean(pServicio, true));
+                        if(preferences.contains(pServicio) && preferences.getBoolean(pServicio, false)) {
+                            Log.d(TAG,"permisoServicio ok para iniciar");
+                            startService(intencionServicio);
+                        }
                     }
 
                 }else{
