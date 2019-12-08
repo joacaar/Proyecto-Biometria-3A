@@ -509,10 +509,16 @@ module.exports = class Logica {
 
   }
 
+
   rad(x) {
     return x * Math.PI / 180;
   }
 
+  // .................................................................
+  // 4 R -->
+  // calcularDistanciaEntreDosPuntos()
+  // --> R
+  // .................................................................
   calcularDistanciaEntreDosPuntos(lat1, lon1, lat2, lon2) {
     var R = 6378.137; //Radio de la tierra en km
     var dLat = this.rad(lat2 - lat1);
@@ -523,6 +529,11 @@ module.exports = class Logica {
     return d; //Retorna tres decimales
   }
 
+  // .................................................................
+  // lista <Medida> -->
+  // calcularDistanciaEntreLosPuntosDeUnaLista()
+  // --> R
+  // .................................................................
   calcularDistanciaEntreLosPuntosDeUnaLista(lista) {
 
     var distancia = 0;
@@ -827,6 +838,11 @@ module.exports = class Logica {
 
   }
 
+
+  //-----------------------------------------------------------------------
+  // filtrarTaxistasQueNoHanEnviadoEn24H() -->
+  // [{email:Texto, telefono:Texto, idUsuario:N, seHaPasado24HSinEnviar:V/F}]
+  //-----------------------------------------------------------------------
   async filtrarTaxistasQueNoHanEnviadoEn24H(){
 
     var now = Date.now();
