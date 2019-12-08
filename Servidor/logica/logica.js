@@ -6,6 +6,7 @@
 // .....................................................................
 const sjcl = require('sjcl')
 const sqlite3 = require("sqlite3")
+var estacionGandia = require('./estacionGandia')
 /*const SimpleCrypto = require("simple-crypto-js").default;*/
 // .....................................................................
 // .....................................................................
@@ -492,7 +493,9 @@ module.exports = class Logica {
   async distanciaRecorridaEnUnDiaPorIdUsuario(idUsuario) {
 
     var res = await this.buscarMedidasDelUltimoDiaDeUnUsuario(idUsuario);
-    /*console.log(res);
+
+    /*
+    console.log("distancia: " + res)
     console.log(res[3].latitud);*/
     if (res == undefined) {
       return false
@@ -529,8 +532,8 @@ module.exports = class Logica {
       distancia += this.calcularDistanciaEntreDosPuntos(lista[i].latitud, lista[i].longitud, lista[i + 1].latitud, lista[i + 1].longitud)
 
     }
-
-    return distancia;
+    var distanciaEnKm = distancia/1000;
+    return distanciaEnKm;
 
   }
 
@@ -607,7 +610,7 @@ module.exports = class Logica {
 
     return new Promise((resolver, rechazar) => {
       this.laConexion.all(sqlText, valoresSQL, function(err, res){
-        console.log("En el callback de la promesa de comprobar" + res.length);
+        console.log("En el callback de la promesa de comprobar: " + res.length);
         if(err){
           rechazar(err);
         }else if(res.length > 0){
@@ -628,6 +631,7 @@ module.exports = class Logica {
 
     //Llamada a buscarSensor()
     var res = await this.buscarSensor(datos.idSensor);
+    console.log("Respuesta en logica:");
     console.log(res);
     if(res == undefined){
       return new Promise((resolver, rechazar) => {
@@ -636,12 +640,14 @@ module.exports = class Logica {
     }else{
       //Llamada a comprobarSensorDeusuario
       res = await this.comprobarSensorEsDeUsuario(datos);
+      console.log("comprobado que sensor es de un usuario: ");
+      console.log(res);
       if(res){
         //Es verdadero y por tanto el sensor ya pertenece a otro usuario
         return new Promise((resolver, rechazar) =>{
           resolver(300);
         });
-      }else{
+      } else {
         //EL sensor existe y no pertenece a ningun usuario
         var textoSQL ='insert into UsuarioSensor values ( $idUsuario, $idSensor );'
         var valoresParaSQL = {
@@ -649,7 +655,7 @@ module.exports = class Logica {
           $idSensor: datos.idSensor
         }
         return new Promise((resolver, rechazar) => {
-          console.log("Dentro de la promsea de darSesor");
+          console.log("Dentro de la promesa de darSensor");
           this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
             console.log("Dentro del callback de la promesa de dar sensor");
             (err ? rechazar(err) : resolver(200))
@@ -827,23 +833,24 @@ module.exports = class Logica {
 
     var losTaxistas = await this.getTaxistas();
 
-    var json = { email: "", telefono:"", idUsuario: 0, seHaPasado24HSinEnviar: false }
+
 
     var taxistasFiltrados = [];
 
     for( var i = 0; i < losTaxistas.length; i++ ){
 
-      json.email = losTaxistas[i].email;
-      json.telefono = losTaxistas[i].telefono;
-      json.idUsuario = losTaxistas[i].idUsuario;
-
-      var laMedida = await this.getUltimaMedidaDeUnUsuario(json.idUsuario);
-
+      var laMedida = await this.getUltimaMedidaDeUnUsuario(losTaxistas[i].idUsuario);
       if( laMedida != null ){
+          console.log(now - laMedida.tiempo);
           if((now - laMedida.tiempo) > 86400000){
-            json.seHaPasado24HSinEnviar = true;
+            var json = { email: losTaxistas[i].email, telefono:losTaxistas[i].telefono,
+               idUsuario: losTaxistas[i].idUsuario, seHaPasado24HSinEnviar: true }
           }
+      } else {
+            var json = { email: losTaxistas[i].email, telefono:losTaxistas[i].telefono, idUsuario:
+                losTaxistas[i].idUsuario, seHaPasado24HSinEnviar: false }
       }
+
             taxistasFiltrados.push(json)
     }
 
@@ -941,7 +948,6 @@ module.exports = class Logica {
   // --> [{{tiempo: N, so2: R, co: R, no: R, no2: R, nox: R, o3: R}}]
   // .................................................................
   async getDatosEstacionGandia() {
-    var estacionGandia = require('./estacionGandia')
 
     var res = estacionGandia.obtenerDatosEstacionGandia()
 

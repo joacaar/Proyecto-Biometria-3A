@@ -28,9 +28,28 @@
 */
 
 /*                   Main                      */
+a.chevron {
+    position: absolute;
+    z-index: 1;
+    bottom: 16px;
+    left: 0;
+    right: 0;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50px;
+
+    color: #393946;
+}
+
+a.chevron:hover,
+a.chevron:active,
+a.chevron:focus {
+    color: #515160;
+}
+
 div.mapa {
     width: 100%;
-    height: 70vh;
+    height: 90vh;
     /*vh: tamaño respecto al aspecto de la pantalla. 100vh = a toda la pantalla*/
 }
 
@@ -99,7 +118,7 @@ iframe.mapa {
 .modal {
     display: none;
     position: fixed;
-    z-index: 1;
+    z-index: 2;
     left: 0;
     top: 0;
     width: 100%;
@@ -170,11 +189,34 @@ iframe.mapa {
     }
 }
 
+/*                   Informacion contaminantes                    */
+
+div.informacion {
+    background-color: #515160;
+    color: #FAFAFA;
+
+    padding: 3em 5em;
+    text-align: center;
+}
+
+.informacion p {
+    margin: 0.25em 0;
+    font-weight: bold;
+}
+
+.informacion p.titulo {
+    font-size: 30px
+}
+
+div.informacion .row div {
+    margin: 1em 0;
+}
+
 /*                   Publicidad aplicacion                    */
 
 .publicidad {
-    background-color: #515160;
-    color: #FAFAFA;
+    background-color: #FAFAFA;
+    color: #000000;
     padding: 3em 5em;
     text-align: center;
 }

@@ -69,6 +69,33 @@ class Proxy {
   }
 
   //----------------------------------------------------------------------------
+  // obtenerDatosEstacionGandia()
+  //  --> [{{tiempo: N, so2: R, co: R, no: R, no2: R, nox: R, o3: R}}]
+  //----------------------------------------------------------------------------
+  obtenerDatosEstacionGandia(callback) {
+
+    var myInit = {
+      method: 'GET',
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      cache: 'default'
+    };
+
+
+    fetch(IP_PUERTO + "/obtenerDatosEstacionGandia", myInit)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        callback(data);
+      })
+
+  }
+
+  //----------------------------------------------------------------------------
   // getUsuarios() -->
   //[JSON{email:Texto, password:Texto, telefono:Texto, idUsuario:N}]
   //----------------------------------------------------------------------------
@@ -389,7 +416,7 @@ class Proxy {
       idUsuario: datos.idUsuario
     }
 
-    fetch(IP_PUERTO + "/darSensorAUsuario", {
+    fetch(IP_PUERTO + "/asociarSensorUsuario", {
       method: 'POST', // or 'PUT'
       body: JSON.stringify(datosSensorUsuario), // data can be `string` or {object}!
       headers: {

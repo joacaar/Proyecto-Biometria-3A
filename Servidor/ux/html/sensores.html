@@ -68,8 +68,6 @@
 
         <!-- Search Bar -->
         <div class="searchbar">
-            <img src="../images/bell-regular.svg" alt="" class="searchIcon">
-
             <button class="buttonLogOut btn btn-outline-dark" onclick="logOut()">Log Out</button>
         </div>
 
@@ -115,8 +113,7 @@
         <div class="sensor">
 
             <div class="row editarEliminar">
-                <button class="editar btn btn-primary" id="editar">editar</button>
-                <button class="eliminar btn btn-primary" id="eliminar">eliminar</button>
+                <button class="eliminar btn btn-primary" id="eliminar" onclick="borrarSensor()" disabled>eliminar</button>
             </div>
             <div class="row datos">
                 <label for="" class="idSensor">ID:</label>
@@ -139,14 +136,14 @@
                     <button class="btn btn-primary" id="introducirNuevoSensor"> Introducir nuevo sensor </button>
                 </div>
                 <div class="col-4">
-                    <button class="btn btn-primary" id="verRegistroDatos"> Ver el registro de datos </button>
+                    <button class="btn btn-primary" id="verRegistroDatos" disabled> Ver el registro de datos </button>
                 </div>
             </div>
         </div>
 
         <!-- Tabla de sensores -->
         <div class="row tablaSensores">
-            <p>Todos los taxistas</p>
+            <p>Todos los sensores</p>
             <table id="tablaSensores" class="table">
                 <thead>
                     <tr>
@@ -179,7 +176,37 @@
         var elProxy = new Proxy();
 
         // ------------------------------------------------------------------
-        // darAltaTaxista()
+        // getSensores()
+        // ------------------------------------------------------------------
+        function getSensores() {
+            elProxy.buscarRelacionesUsuarioSensor(function(res) {
+                for (var i = 0; i < res.length; i++) {
+                    var newRow = $("<tr class='filaDeTablaSensores fila" + (i) + "'>");
+                    var cols = "";
+                    cols += '<td scope="row"><a href="#" onclick="getInformacionSensor(' + [i] + ')" class="enlaceSensor" id="enlaceSensor">' + res[i].idSensor + '</a></td>';
+                    cols += '<td> Calidad del aire </td>';
+                    cols += '<td>' + res[i].idUsuario + '</td>';
+
+                    /*elProxy.getUltimaMedidaDeUnUsuario(res[i].idUsuario, function(medida) {
+                        var now = Date.now();
+                        if ((now - medida.tiempo) > 86400000) {
+                            
+                            cols += '<td>' + '<i class="fa fa-exclamation-triangle" id="alerta24horas"></i>' + '</td>';
+                        } else {
+                            cols += '<td>' + '</td>';
+                        }
+                        
+                        newRow.append(cols);
+                        $("#tablaSensores").append(newRow);
+                    })*/
+                    newRow.append(cols);
+                    $("#tablaSensores").append(newRow);
+                }
+            });
+        }
+
+        // ------------------------------------------------------------------
+        // darAltaSensor()
         // ------------------------------------------------------------------
 
         function darAltaSensor() {
@@ -202,6 +229,17 @@
         }
 
         // ------------------------------------------------------------------
+        // borrarSensor()
+        // ------------------------------------------------------------------
+
+        function borrarSensor() {
+            elProxy.borrarSensor(document.getElementById("idSensorLabel").innerHTML, function(res) {
+                console.log("location reload");
+                location.reload();
+            })
+        }
+
+        // ------------------------------------------------------------------
         // setAlertHide()
         // ------------------------------------------------------------------
 
@@ -209,33 +247,6 @@
             $("#errorSensor").hide();
         }
 
-        // ------------------------------------------------------------------
-        // getSensores()
-        // ------------------------------------------------------------------
-        function getSensores() {
-            elProxy.buscarRelacionesUsuarioSensor(function(res) {
-                for (var i = 0; i < res.length; i++) {
-                    var newRow = $("<tr>");
-                    var cols = "";
-                    cols += '<td scope="row"><a href="#" onclick="getInformacionSensor(' + [i] + ')" class="enlaceSensor" id="enlaceSensor">' + res[i].idSensor + '</a></td>';
-                    cols += '<td> Calidad del aire </td>';
-                    cols += '<td>' + res[i].idUsuario + '</td>';
-
-                    elProxy.getUltimaMedidaDeUnUsuario(res[i].idUsuario, function(medida) {
-                        var now = Date.now();
-                        if ((now - medida.tiempo) > 86400000) {
-                            
-                            cols += '<td>' + '<i class="fa fa-exclamation-triangle" id="alerta24horas"></i>' + '</td>';
-                        } else {
-                            cols += '<td>' + '</td>';
-                        }
-                        
-                        newRow.append(cols);
-                        $("#tablaSensores").append(newRow);
-                    })
-                }
-            });
-        }
 
         // ------------------------------------------------------------------
         // usuariosSinMedidasEn24H()
@@ -264,6 +275,15 @@
                 document.getElementById("medidaLabel").innerHTML = "Calidad del aire";
                 document.getElementById("usuarioAsociadoLabel").innerHTML = res[orden].idUsuario;
             });
+
+            for (var i = 0; i < document.getElementsByClassName("filaDeTablaSensores").length; i++) {
+                document.getElementsByClassName("filaDeTablaSensores")[i].classList.remove("selected");
+            }
+
+            var clase = "fila" + orden;
+            document.getElementsByClassName(clase)[0].classList.add("selected");
+
+            document.getElementById("eliminar").disabled = false;
         }
 
         // ------------------------------------------------------------------

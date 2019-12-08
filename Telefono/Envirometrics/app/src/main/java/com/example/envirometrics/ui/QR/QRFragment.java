@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ import com.example.envirometrics.R;
 import com.orhanobut.hawk.Hawk;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import me.ydcool.lib.qrmodule.activity.QrScannerActivity;
 
@@ -35,27 +37,34 @@ public class QRFragment extends Fragment {
 
     private LogicaFake laLogica;
     static final int REQUEST_IMAGE_CAPTURE = 1;
-
+    private TextView tituloQR;
+    private TextView informacionSensor;
+    private ImageView imagenResultadoQr;
 
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_qr, container, false);
         laLogica = new LogicaFake(getContext());
+        informacionSensor = root.findViewById(R.id.informacionSensor);
+        tituloQR = root.findViewById(R.id.tituloQR);
+        imagenResultadoQr = root.findViewById(R.id.imagenResultadoQr);
+
         Hawk.init(getContext()).build();
 
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new  String[]{Manifest.permission.CAMERA}, 3);
+        }else {
+
+            if (!Hawk.contains("sensorAsociado")) {
+                Intent intent = new Intent(getActivity(), QrScannerActivity.class);
+                startActivityForResult(intent, QrScannerActivity.QR_REQUEST_CODE);
+            } else {
+                tituloQR.setText("¡Sensor enlazado!");
+                informacionSensor.setText("Id del sensor: " + Hawk.get("sensorAsociado"));
+                imagenResultadoQr.setImageResource(R.drawable.success);
+            }
         }
-
-        if(Hawk.contains("sensorAsociado")) {
-            Intent intent = new Intent(getActivity(), QrScannerActivity.class);
-            startActivityForResult(intent, QrScannerActivity.QR_REQUEST_CODE);
-        }
-
-        TextView textoSensorId;
-
-
 
         return root;
     }
@@ -75,7 +84,6 @@ public class QRFragment extends Fragment {
         if (requestCode == QrScannerActivity.QR_REQUEST_CODE) {
             Log.d("QR escaneado", resultCode == RESULT_OK ? data.getExtras().getString(QrScannerActivity.QR_RESULT_STR) : "Nada escaneado!");
 
-            TextView informacionSensor = getActivity().findViewById(R.id.informacionSensor);
             String  idSensor = "";
             String datosQR;
             int idTaxista;
@@ -95,9 +103,14 @@ public class QRFragment extends Fragment {
                 }
 
                 idTaxista = Hawk.get("id");
-                informacionSensor.setText("Id del sensor: " + idSensor);
 
-                enviarDatosAlServidor(idTaxista, Integer.parseInt(idSensor));
+                if(idSensor.equals("")) {
+                    enviarDatosAlServidor(idTaxista, -1);
+                }else{
+                    enviarDatosAlServidor(idTaxista, Integer.parseInt(idSensor));
+                }
+
+
 
             }else {
                 informacionSensor.setText("Nada escaneado");
@@ -120,14 +133,26 @@ public class QRFragment extends Fragment {
                     public void respuestaRecibida(int codigo, String cuerpo) {
                         if(codigo==200){
                             //Todo OK
-                            Hawk.put("sensorAsociado",true);
+                            Hawk.put("sensorAsociado",idSensor);
                             Hawk.put("idSensor",idSensor);
+                            tituloQR.setText("¡Sensor enlazado!");
+                            informacionSensor.setText("Id del sensor: " + idSensor);
+                            imagenResultadoQr.setImageResource(R.drawable.success);
                         }
 
                         if (codigo == 300) {
                             //Ya está registrado el sensor
+                            tituloQR.setText("Sensor ya registrado");
+                            informacionSensor.setText("Este sensor pertenece \n a otra persona");
+                            imagenResultadoQr.setImageResource(R.drawable.error);
                         }
 
+                        if(codigo == 404 || idSensor == -1){
+                            //Error al conectarse con el servidor
+                            tituloQR.setText("Error al registrar sensor");
+                            informacionSensor.setText("");
+                            imagenResultadoQr.setImageResource(R.drawable.error);
+                        }
                     }
                 });
     }

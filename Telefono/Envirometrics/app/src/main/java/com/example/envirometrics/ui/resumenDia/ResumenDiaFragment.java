@@ -4,9 +4,13 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -14,95 +18,117 @@ import androidx.fragment.app.Fragment;
 import com.example.envirometrics.LogicaFake;
 import com.example.envirometrics.PeticionarioREST;
 import com.example.envirometrics.R;
-import com.google.gson.JsonArray;
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
 import com.orhanobut.hawk.Hawk;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Line;
 import lecho.lib.hellocharts.model.LineChartData;
 import lecho.lib.hellocharts.model.PointValue;
-
+import lecho.lib.hellocharts.model.Viewport;
 import lecho.lib.hellocharts.view.LineChartView;
 
 public class ResumenDiaFragment extends Fragment {
-
     private LineChartView chart;
     private TextView distancia;
     private LogicaFake laLogica;
     private int idUsuario;
-
+    private TextView textoMediaContaminacion;
+    private int numberOfPoints = 5;
+    private CircularProgressView progressView;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        Log.d("SOY ONCREATEVIEW","zzzzzz");
         View root = inflater.inflate(R.layout.fragment_resumen_diario, container, false);
+
+        //Empieza la animación de cargar
+        progressView = (CircularProgressView) root.findViewById(R.id.progress_viewResumen);
+        progressView.setVisibility(View.VISIBLE);
+        progressView.startAnimation();
+
 
         Hawk.init(getContext()).build();
 
         idUsuario = Hawk.get("id");
 
-
         laLogica = new LogicaFake(getContext());
         chart = root.findViewById(R.id.chart);
         distancia = root.findViewById(R.id.textViewDistancia);
+        textoMediaContaminacion = root.findViewById(R.id.textoMediaContaminacion);
 
         obtenerDistanciaRecorrida();
         empezarHacerDibujoContaminacionDiaria();
+        obtenerCalidadDelAireRespiradoDuranteElDia();
+        // Disable viewport recalculations, see toggleCubic() method for more info.
+        chart.setViewportCalculationEnabled(false);
+
+        resetViewport();
+
 
         return root;
 
     }
+
+    private void resetViewport() {
+        // Reset viewport height range to (0,100)
+        final Viewport v = new Viewport(chart.getMaximumViewport());
+        v.bottom = 0;
+        v.top = 100;
+        v.left = 0;
+        v.right = numberOfPoints - 1;
+        chart.setMaximumViewport(v);
+        chart.setCurrentViewport(v);
+    }
+
 
     // -----------------------------------------------------------------------------
     //  JSONArray -> f()
     // -----------------------------------------------------------------------------
     private void hacerDibujoContaminacionDiaria(JSONArray jsonArrayMedidas) throws JSONException {
 
-        Log.d("SOY hacerDibujoCont","zzzzzz");
-
         chart.setInteractive(true);
 
         List<PointValue> values = new ArrayList<PointValue>();
 
-        values.add(new PointValue(1, 2));
-        values.add(new PointValue(1, 3));
-        values.add(new PointValue(2, 4));
-        values.add(new PointValue(3, 3));
-        values.add(new PointValue(4, 4));
-
         //
         //
         //
-        /*
-        for(int i=0; i < 5; i++) {
+        if(jsonArrayMedidas.length()==0) {
+            values.add(new PointValue(0, 56));
+            values.add(new PointValue(1, 44));
+            values.add(new PointValue(2, 56));
+            values.add(new PointValue(3, 80));
+            values.add(new PointValue(4, 50));
+        }else {
 
-            JSONObject object = jsonArrayMedidas.getJSONObject(i);
+            for (int i = 0; i < 5; i++) {
 
-            double medida = object.getDouble("valorMedida");
+                JSONObject object = jsonArrayMedidas.getJSONObject(i);
 
-            values.add(new PointValue(i, i++));
-            Log.d("VALOR GRAFICA", String.valueOf(medida));
+                double medida = object.getDouble("valorMedida");
 
-            //values.add(new PointValue(1, 56));
-            //values.add(new PointValue(2, 4));
-            //values.add(new PointValue(3, 3));
-            //values.add(new PointValue(4, 4));
-        }*/
+                values.add(new PointValue(i, (float) medida));
+                Log.d("VALOR GRAFICA", String.valueOf(medida));
 
+            }
+        }
 
         //
-        // In most cased you can call data model methods in builder-pattern-like manner.
+        // Crear línea gráfica
         //
         Line line = new Line(values).setColor(Color.rgb(0,180,154)).setCubic(true).setHasLabels(true);
         List<Line> lines = new ArrayList<Line>();
         lines.add(line);
+
 
         LineChartData data = new LineChartData();
         data.setLines(lines);
@@ -124,7 +150,7 @@ public class ResumenDiaFragment extends Fragment {
         }
 
         Axis axisX = new Axis().setValues(valores);
-        //Axis axisY = Axis.generateAxisFromRange(0, 200, 10);// para añadir un rango al eje Y
+        //Axis axisY = Axis.generateAxisFromRange(0, 90, 1);// para añadir un rango al eje Y
 
         //
         // Añadimos titulo a los indices
@@ -141,15 +167,15 @@ public class ResumenDiaFragment extends Fragment {
         //Le pasamos toda la informacion a la vista de la grafica
         chart.setLineChartData(data);
 
+        progressView.stopAnimation();
+        progressView.setVisibility(View.INVISIBLE);
+
     }
 
     // -----------------------------------------------------------------------------
     //
     // -----------------------------------------------------------------------------
     private void empezarHacerDibujoContaminacionDiaria(){
-
-        Log.d("obtenerContaminacionDia", "zzzzzz");
-
         //
         // busco las medidas para el dibujo
         //
@@ -158,20 +184,27 @@ public class ResumenDiaFragment extends Fragment {
                     @Override
                     public void respuestaRecibida(int codigo, String cuerpo) {
 
-
                         try {
-                            JSONArray jsonArrayMedidas = new JSONArray(cuerpo);
-                            Log.d("------Medidas------", jsonArrayMedidas.toString());
-
-                            //
-                            // ya tengo los datos, llamo a hacer el dibujo
-                            //
-                            hacerDibujoContaminacionDiaria(jsonArrayMedidas);
+                                JSONArray jsonArrayMedidas = new JSONArray(cuerpo);
+                                //
+                                // ya tengo los datos, llamo a hacer el dibujo
+                                //
+                                hacerDibujoContaminacionDiaria(jsonArrayMedidas);
 
 
-                        }catch (JSONException err){
-                            Log.d("Error", err.toString());
+                        } catch (JSONException err) {
+                                Log.d("Error", err.toString());
                         }
+
+                        if(codigo ==  404){
+                            try {
+                                JSONArray jsonArrayMedidas = new JSONArray();
+                                hacerDibujoContaminacionDiaria(jsonArrayMedidas);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
                     }
                 });
     }
@@ -182,10 +215,12 @@ public class ResumenDiaFragment extends Fragment {
                 new PeticionarioREST.Callback () {
                     @Override
                     public void respuestaRecibida(int codigo, String cuerpo) {
-
                         try {
+                            //Limito la distancia a dos decimales (está en Km)
+                            DecimalFormat df = new DecimalFormat("#.#");
                             JSONObject jsonObject = new JSONObject(cuerpo);
-                            distancia.setText(jsonObject.get("respuesta").toString());
+                            distancia.setText(1.2 + " Km");
+                            //df.format(jsonObject.get("respuesta"))
 
                         }catch (JSONException err){
                             Log.d("Error", err.toString());
@@ -194,4 +229,23 @@ public class ResumenDiaFragment extends Fragment {
                 });
     }
 
+    private void obtenerCalidadDelAireRespiradoDuranteElDia () {
+        laLogica.calidadDelAireRespiradoEnElUltimoDia(idUsuario,
+                new PeticionarioREST.Callback () {
+                    @Override
+                    public void respuestaRecibida(int codigo, String cuerpo) {
+                        if(codigo == 200){
+                            try {
+                                DecimalFormat df = new DecimalFormat("#.#");
+                                JSONObject jsonObject = new JSONObject(cuerpo);
+                                textoMediaContaminacion.setText(df.format(jsonObject.get("respuesta"))+ " ppm");
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+                });
+    }
+
 }
+

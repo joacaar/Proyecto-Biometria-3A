@@ -7,10 +7,18 @@
 
 <body>
 
-    <button type="button" onclick="taxistasFiltradosQueNoHanEnviadoEn24H()">Try it</button>
+    <button type="button" onclick="darSensorAUsuario()">Try it</button>
 
     <script>
         var elProxy = new Proxy();
+        
+        function getUltimaMedidaDeUnUsuario() {
+            elProxy.getUsuarios(function(listaUsuarios) {
+                elProxy.getUltimaMedidaDeUnUsuario(1, function(res) {
+                    console.log(res)
+                })
+            })
+        }
 
         function getTodasLasMedidas() {
             elProxy.getTodasLasMedidas(function(res) {
@@ -51,22 +59,28 @@
 
         function darAltaSensor() {
             elProxy.darAltaSensor(1, function(res) {
-
+                
             })
         }
 
         function darSensorAUsuario() {
             elProxy.darSensorAUsuario({
-                idSensor: 2,
-                idUsuario: 2
+                idSensor: 3,
+                idUsuario: 3
             }, function(res) {
-
+                console.log(res);
             })
         }
 
         function buscarRelacionesUsuarioSensor() {
             elProxy.buscarRelacionesUsuarioSensor(function(res) {
                 console.log(res)
+            })
+        }
+
+        function obtenerDatosEstacionGandia() {
+            elProxy.obtenerDatosEstacionGandia(function(res) {
+                console.log(res[res.length - 1])
             })
         }
 
