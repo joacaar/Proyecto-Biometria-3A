@@ -156,7 +156,55 @@ TODO: https://bootsnipp.com/snippets/402bQ
 
         }
 
-    </script>
+      elProxy1.obtenerDatosEstacionGandia(function(res) {
+        var datosEstacion = res[res.length - 1]
+
+        var posicion = {
+          lat: 38.968148,
+          lng: -0.189648
+        }
+        var marker = new google.maps.Marker({
+          position: posicion,
+          icon: '../images/ic_estacion.png',
+          map: map,
+          title: "Estacion de Gandía"
+        })
+
+        var contentString = '<div id="content">' +
+          '<div id="siteNotice">' +
+          '</div>' +
+          '<h2 id="firstHeading" class="firstHeading">Estación de Gandía</h1>' +
+          '<p>Nivel CO: ' + datosEstacion.co +' Hora: ' + datosEstacion.hora + '</p>' +
+          '<p>Datos de la estación de Gandía,<a href=http://www.cma.gva.es/cidam/emedio/atmosfera/jsp/datos_on_line.jsp>' +
+          ' datos de la estación.</p>' +
+          '</div>';
+
+        var infowindow = new google.maps.InfoWindow({
+          content: contentString
+        });
+
+        marker.addListener('click', function() {
+          infowindow.open(map, marker);
+        });
+
+      })
+
+      var colors = [
+        'rgb(102, 225, 0)',
+        'rgb(255, 0, 0)'
+      ]
+
+      var heatmap = new google.maps.visualization.HeatmapLayer({
+        data: heatmapData,
+        maxIntensity: 100000,
+        radius: 50,
+      });
+
+      heatmap.setMap(map);
+      heatmap.set(gradient);
+
+    }
+  </script>
 
 </head>
 

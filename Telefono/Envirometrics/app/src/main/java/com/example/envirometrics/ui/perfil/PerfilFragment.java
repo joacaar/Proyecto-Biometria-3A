@@ -26,10 +26,12 @@ import org.w3c.dom.Text;
 public class PerfilFragment extends Fragment {
 
     private TextView nombre;
+    private String emailUser;
     private EditText emailEditText;
     private EditText password;
     private EditText newPassword;
     private TextView mensajeError;
+    private TextView mensajeSuccess;
     private Button btnCambiarDatos;
     public LogicaFake laLogica;
 
@@ -40,7 +42,7 @@ public class PerfilFragment extends Fragment {
 
         Hawk.init(getContext()).build();
 
-        final String emailUser = Hawk.get("email");
+        emailUser = Hawk.get("email");
         String telefonoUser = Hawk.get("telefono");
 
         nombre = root.findViewById(R.id.textoPerfil);
@@ -48,8 +50,8 @@ public class PerfilFragment extends Fragment {
         password = root.findViewById(R.id.editTextPass);
         newPassword = root.findViewById(R.id.editTextNewPass);
         mensajeError = root.findViewById(R.id.mensajeError);
+        mensajeSuccess = root.findViewById(R.id.mensajeSuccess);
         btnCambiarDatos = root.findViewById(R.id.btnCambiarDatos);
-
 
         if(Hawk.get("email")!=null) {
             nombre.setText(emailUser);
@@ -59,25 +61,52 @@ public class PerfilFragment extends Fragment {
             public void onClick(View v) {
                 String pass = password.getText().toString();
                 String passwordAntigua = Hawk.get("password");
-                String newPass = newPassword.getText().toString();
+                final String newPass = newPassword.getText().toString();
                 final String emailNuevo = emailEditText.getText().toString();
 
                 if(pass.equals(passwordAntigua)){
 
-                    //Iniciar sesión de la logicaFake
-                    laLogica.cambiarEmail(emailUser,emailNuevo,
-                            new PeticionarioREST.Callback () {
-                                @Override
-                                public void respuestaRecibida(int codigo, String cuerpo) {
-                                    //telefono
-                                    //newPass
-                                    if(cuerpo.contains("true")){
-                                        Hawk.put("email",emailNuevo);
-                                    }else{
-                                        mensajeError.setText("Este email ya existe");
+                    if(!emailNuevo.contains("")) {
+                        //Cambiar email
+                        laLogica.cambiarEmail(emailUser, emailNuevo,
+                                new PeticionarioREST.Callback() {
+                                    @Override
+                                    public void respuestaRecibida(int codigo, String cuerpo) {
+                                        //telefono
+                                        //newPass
+                                        if (cuerpo.contains("OK")) {
+                                            Hawk.put("email", emailNuevo);
+                                            nombre.setText(emailNuevo);
+                                            emailEditText.setText("");
+                                            password.setText("");
+                                            newPassword.setText("");
+                                            mensajeSuccess.setText("Datos cambiados con éxito");
+
+                                        } else {
+                                            mensajeError.setText("Este email ya existe");
+                                        }
                                     }
-                                }
-                            });
+                                });
+                    }
+
+                    if(!newPassword.equals("")) {
+                        //Cambiar contraseña
+                        laLogica.cambiarPassword(emailUser, newPass,
+                                new PeticionarioREST.Callback() {
+                                    @Override
+                                    public void respuestaRecibida(int codigo, String cuerpo) {
+                                        //telefono
+                                        //newPass
+                                        if (cuerpo.contains("OK")) {
+                                            Hawk.put("password", newPass);
+                                            emailEditText.setText("");
+                                            password.setText("");
+                                            newPassword.setText("");
+                                            mensajeSuccess.setText("Datos cambiados con éxito");
+                                        }
+                                    }
+                                });
+                    }
                 }else{
                     mensajeError.setText("Contraseña incorrecta");
                 }

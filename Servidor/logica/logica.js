@@ -493,7 +493,9 @@ module.exports = class Logica {
   async distanciaRecorridaEnUnDiaPorIdUsuario(idUsuario) {
 
     var res = await this.buscarMedidasDelUltimoDiaDeUnUsuario(idUsuario);
-    /*console.log(res);
+  
+    /*
+    console.log("distancia: " + res)
     console.log(res[3].latitud);*/
     if (res == undefined) {
       return false
@@ -530,8 +532,8 @@ module.exports = class Logica {
       distancia += this.calcularDistanciaEntreDosPuntos(lista[i].latitud, lista[i].longitud, lista[i + 1].latitud, lista[i + 1].longitud)
 
     }
-
-    return distancia;
+    var distanciaEnKm = distancia/1000;
+    return distanciaEnKm;
 
   }
 

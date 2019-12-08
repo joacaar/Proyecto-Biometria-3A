@@ -11,13 +11,30 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingBottom="@dimen/activity_vertical_margin">
 
+    <com.github.rahatarmanahmed.cpv.CircularProgressView
+        android:id="@+id/progress_viewResumen"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="64dp"
+        android:background="#313131"
+        android:elevation="1dp"
+        android:padding="150dp"
+        app:cpv_animAutostart="false"
+        app:cpv_color="#FFFFFF"
+        app:cpv_indeterminate="true"
+        app:layout_constraintBottom_toTopOf="@+id/cardView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.515"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
         android:fontFamily="sans-serif-condensed-light"
-        android:text="Contaminación respirada durate el día (%)"
+        android:text="Contaminación respirada durate el día (ppb)"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/chart"
         app:layout_constraintEnd_toEndOf="parent"
@@ -61,12 +78,14 @@
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:orientation="horizontal"
-            android:padding="10dp">
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
 
             <TextView
                 android:id="@+id/textView4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:fontFamily="sans-serif-condensed-light"
                 android:text="Distancia recorrida:"
                 android:textSize="24sp" />
@@ -76,8 +95,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:fontFamily="sans-serif-condensed-light"
-                android:paddingLeft="10dp"
-                android:text="10 km"
+                android:paddingLeft="5dp"
+                android:text="6 km"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -92,20 +111,20 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="75dp"
                 android:fontFamily="sans-serif-condensed-light"
                 android:gravity="center"
                 android:text="Media de contaminación respirada"
-                android:textSize="30sp" />
+                android:textSize="26dp" />
 
             <TextView
-                android:id="@+id/textView10"
+                android:id="@+id/textoMediaContaminacion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:fontFamily="sans-serif-condensed-light"
                 android:gravity="center"
-                android:text="40%"
+                android:text="50 ppb"
                 android:textSize="40dp"
                 android:textStyle="bold" />
         </LinearLayout>
