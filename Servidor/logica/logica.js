@@ -493,7 +493,7 @@ module.exports = class Logica {
   async distanciaRecorridaEnUnDiaPorIdUsuario(idUsuario) {
 
     var res = await this.buscarMedidasDelUltimoDiaDeUnUsuario(idUsuario);
-  
+
     /*
     console.log("distancia: " + res)
     console.log(res[3].latitud);*/
@@ -840,15 +840,17 @@ module.exports = class Logica {
     for( var i = 0; i < losTaxistas.length; i++ ){
 
       var laMedida = await this.getUltimaMedidaDeUnUsuario(losTaxistas[i].idUsuario);
-
       if( laMedida != null ){
+          console.log(now - laMedida.tiempo);
           if((now - laMedida.tiempo) > 86400000){
             var json = { email: losTaxistas[i].email, telefono:losTaxistas[i].telefono,
                idUsuario: losTaxistas[i].idUsuario, seHaPasado24HSinEnviar: true }
           }
+      } else {
+            var json = { email: losTaxistas[i].email, telefono:losTaxistas[i].telefono, idUsuario:
+                losTaxistas[i].idUsuario, seHaPasado24HSinEnviar: false }
       }
-      var json = { email: losTaxistas[i].email, telefono:losTaxistas[i].telefono, idUsuario:
-         losTaxistas[i].idUsuario, seHaPasado24HSinEnviar: false }
+
             taxistasFiltrados.push(json)
     }
 
