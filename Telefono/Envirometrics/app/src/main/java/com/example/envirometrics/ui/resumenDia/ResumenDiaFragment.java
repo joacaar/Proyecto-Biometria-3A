@@ -237,7 +237,7 @@ public class ResumenDiaFragment extends Fragment {
                             try {
                                 DecimalFormat df = new DecimalFormat("#.0");
                                 JSONObject jsonObject = new JSONObject(cuerpo);
-                                textoMediaContaminacion.setText(df.format(jsonObject.get("respuesta"))+ " ppb");
+                                textoMediaContaminacion.setText(df.format(jsonObject.get("respuesta"))+ " ppm");
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
