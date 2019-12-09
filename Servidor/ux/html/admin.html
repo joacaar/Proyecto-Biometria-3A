@@ -246,14 +246,14 @@
                         cols += '<td scope="row">' + medida.idMedida + '</td>';
                         cols += '<td>' + medida.idTipoMedida + '</td>';
                         cols += '<td>' + medida.valorMedida + '</td>';
-                        cols += '<td>' + date.getDate();+'/'+  date.getMonth();+'/'+ date.getFullYear();+'/'+'</td>';
+                        cols += '<td>' + date.getDate()+'/'+  date.getMonth()+'/'+ date.getFullYear()+'</td>';
                         cols += '<td>' + medida.latitud + '</td>';
                         cols += '<td>' + medida.longitud + '</td>';
                         cols += '<td>' + medida.idUsuario + '</td>';
                         var now = Date.now();
                         if ((now - medida.tiempo) > 86400000) {
 
-                            cols += '<td>' + '<i class="fa fa-exclamation-triangle" id="alerta24horas"></i>' + '</td>';
+                            cols += '<td>' + '<i class="fa fa-exclamation-triangle" id="alerta24horas" style="margin: 0 0 0 2.1em"></i>' + '</td>';
                             
                         } else {
                             cols += '<td>' + '</td>';

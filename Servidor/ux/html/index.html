@@ -117,6 +117,7 @@ TODO: https://bootsnipp.com/snippets/402bQ
                 }
                 var marker = new google.maps.Marker({
                     position: posicion,
+                    icon: '../images/ic_estacion.png',
                     map: map,
                     title: "Estacion de Gandía"
                 })
@@ -147,64 +148,15 @@ TODO: https://bootsnipp.com/snippets/402bQ
 
             var heatmap = new google.maps.visualization.HeatmapLayer({
                 data: heatmapData,
-                maxIntensity: 100000,
+                maxIntensity: 800,
                 radius: 50,
             });
 
             heatmap.setMap(map);
             heatmap.set(gradient);
-
         }
 
-      elProxy1.obtenerDatosEstacionGandia(function(res) {
-        var datosEstacion = res[res.length - 1]
-
-        var posicion = {
-          lat: 38.968148,
-          lng: -0.189648
-        }
-        var marker = new google.maps.Marker({
-          position: posicion,
-          icon: '../images/ic_estacion.png',
-          map: map,
-          title: "Estacion de Gandía"
-        })
-
-        var contentString = '<div id="content">' +
-          '<div id="siteNotice">' +
-          '</div>' +
-          '<h2 id="firstHeading" class="firstHeading">Estación de Gandía</h1>' +
-          '<p>Nivel CO: ' + datosEstacion.co +' Hora: ' + datosEstacion.hora + '</p>' +
-          '<p>Datos de la estación de Gandía,<a href=http://www.cma.gva.es/cidam/emedio/atmosfera/jsp/datos_on_line.jsp>' +
-          ' datos de la estación.</p>' +
-          '</div>';
-
-        var infowindow = new google.maps.InfoWindow({
-          content: contentString
-        });
-
-        marker.addListener('click', function() {
-          infowindow.open(map, marker);
-        });
-
-      })
-
-      var colors = [
-        'rgb(102, 225, 0)',
-        'rgb(255, 0, 0)'
-      ]
-
-      var heatmap = new google.maps.visualization.HeatmapLayer({
-        data: heatmapData,
-        maxIntensity: 100000,
-        radius: 50,
-      });
-
-      heatmap.setMap(map);
-      heatmap.set(gradient);
-
-    }
-  </script>
+    </script>
 
 </head>
 
@@ -270,7 +222,6 @@ TODO: https://bootsnipp.com/snippets/402bQ
         </div>
 
         <a href="#informacion" class="chevron"><i class="fa fa-chevron-down fa-3x"></i></a>
-
 
         <div class="mapa" id="mapa"></div>
 

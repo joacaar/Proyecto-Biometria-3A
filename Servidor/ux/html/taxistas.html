@@ -256,15 +256,15 @@
                 for (var i = 0; i < res.length; i++) {
                     if (res[i].email.includes("@taxista.com")) {
                         console.log(res[i]);
-                        var newRow = $("<tr class='filaDeTablaTaxistas fila" + (res[i].idUsuario - 1) + "'>");
+                        var newRow = $("<tr class='filaDeTablaTaxistas fila" + i + "'>");
                         var cols = "";
                         cols += '<td scope="row">' + res[i].idUsuario + '</td>';
-                        cols += '<td><a href="#" onclick="getInformacionTaxista(' + (res[i].idUsuario - 1) + ')" class="enlaceTaxista" id="enlaceTaxista">' + res[i].email + '</a></td>';
+                        cols += '<td><a href="#" onclick="getInformacionTaxista(' + i + ')" class="enlaceTaxista" id="enlaceTaxista">' + res[i].email + '</a></td>';
                         cols += '<td>' + res[i].telefono + '</td>';
-                        cols += '<td>' + i + '</td>';
+                        cols += '<td>' + (i+1) + '</td>';
 
                         if (res[i].seHaPasado24HSinEnviar) {
-                            cols += '<td>' + '<i class="fa fa-exclamation-triangle" id="alerta24horas"></i>' + '</td>';
+                            cols += '<td>' + '<i class="fa fa-exclamation-triangle" id="alerta24horas" style="margin: 0 0 0 2.1em"></i>' + '</td>';
                         } else {
                             cols += '<td>' + '</td>';
                         }
@@ -342,7 +342,7 @@
 
         function editarTaxista() {
             //Deteccion de que hay un email puesto
-            if (document.getElementById('cambiarEmail').value.includes("@taxista")) {
+            if (document.getElementById('cambiarEmail').value.includes("@taxista.com")) {
                 var jsonEmail = {
                     email: document.getElementById("emailLabel").innerHTML,
                     emailNuevo: document.getElementById('cambiarEmail').value
@@ -370,18 +370,22 @@
 
                         } else {
                             //contraseñas no coinciden 
+                            setAlertHide()
                             $('#errorEditarPassword').show();
                         }
                     } else {
                         //Sin cambiar contraseña
+                        setAlertHide()
                         location.reload();
                     }
                 } else {
                     //cambiar telefono alert
+                    setAlertHide()
                     $('#errorEditarTelefono').show();
                 }
             } else {
                 //cambiar email alert
+                setAlertHide()
                 $('#errorEditarEmail').show();
             }
         }
@@ -391,7 +395,7 @@
         // ------------------------------------------------------------------
         function getInformacionTaxista(orden) {
             console.log(orden)
-            elProxy.getUsuarios(function(res) {
+            elProxy.taxistasFiltradosQueNoHanEnviadoEn24H(function(res) {
                 document.getElementById("idLabel").innerHTML = res[orden].idUsuario;
                 document.getElementById("emailLabel").innerHTML = res[orden].email;
                 document.getElementById("telefonoLabel").innerHTML = res[orden].telefono;
