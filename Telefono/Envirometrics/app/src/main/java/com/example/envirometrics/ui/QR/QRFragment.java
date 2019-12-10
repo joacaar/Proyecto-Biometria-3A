@@ -52,10 +52,11 @@ public class QRFragment extends Fragment {
 
         Hawk.init(getContext()).build();
 
+        //Si no hay permisos
         if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.CAMERA ) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new  String[]{Manifest.permission.CAMERA}, 3);
         }else {
-
+            //Si el sensor no está asociado abro la cámara para escanear el qr
             if (!Hawk.contains("sensorAsociado")) {
                 Intent intent = new Intent(getActivity(), QrScannerActivity.class);
                 startActivityForResult(intent, QrScannerActivity.QR_REQUEST_CODE);
@@ -72,8 +73,6 @@ public class QRFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
 
     }
 
