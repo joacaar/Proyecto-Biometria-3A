@@ -256,10 +256,10 @@
                 for (var i = 0; i < res.length; i++) {
                     if (res[i].email.includes("@taxista.com")) {
                         console.log(res[i]);
-                        var newRow = $("<tr class='filaDeTablaTaxistas fila" + i + "'>");
+                        var newRow = $('<tr class="filaDeTablaTaxistas fila' + i + '" onclick="getInformacionTaxista(' + i + ')">');
                         var cols = "";
                         cols += '<td scope="row">' + res[i].idUsuario + '</td>';
-                        cols += '<td><a href="#" onclick="getInformacionTaxista(' + i + ')" class="enlaceTaxista" id="enlaceTaxista">' + res[i].email + '</a></td>';
+                        cols += '<td>' + res[i].email + '</td>';
                         cols += '<td>' + res[i].telefono + '</td>';
                         cols += '<td>' + (i+1) + '</td>';
 

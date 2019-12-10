@@ -181,9 +181,9 @@
         function getSensores() {
             elProxy.buscarRelacionesUsuarioSensor(function(res) {
                 for (var i = 0; i < res.length; i++) {
-                    var newRow = $("<tr class='filaDeTablaSensores fila" + (i) + "'>");
+                    var newRow = $("<tr class='filaDeTablaSensores fila" + (i) + "' onclick='getInformacionSensor(" + [i] + ")'>");
                     var cols = "";
-                    cols += '<td scope="row"><a href="#" onclick="getInformacionSensor(' + [i] + ')" class="enlaceSensor" id="enlaceSensor">' + res[i].idSensor + '</a></td>';
+                    cols += '<td scope="row">' + res[i].idSensor + '</td>';
                     cols += '<td> Calidad del aire </td>';
                     cols += '<td>' + res[i].idUsuario + '</td>';
 
