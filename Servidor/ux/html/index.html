@@ -100,14 +100,10 @@ TODO: https://bootsnipp.com/snippets/402bQ
                         location: new google.maps.LatLng(res[i].latitud, res[i].longitud),
                         weight: res[i].valorMedida
                     });
-
-                    console.log("Latitud: " + res[i].latitud);
-                    console.log("longitud: " + res[i].longitud);
-                    console.log("valorMedida: " + res[i].valorMedida);
-
                 }
             })
 
+            console.log(heatmapData)
             elProxy1.obtenerDatosEstacionGandia(function(res) {
                 var datosEstacion = res[res.length - 1]
 
@@ -223,7 +219,9 @@ TODO: https://bootsnipp.com/snippets/402bQ
 
         <a href="#informacion" class="chevron"><i class="fa fa-chevron-down fa-3x"></i></a>
 
-        <div class="mapa" id="mapa"></div>
+
+        <iframe src="mapa.html" frameborder="0" class="mapa"></iframe>
+        <!--<div class="mapa" id="mapa"></div>-->
 
         <div class="publicidad" id="informacion">
             <h1>
