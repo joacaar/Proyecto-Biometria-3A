@@ -318,6 +318,33 @@ class Proxy {
   }
 
   //----------------------------------------------------------------------------
+  // getListaNombresMapas() -->
+  // [texto]
+  //----------------------------------------------------------------------------
+  getListaNombresMapas(callback) {
+
+    var myInit = {
+      method: 'GET',
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      cache: 'default'
+    };
+
+
+    fetch(IP_PUERTO + "/listaNombresMapas", myInit)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        callback(data);
+      })
+
+  }
+
+  //----------------------------------------------------------------------------
   // idUsuario:N -->
   // buscarMedidasDelUltimoDiaDeUnUsuario() -->
   // [ {valorMedida: R, latitud:R, longitud:R, tiempo:N, idMedida:N,
