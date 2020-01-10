@@ -761,14 +761,32 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // peticion.body --> file
   // al llamarlo deberemos insertar una imagen en el body para que lo pueda procesar.
   //-----------------------------------------------------------------------------
-  servidorExpress.post('/subirImagen', upload.single('file'),
+  //-----------------------------------------------------------------------------
+  // POST /subirImagen
+  // peticion.body --> file
+  // al llamarlo deberemos insertar una imagen en el body para que lo pueda procesar.
+  //-----------------------------------------------------------------------------
+  servidorExpress.post('/subirImagen',
     async function(peticion, respuesta) {
+      
       console.log(" * POST /subirImagen ")
-      console.log(`Carpeta donde se ha guardado la foto: ${peticion.hostname}/${peticion.file.path}`);
+      
+      var datos = JSON.parse(peticion.body)
+      
+      let image = datos["file"];
 
-      return respuesta.send(peticion.file)
+    // luego extraes la cabecera del data url
+    var base64Data = image.replace(/^data:image\/jpeg;base64,/, "");
 
+    // grabas la imagen el disco
+    fs.writeFile('imageContaminacion.jpg', base64Data, 'base64', function(err) {
+        console.log(err);
+    });
+
+    return respuesta.send(200);
+      
     }) // post / subirImagen
+
 
   //-----------------------------------------------------------------------------
   // GET /ux/<pagina>
