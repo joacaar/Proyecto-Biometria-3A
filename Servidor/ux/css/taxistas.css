@@ -81,32 +81,18 @@ tr.selected {
     color: #FAFAFA;
 }
 
-tr.selected a {
-    color: #FAFAFA;
-    text-decoration: underline;
+tr.selected:hover,
+tr.selected:focus,
+tr.selected:active {
+    background-color: #00B49A !important;
+    color: #FAFAFA !important;
 }
 
-tr.selected a:hover,
-tr.selected a:focus,
-tr.selected a:active {
-    color: #F0F0F0;
-    text-decoration: underline;
+tr.filaDeTablaTaxistas:hover,
+tr.filaDeTablaTaxistas:focus,
+tr.filaDeTablaTaxistas:active {
+    background-color: #e3e3e3
 }
-
-tr a {
-    color: #000000;
-    text-decoration: underline;
-}
-
-tr a:hover,
-tr a:focus,
-tr a:active {
-    color: #393946;
-    text-decoration: underline;
-}
-
-
-
 
 /*                   Modal Taxistas                   */
 

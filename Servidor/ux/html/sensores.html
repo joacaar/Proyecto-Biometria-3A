@@ -129,21 +129,17 @@
                 <label for="" class="usuarioAsociado">Usuario asociado:</label>
                 <label for="" class="usuarioAsociado" id="usuarioAsociadoLabel"></label>
             </div>
-
-
-            <div class="row botones">
-                <div class="col-4">
-                    <button class="btn btn-primary" id="introducirNuevoSensor"> Introducir nuevo sensor </button>
-                </div>
-                <div class="col-4">
-                    <button class="btn btn-primary" id="verRegistroDatos" disabled> Ver el registro de datos </button>
-                </div>
-            </div>
         </div>
 
         <!-- Tabla de sensores -->
-        <div class="row tablaSensores">
-            <p>Todos los sensores</p>
+        <div class="row tablaSensores botones">
+            <div class="col-8">
+                <p>Todos los sensores</p>
+                <button class="btn btn-primary" id="introducirNuevoSensor"> Añadir </button>
+            </div>
+            <div class="col-4">
+                    <button class="btn btn-primary" id="verRegistroDatos" disabled> Ver el registro de datos </button>
+                </div>
             <table id="tablaSensores" class="table">
                 <thead>
                     <tr>

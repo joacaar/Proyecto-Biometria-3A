@@ -37,12 +37,16 @@
     margin: 0.5em 2em;
 }
 
-.datos .email {
+.datos .idSensor {
     margin-top: 1em;
 }
 
-.datos label {
-    margin-left: 0.5em;
+.datos #idSensorLabel {
+    margin-left: 1em;
+}
+
+.datos .email {
+    margin-top: 1em;
 }
 
 
@@ -122,10 +126,28 @@
     }
 }
 
-/*                 Tabla sesnores                 */
+/*                  Boton añadir                  */
+
+.row.botones {
+    margin-top: 1em;
+}
+
+.row.botones button {
+    margin-top: 0.8em;
+}
+
+.row.botones button#introducirNuevoSensor {
+    width: auto;
+    margin-left: 1.5em;
+}
+
+
+/*                 Tabla sensores                 */
+
 .row.tablaSensores p {
     margin-left: 1em;
     font-size: 32px;
+    float: left;
 }
 
 tr.selected {
@@ -133,26 +155,15 @@ tr.selected {
     color: #FAFAFA;
 }
 
-tr.selected a {
-    color: #FAFAFA;
-    text-decoration: underline;
+tr.selected:hover,
+tr.selected:focus,
+tr.selected:active {
+    background-color: #00B49A !important;
+    color: #FAFAFA !important;
 }
 
-tr.selected a:hover,
-tr.selected a:focus,
-tr.selected a:active{
-    color: #F0F0F0;
-    text-decoration: underline;
-}
-
-tr a {
-    color: #000000;
-    text-decoration: underline;
-}
-
-tr a:hover,
-tr a:focus,
-tr a:active{
-    color: #393946;
-    text-decoration: underline;
+tr.filaDeTablaSensores:hover,
+tr.filaDeTablaSensores:focus,
+tr.filaDeTablaSensores:active {
+    background-color: #e3e3e3
 }
