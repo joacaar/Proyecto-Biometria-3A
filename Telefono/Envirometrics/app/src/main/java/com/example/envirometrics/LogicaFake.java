@@ -248,14 +248,14 @@ public class LogicaFake {
     }
 
     // -------------------------------------------------------------------------------------------------------
-    //                    foto --> subirImagen() --> elCallback: Callback
+    //                    String:imagen --> subirImagen() --> elCallback: Callback
     // -------------------------------------------------------------------------------------------------------
-    public void subirImagen(String image, PeticionarioREST.Callback elCallback) {
+    public void subirImagen(String imagen, PeticionarioREST.Callback elCallback) {
 
         PeticionarioREST elPeticionario = new PeticionarioREST();
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("file",image);
+        params.put("file",imagen);
         JSONObject eljson = new JSONObject(params);
 
         elPeticionario.hacerPeticionREST("POST", this.urlServidor + "subirImagen" , eljson.toString(), elCallback,
