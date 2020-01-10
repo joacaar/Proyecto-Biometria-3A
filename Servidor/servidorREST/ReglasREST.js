@@ -361,6 +361,17 @@ module.exports.cargar = function(servidorExpress, laLogica) {
     respuesta.send(JSON.stringify(res))
   }) // get /obtenerDatosEstacionGandia
 
+  // .......................................................
+  // GET /obtenerFactorCalibracion
+  // .......................................................
+  servidorExpress.get('/obtenerFactorCalibracion',
+  async function(peticion, respuesta) {
+    console.log(" * GET /obtenerFactorCalibracion")
+
+    var res = await laLogica.getDatosEstacionGandia()
+
+    respuesta.send(JSON.stringify(res[res.length-1].co))
+  }) // get /obtenerFactorCalibracion
 
   //-----------------------------------------------------------------------------
   // POST /insertarMedida
