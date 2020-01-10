@@ -272,9 +272,10 @@ module.exports = class Logica {
     return new Promise((resolver, rechazar) => {
       this.laConexion.all(textoSQL, valoresParaSQL,
         (err, res) => {
-          if(err){
+          if (err) {
             rechazar(err)
-          } if(res == undefined){
+          }
+          if (res == undefined) {
             resolver(null)
           }
           resolver(res)
@@ -329,7 +330,7 @@ module.exports = class Logica {
     var res = await this.buscarMedidasPorIdUsuario(idUsuario);
 
     return new Promise((resolver, rechazar) => {
-      if(res == null){
+      if (res == null) {
         resolver(null)
       }
       resolver(res[res.length - 1])
@@ -406,9 +407,9 @@ module.exports = class Logica {
   // buscarTodosLosMapas()
   // --> {Texto}
   // .................................................................
-  buscarTodosLosMapas(path){
+  buscarTodosLosMapas(path) {
     var mapas = fs.readdirSync(path);
-    return new Promise( function (resolver, rechazar){
+    return new Promise(function(resolver, rechazar) {
       resolver(mapas)
     });
   }
@@ -445,7 +446,7 @@ module.exports = class Logica {
           if (err) {
             rechazar(err)
           }
-          if(res == undefined){
+          if (res == undefined) {
             resolver(false)
           }
           var lista = this.filtrarMedidasDelUltimoDia(res)
@@ -460,14 +461,14 @@ module.exports = class Logica {
   // .................................................................
   buscarMedidasDelUltimoDia() {
     var textoSQL = "select * from Medidas";
-    var valoresParaSQL = {
-    }
+    var valoresParaSQL = {}
     return new Promise((resolver, rechazar) => {
       this.laConexion.all(textoSQL, valoresParaSQL,
         (err, res) => {
           if (err) {
             rechazar(err)
-          } if( res == undefined ){
+          }
+          if (res == undefined) {
             resolver(false)
           }
           var lista = this.filtrarMedidasDelUltimoDia(res)
@@ -485,15 +486,15 @@ module.exports = class Logica {
 
     var medidas = await this.buscarMedidasDelUltimoDiaDeUnUsuario(idUsuario)
 
-    return new Promise ( function (resolver, rechazar){
-        if( medidas == false ){
-          resolver(false)
-        }
-        var res = 0;
-        for( var i = 0; i < medidas.length; i++ ){
-          res += medidas[i].valorMedida;
-        }
-        resolver( res/medidas.length );
+    return new Promise(function(resolver, rechazar) {
+      if (medidas == false) {
+        resolver(false)
+      }
+      var res = 0;
+      for (var i = 0; i < medidas.length; i++) {
+        res += medidas[i].valorMedida;
+      }
+      resolver(res / medidas.length);
     })
 
   }
@@ -556,7 +557,7 @@ module.exports = class Logica {
       distancia += this.calcularDistanciaEntreDosPuntos(lista[i].latitud, lista[i].longitud, lista[i + 1].latitud, lista[i + 1].longitud)
 
     }
-    var distanciaEnKm = distancia/1000;
+    var distanciaEnKm = distancia / 1000;
     return distanciaEnKm;
 
   }
@@ -626,20 +627,20 @@ module.exports = class Logica {
   //Comprobamos que un sensor este asociado a un usuario o no
   // Si pertenece a usuario devolvemos true y sino false
   // .................................................................
-  comprobarSensorEsDeUsuario(datos){
+  comprobarSensorEsDeUsuario(datos) {
     var valoresSQL = {
       $idSensor: datos.idSensor
     }
     var sqlText = "select idSensor from UsuarioSensor where idSensor=$idSensor";
 
     return new Promise((resolver, rechazar) => {
-      this.laConexion.all(sqlText, valoresSQL, function(err, res){
+      this.laConexion.all(sqlText, valoresSQL, function(err, res) {
         console.log("En el callback de la promesa de comprobar: " + res.length);
-        if(err){
+        if (err) {
           rechazar(err);
-        }else if(res.length > 0){
-          resolver (true)
-        }else{
+        } else if (res.length > 0) {
+          resolver(true)
+        } else {
           resolver(false);
         }
       })
@@ -657,23 +658,23 @@ module.exports = class Logica {
     var res = await this.buscarSensor(datos.idSensor);
     console.log("Respuesta en logica:");
     console.log(res);
-    if(res == undefined){
+    if (res == undefined) {
       return new Promise((resolver, rechazar) => {
         resolver(404);
       });
-    }else{
+    } else {
       //Llamada a comprobarSensorDeusuario
       res = await this.comprobarSensorEsDeUsuario(datos);
       console.log("comprobado que sensor es de un usuario: ");
       console.log(res);
-      if(res){
+      if (res) {
         //Es verdadero y por tanto el sensor ya pertenece a otro usuario
-        return new Promise((resolver, rechazar) =>{
+        return new Promise((resolver, rechazar) => {
           resolver(300);
         });
       } else {
         //EL sensor existe y no pertenece a ningun usuario
-        var textoSQL ='insert into UsuarioSensor values ( $idUsuario, $idSensor );'
+        var textoSQL = 'insert into UsuarioSensor values ( $idUsuario, $idSensor );'
         var valoresParaSQL = {
           $idUsuario: datos.idUsuario,
           $idSensor: datos.idSensor
@@ -829,21 +830,21 @@ module.exports = class Logica {
   // getTaxistas() -->
   // [{email:Texto, telefono:Texto, password:Texto, idUsuario:N}]
   //-----------------------------------------------------------------------
-  async getTaxistas(){
+  async getTaxistas() {
 
     var res = await this.getUsuarios();
     var taxistas = [];
 
-    return new Promise(function (resolver, rechazar){
+    return new Promise(function(resolver, rechazar) {
 
-      if( res != undefined ){
-        for( var i = 0; i < res.length; i++ ){
-          if( res[i].email.includes("@taxista.com")){
+      if (res != undefined) {
+        for (var i = 0; i < res.length; i++) {
+          if (res[i].email.includes("@taxista.com")) {
             taxistas.push(res[i])
           }
         }
         resolver(taxistas)
-      } else{
+      } else {
         resolver(false)
       }
 
@@ -856,7 +857,7 @@ module.exports = class Logica {
   // filtrarTaxistasQueNoHanEnviadoEn24H() -->
   // [{email:Texto, telefono:Texto, idUsuario:N, seHaPasado24HSinEnviar:V/F}]
   //-----------------------------------------------------------------------
-  async filtrarTaxistasQueNoHanEnviadoEn24H(){
+  async filtrarTaxistasQueNoHanEnviadoEn24H() {
 
     var now = Date.now();
 
@@ -866,31 +867,43 @@ module.exports = class Logica {
 
     var taxistasFiltrados = [];
 
-    for( var i = 0; i < losTaxistas.length; i++ ){
+    for (var i = 0; i < losTaxistas.length; i++) {
 
       var laMedida = await this.getUltimaMedidaDeUnUsuario(losTaxistas[i].idUsuario);
-      if( laMedida != null ){
-          console.log(now - laMedida.tiempo);
-          if((now - laMedida.tiempo) > 86400000){
+      if (laMedida != null) {
+        console.log(now - laMedida.tiempo);
+        if ((now - laMedida.tiempo) > 86400000) {
 
-            var json = { email: losTaxistas[i].email, telefono:losTaxistas[i].telefono,
-               idUsuario: losTaxistas[i].idUsuario, seHaPasado24HSinEnviar: true }
-
-          } else {
-
-            var json = { email: losTaxistas[i].email, telefono:losTaxistas[i].telefono, idUsuario:
-                losTaxistas[i].idUsuario, seHaPasado24HSinEnviar: false }
+          var json = {
+            email: losTaxistas[i].email,
+            telefono: losTaxistas[i].telefono,
+            idUsuario: losTaxistas[i].idUsuario,
+            seHaPasado24HSinEnviar: true
           }
+
+        } else {
+
+          var json = {
+            email: losTaxistas[i].email,
+            telefono: losTaxistas[i].telefono,
+            idUsuario: losTaxistas[i].idUsuario,
+            seHaPasado24HSinEnviar: false
+          }
+        }
       } else {
-        var json = { email: losTaxistas[i].email, telefono:losTaxistas[i].telefono, idUsuario:
-            losTaxistas[i].idUsuario, seHaPasado24HSinEnviar: false }
+        var json = {
+          email: losTaxistas[i].email,
+          telefono: losTaxistas[i].telefono,
+          idUsuario: losTaxistas[i].idUsuario,
+          seHaPasado24HSinEnviar: false
+        }
       }
 
-            taxistasFiltrados.push(json)
+      taxistasFiltrados.push(json)
     }
 
-    return new Promise(function(resolver, rechazar){
-      if(taxistasFiltrados.length == 0){
+    return new Promise(function(resolver, rechazar) {
+      if (taxistasFiltrados.length == 0) {
         rechazar()
       }
       resolver(taxistasFiltrados)
