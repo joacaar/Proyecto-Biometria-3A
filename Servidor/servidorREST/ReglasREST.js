@@ -152,9 +152,9 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       // busco las relacionesUsuarioSensor
       var res = await laLogica.buscarRelacionesUsuarioSensor()
       // si no hay resultados...
-      if (res.length == 0) {
+      if (res == undefined) {
         // 404: not found
-        respuesta.status(404).send("No encontré relacionesUsuarioSensor")
+        respuesta.status(404).send({respuesta:"No hay relacionesUsuarioSensor"})
         return
       }
       // todo ok
