@@ -318,6 +318,61 @@ class Proxy {
   }
 
   //----------------------------------------------------------------------------
+  // getListaNombresMapas() -->
+  // [texto]
+  //----------------------------------------------------------------------------
+  getListaNombresMapas(callback) {
+
+    var myInit = {
+      method: 'GET',
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      cache: 'default'
+    };
+
+
+    fetch(IP_PUERTO + "/listaNombresMapas", myInit)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        callback(data);
+      })
+
+  }
+
+  //----------------------------------------------------------------------------
+  // nombre:Texto -->
+  // getMapa() -->
+  // PDF
+  //----------------------------------------------------------------------------
+  getMapa(nombreMapa, callback) {
+
+    var myInit = {
+      method: 'GET',
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      cache: 'default'
+    };
+
+
+    fetch(IP_PUERTO + "/ux/mapas/" + nombreMapa, myInit)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        callback(data);
+      })
+
+  }
+
+  //----------------------------------------------------------------------------
   // idUsuario:N -->
   // buscarMedidasDelUltimoDiaDeUnUsuario() -->
   // [ {valorMedida: R, latitud:R, longitud:R, tiempo:N, idMedida:N,
@@ -434,131 +489,146 @@ class Proxy {
   }
 
   //----------------------------------------------------------------------------
-// datos:{email:Texto, emailNuevo:Texto} -->
-// cambiarEmail() -->
-//----------------------------------------------------------------------------
-cambiarEmail(datos, callback) {
+  // datos:{email:Texto, emailNuevo:Texto} -->
+  // cambiarEmail() -->
+  //----------------------------------------------------------------------------
+  cambiarEmail(datos, callback) {
 
-  var datosEmail = {
-    email: datos.email,
-    emailNuevo: datos.emailNuevo
+    var datosEmail = {
+      email: datos.email,
+      emailNuevo: datos.emailNuevo
+    }
+
+    fetch(IP_PUERTO + "/cambiarEmail", {
+      method: 'POST', // or 'PUT'
+      body: JSON.stringify(datosEmail), // data can be `string` or {object}!
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      }
+    }).then((res) => {
+      return res.json()
+    }).catch((error) => {
+      return error
+    }).then((data) => {
+      callback(data)
+    })
+
   }
 
-  fetch(IP_PUERTO + "/cambiarEmail", {
-    method: 'POST', // or 'PUT'
-    body: JSON.stringify(datosEmail), // data can be `string` or {object}!
-    headers: {
-      'User-Agent': 'jordi',
-      'Content-Type': 'application/json'
+  //----------------------------------------------------------------------------
+  // datos:{email:Texto, password:Texto} -->
+  // cambiarPassword() -->
+  //----------------------------------------------------------------------------
+  cambiarPassword(datos, callback) {
+
+    var datosPassword = {
+      email: datos.email,
+      password: datos.password
     }
-  }).then((res) => {
-    return res.json()
-  }).catch((error) => {
-    return error
-  }).then((data) => {
-    callback(data)
-  })
 
-}
+    fetch(IP_PUERTO + "/cambiarPassword", {
+      method: 'POST', // or 'PUT'
+      body: JSON.stringify(datosPassword), // data can be `string` or {object}!
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      }
+    }).then((res) => {
+      return res.json()
+    }).catch((error) => {
+      return error
+    }).then((data) => {
+      callback(data)
+    })
 
-//----------------------------------------------------------------------------
-// datos:{email:Texto, password:Texto} -->
-// cambiarPassword() -->
-//----------------------------------------------------------------------------
-cambiarPassword(datos, callback) {
-
-  var datosPassword = {
-    email: datos.email,
-    password: datos.password
   }
 
-  fetch(IP_PUERTO + "/cambiarPassword", {
-    method: 'POST', // or 'PUT'
-    body: JSON.stringify(datosPassword), // data can be `string` or {object}!
-    headers: {
-      'User-Agent': 'jordi',
-      'Content-Type': 'application/json'
+  //----------------------------------------------------------------------------
+  // datos:{email:Texto, telefono:Texto} -->
+  // cambiarTelefono() -->
+  //----------------------------------------------------------------------------
+  cambiarTelefono(datos, callback) {
+
+    var datos = {
+      email: datos.email,
+      telefono: datos.telefono
     }
-  }).then((res) => {
-    return res.json()
-  }).catch((error) => {
-    return error
-  }).then((data) => {
-    callback(data)
-  })
 
-}
+    fetch(IP_PUERTO + "/cambiarTelefono", {
+      method: 'POST', // or 'PUT'
+      body: JSON.stringify(datos), // data can be `string` or {object}!
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      }
+    }).then((res) => {
+      return res.json()
+    }).catch((error) => {
+      return error
+    }).then((data) => {
+      callback(data)
+    })
 
-//----------------------------------------------------------------------------
-// datos:{email:Texto, telefono:Texto} -->
-// cambiarTelefono() -->
-//----------------------------------------------------------------------------
-cambiarTelefono(datos, callback) {
-
-  var datos = {
-    email: datos.email,
-    telefono: datos.telefono
   }
 
-  fetch(IP_PUERTO + "/cambiarTelefono", {
-    method: 'POST', // or 'PUT'
-    body: JSON.stringify(datos), // data can be `string` or {object}!
-    headers: {
-      'User-Agent': 'jordi',
-      'Content-Type': 'application/json'
-    }
-  }).then((res) => {
-    return res.json()
-  }).catch((error) => {
-    return error
-  }).then((data) => {
-    callback(data)
-  })
+  //----------------------------------------------------------------------------
+  // idUsuario:N -->
+  // borrarUsuario() -->
+  //----------------------------------------------------------------------------
+  borrarUsuario(idUsuario, callback) {
 
-}
+    fetch(IP_PUERTO + "/borrarUsuario/" + idUsuario, {
+      method: 'POST', // or 'PUT'
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      }
+    }).then((res) => {
+      return res.json()
+    }).catch((error) => {
+      return error
+    }).then((data) => {
+      callback(data)
+    })
 
-//----------------------------------------------------------------------------
-// idUsuario:N -->
-// borrarUsuario() -->
-//----------------------------------------------------------------------------
-borrarUsuario(idUsuario, callback) {
+  }
 
-  fetch(IP_PUERTO + "/borrarUsuario/" + idUsuario, {
-    method: 'POST', // or 'PUT'
-    headers: {
-      'User-Agent': 'jordi',
-      'Content-Type': 'application/json'
-    }
-  }).then((res) => {
-    return res.json()
-  }).catch((error) => {
-    return error
-  }).then((data) => {
-    callback(data)
-  })
+  //----------------------------------------------------------------------------
+  // idSensor:N -->
+  // borrarSensor() -->
+  //----------------------------------------------------------------------------
+  borrarSensor(idSensor, callback) {
 
-}
+    fetch(IP_PUERTO + "/borrarSensor/" + idSensor, {
+      method: 'POST', // or 'PUT'
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      }
+    }).then((res) => {
+      return res.json()
+    }).catch((error) => {
+      return error
+    }).then((data) => {
+      callback(data)
+    })
 
-//----------------------------------------------------------------------------
-// idSensor:N -->
-// borrarSensor() -->
-//----------------------------------------------------------------------------
-borrarSensor(idSensor, callback) {
+  }
 
-  fetch(IP_PUERTO + "/borrarSensor/" + idSensor, {
-    method: 'POST', // or 'PUT'
-    headers: {
-      'User-Agent': 'jordi',
-      'Content-Type': 'application/json'
-    }
-  }).then((res) => {
-    return res.json()
-  }).catch((error) => {
-    return error
-  }).then((data) => {
-    callback(data)
-  })
+  descargarArchivo(url, filename) {
+    fetch(url).then(function(t) {
+      return t.blob().then((b) => {
+        var a = document.createElement("a");
+        a.href = URL.createObjectURL(b);
+        a.setAttribute("download", filename);
+        a.click();
+      });
+    });
+  }
 
-}
+  descargarMapa(nombre){
+    elProxy.descargarArchivo("http://localhost:8080/ux/mapas/" + nombre,"lol.pdf")
+  }
 
 }

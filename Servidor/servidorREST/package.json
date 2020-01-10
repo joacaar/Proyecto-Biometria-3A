@@ -19,6 +19,7 @@
     "multi-part": "^3.0.0",
     "multipart": "^0.1.5",
     "path": "^0.12.7",
+    "pdf2json": "^1.1.8",
     "request": "*",
     "simple-crypto-js": "^2.2.0",
     "sqlite3": "*"

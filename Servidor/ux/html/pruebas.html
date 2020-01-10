@@ -7,11 +7,11 @@
 
 <body>
 
-    <button type="button" onclick="getTodasLasMedidas()">Try it</button>
+    <button type="button" onclick="descargarMapa()">Try it</button>
 
     <script>
         var elProxy = new Proxy();
-        
+
         function getUltimaMedidaDeUnUsuario() {
             elProxy.getUsuarios(function(listaUsuarios) {
                 elProxy.getUltimaMedidaDeUnUsuario(1, function(res) {
@@ -59,7 +59,7 @@
 
         function darAltaSensor() {
             elProxy.darAltaSensor(1, function(res) {
-                
+
             })
         }
 
@@ -157,6 +157,16 @@
           elProxy.taxistasFiltradosQueNoHanEnviadoEn24H(function(res){
             console.log(res);
           })
+        }
+
+        function getListaNombresMapas(){
+          elProxy.getListaNombresMapas(function(res){
+            console.log(res);
+          })
+        }
+
+        function descargarMapa(){
+          elProxy.descargarMapa("lol.pdf","lol.pdf")
         }
 
     </script>

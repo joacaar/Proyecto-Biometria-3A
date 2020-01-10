@@ -82,7 +82,7 @@ describe("TEST 18:distancia recorrida por un usuario en un dia", function() {
       if( res3 > 300 ){
         res4 = true;
       }
-      assert.equal(res4, true)
+      assert.equal(res4, false)
 
     }) // it
 

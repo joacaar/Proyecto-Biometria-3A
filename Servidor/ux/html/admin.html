@@ -60,6 +60,12 @@
                     Sensores
                 </a>
             </li>
+            <li class="nav-item">
+                <a href="mapas.html" class="nav-link adminSidebar">
+                    <i class="fa fa-balance-scale fa-sm adminIcon"></i>
+                    Mapas
+                </a>
+            </li>
         </ul>
     </div>
 
@@ -254,11 +260,11 @@
                         if ((now - medida.tiempo) > 86400000) {
 
                             cols += '<td>' + '<i class="fa fa-exclamation-triangle" id="alerta24horas" style="margin: 0 0 0 2.1em"></i>' + '</td>';
-                            
+
                         } else {
                             cols += '<td>' + '</td>';
                         }
-                        
+
                         newRow.append(cols);
                         $("#tablaMedidas").append(newRow);
                     })
