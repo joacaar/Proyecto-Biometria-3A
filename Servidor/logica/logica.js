@@ -6,6 +6,7 @@
 // .....................................................................
 const sjcl = require('sjcl')
 const sqlite3 = require("sqlite3")
+var fs = require('fs');
 var estacionGandia = require('./estacionGandia')
 /*const SimpleCrypto = require("simple-crypto-js").default;*/
 // .....................................................................
@@ -398,6 +399,18 @@ module.exports = class Logica {
           (err ? rechazar(err) : resolver(res[0]))
         })
     })
+  }
+
+  // .................................................................
+  // --> path: Texto ('')
+  // buscarTodosLosMapas()
+  // --> {Texto}
+  // .................................................................
+  buscarTodosLosMapas(path){
+    var mapas = fs.readdirSync(path);
+    return new Promise( function (resolver, rechazar){
+      resolver(mapas)
+    });
   }
 
   // .................................................................

@@ -156,6 +156,18 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       respuesta.send(JSON.stringify(res))
     }) // get /relacionesUsuarioSensor
 
+    // ......................................................
+    // GET /listaNombresMapas
+    // .......................................................
+    servidorExpress.get('/listaNombresMapas',
+      async function(peticion, respuesta) {
+        console.log(" * GET /listaNombresMapas ")
+        // busco las relacionesUsuarioSensor
+        var res = await laLogica.buscarTodosLosMapas('../ux/mapas')
+        // todo ok
+        respuesta.send(JSON.stringify(res))
+      }) // get /listaNombresMapas
+
   // ......................................................
   // GET /distanciaRecorridaEnUnDia/<idUsuario>
   // .......................................................
@@ -733,7 +745,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       console.log(`Carpeta donde se ha guardado la foto: ${peticion.hostname}/${peticion.file.path}`);
 
       return respuesta.send(peticion.file)
-      
+
     }) // post / subirImagen
 
   //-----------------------------------------------------------------------------
