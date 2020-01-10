@@ -37,7 +37,9 @@
 <!---------------------------------------------------------------------------->
 <!---------------------------------------------------------------------------->
 
-<body>
+<body onload="introducirMedidasAlMapaOnLoad()">
+    <button style="z-index: 1000; position: absolute; right: 0; bottom: 30px;" onclick="heatmap()">Heatmap 1</button>
+    <button style="z-index: 1000; position: absolute; right: 0; bottom: 10px;" onclick="heatmap2()">Heatmap 2</button>
 
     <div id="map"></div>
 
@@ -51,32 +53,7 @@
 
     <script>
         var elProxy = new Proxy()
-
-        /*var testData = {
-            max: 8,
-            data: [{
-                lat: 38.98001,
-                lng: -0.151,
-                count: 10
-            }, {
-                lat: 38.97501,
-                lng: -0.151,
-                count: 8
-            }, {
-                lat: 38.97001,
-                lng: -0.151,
-                count: 6
-            }, {
-                lat: 38.96501,
-                lng: -0.151,
-                count: 4
-            }, {
-                lat: 38.96001,
-                lng: -0.151,
-                count: 2
-            }]
-        };*/
-
+        var baseLayer = L.esri.basemapLayer('Streets');
         var cfg = {
             "radius": 30,
             "maxOpacity": .8,
@@ -88,16 +65,6 @@
         };
 
         var heatmapLayer = new HeatmapOverlay(cfg);
-        var baseLayer = L.esri.basemapLayer('Streets');
-
-        elProxy.getTodasLasMedidas(function(res) {
-            var heatmapData = {
-                max: 100,
-                data: res
-            }
-            heatmapLayer.setData(heatmapData);
-        })
-
 
         var map = new L.Map('map', {
             center: new L.LatLng(38.98001, -0.151),
@@ -105,6 +72,36 @@
             layers: [baseLayer, heatmapLayer],
             scrollWheelZoom: false
         });
+
+        function introducirMedidasAlMapaOnLoad() {
+            elProxy.buscarUnTipoDeMedidas(1, function(res) {
+                var heatmapData = {
+                    max: 100,
+                    data: res
+                }
+                heatmapLayer.setData(heatmapData);
+            })
+        }
+
+        function heatmap() {
+            elProxy.buscarUnTipoDeMedidas(1, function(res) {
+                var heatmapData = {
+                    max: 100,
+                    data: res
+                }
+                heatmapLayer.setData(heatmapData);
+            })
+        }
+
+        function heatmap2() {
+            elProxy.buscarUnTipoDeMedidas(2, function(res) {
+                var heatmapData = {
+                    max: 100,
+                    data: res
+                }
+                heatmapLayer.setData(heatmapData);
+            })
+        }
 
     </script>
 </body>
