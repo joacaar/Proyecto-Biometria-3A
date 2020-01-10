@@ -6,9 +6,11 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
@@ -18,12 +20,17 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+
+import static java.lang.System.out;
 
 public class FotoActivity extends Activity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private ImageView foto;
     private ImageView salir;
+    private LogicaFake laLogica;
+
 
 
     @Override
@@ -31,10 +38,10 @@ public class FotoActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_foto);
 
+        laLogica = new LogicaFake(this);
+
         foto = findViewById(R.id.fotoTomada);
         salir = findViewById(R.id.arrowLeftFoto);
-
-
 
         Intent i = new Intent("android.media.action.IMAGE_CAPTURE");
         startActivityForResult(i, REQUEST_IMAGE_CAPTURE);
@@ -55,7 +62,27 @@ public class FotoActivity extends Activity {
             Bitmap imageBitmap = (Bitmap)data.getExtras().get("data");
             foto.setImageBitmap(imageBitmap);
 
+            String image = getStringImagen(imageBitmap);
+
+
+            //Subir imagen al servidor
+            laLogica.subirImagen(image ,new PeticionarioREST.Callback () {
+                        @Override
+                        public void respuestaRecibida(int codigo, String cuerpo) {
+
+                        }
+            });
+
+
         }
+    }
+
+    public String getStringImagen(Bitmap bmp) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmp.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] imageBytes = baos.toByteArray();
+        String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
+        return encodedImage;
     }
 
     @Override
