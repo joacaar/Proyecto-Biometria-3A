@@ -6,6 +6,8 @@
 // .....................................................................
 
 const path = require('path')
+const multer = require('multer')
+
 
 module.exports.cargar = function(servidorExpress, laLogica) {
 
@@ -694,6 +696,34 @@ module.exports.cargar = function(servidorExpress, laLogica) {
     console.log("Peticion POST asociarSensorUsuario recibida");
 
   }) // post / asociarSensorUsuario
+
+  // .......................................................
+  // Guardar fotos en ux/images
+  // .......................................................
+  let storage = multer.diskStorage({
+    destination:(req,file,cb)=>{
+      cb(null,'../ux/images')
+    },
+    filename:(req,file,cb)=>{
+      cb(null,'fotosubida' + '-' + Date.now() + path.extname(file.originalname));
+    }
+  })
+
+  const upload = multer({ storage: storage })
+
+  //-----------------------------------------------------------------------------
+  // POST /subirImagen
+  // peticion.body --> file
+  // al llamarlo deberemos insertar una imagen en el body para que lo pueda procesar.
+  //-----------------------------------------------------------------------------
+  servidorExpress.post('/subirImagen', upload.single('file'),
+    async function(peticion, respuesta) {
+      console.log(" * POST /subirImagen ")
+      console.log(`Carpeta donde se ha guardado la foto: ${peticion.hostname}/${peticion.file.path}`);
+
+      return respuesta.send(peticion.file)
+      
+    }) // post / subirImagen
 
   //-----------------------------------------------------------------------------
   // GET /ux/<pagina>
