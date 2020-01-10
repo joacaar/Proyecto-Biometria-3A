@@ -779,11 +779,9 @@ module.exports.cargar = function(servidorExpress, laLogica) {
     var base64Data = image.replace(/^data:image\/jpeg;base64,/, "");
 
     // grabas la imagen el disco
-    fs.writeFile('imageContaminacion.jpg', base64Data, 'base64', function(err) {
+    fs.writeFile('../ux/images/imageContaminacion.jpg', base64Data, 'base64', function(err) {
         console.log(err);
     });
-
-    return respuesta.send(200);
       
     }) // post / subirImagen
 
