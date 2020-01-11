@@ -80,7 +80,7 @@
             <!-- Tabla de ultimas medidas -->
             <div class="row tabla">
 
-                <p>Control de mapas</p>
+                <p>Histórico de mapas</p>
 
                 <table class="table" id="tablaMedidas">
                     <thead>
@@ -186,16 +186,10 @@
 
                         var newRow = $("<tr>");
                         var cols = "";
-                        cols += '<td>' + medida.latitud + '</td>';
+                        cols += '<td scope="row">' + medida.latitud + '</td>';
                         cols += '<td>' + date.getDate()+'/'+  date.getMonth()+'/'+ date.getFullYear()+'</td>';
                         cols += '<td>  <button class="btn btn-primary ml-3"> <i class="fa fa-download"></i> </button>  </td>';
                         var now = Date.now();
-                        if ((now - medida.tiempo) > 86400000) {
-
-
-                        } else {
-                            cols += '<td>' + '</td>';
-                        }
 
                         newRow.append(cols);
                         $("#tablaMedidas").append(newRow);
