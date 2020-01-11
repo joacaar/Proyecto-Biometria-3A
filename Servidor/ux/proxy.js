@@ -646,9 +646,7 @@ class Proxy {
   // idUsuario:N -->
   // borrarRelacionUsuarioSensorPorIdUsuario() -->
   //----------------------------------------------------------------------------
-  cambiarTelefono(idUsuario, callback) {
-
-
+  borrarRelacionUsuarioSensorPorIdUsuario(idUsuario, callback) {
 
     fetch(IP_PUERTO + "/borrarRelacionUsuarioSensorPorIdUsuario/" + idUsuario, {
       method: 'POST', // or 'PUT'
