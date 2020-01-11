@@ -896,9 +896,10 @@ module.exports = class Logica {
     for (var i = 0; i < losTaxistas.length; i++) {
 
       var laMedida = await this.getUltimaMedidaDeUnUsuario(losTaxistas[i].idUsuario);
+      var idSensor = await this.buscarIdSensorPorIdUsuario(losTaxistas[i].idUsuario)
       if (laMedida != null) {
         console.log(now - laMedida.tiempo);
-        var idSensor = await this.buscarIdSensorPorIdUsuario(losTaxistas[i].idUsuario)
+
         if ((now - laMedida.tiempo) > 86400000) {
 
           var json = {
@@ -936,6 +937,7 @@ module.exports = class Logica {
       if (taxistasFiltrados.length == 0) {
         rechazar()
       }
+      console.log(taxistasFiltrados);
       resolver(taxistasFiltrados)
     })
 
