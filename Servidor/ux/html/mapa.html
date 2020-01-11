@@ -15,7 +15,8 @@
     <!-- Load Esri Leaflet from CDN -->
     <script src="https://unpkg.com/esri-leaflet@2.3.2/dist/esri-leaflet.js" integrity="sha512-6LVib9wGnqVKIClCduEwsCub7iauLXpwrd5njR2J507m3A2a4HXJDLMiSZzjcksag3UluIfuW1KzuWVI5n/cuQ==" crossorigin=""></script>
 
-
+    <link rel="stylesheet" href="../css/mapa.css">
+    <link rel="stylesheet" href="../css/styles.css">
 
     <style>
         body {
@@ -38,8 +39,27 @@
 <!---------------------------------------------------------------------------->
 
 <body onload="introducirMedidasAlMapaOnLoad()">
-    <button style="z-index: 1000; position: absolute; right: 0; bottom: 30px;" onclick="heatmap()">Heatmap 1</button>
-    <button style="z-index: 1000; position: absolute; right: 0; bottom: 10px;" onclick="heatmap2()">Heatmap 2</button>
+    <form class="seleccionHeatmap">
+        <label class="titulo">Selección de contaminante</label>
+        <div class="radio">
+            <label><input type="radio" name="optradio" id="radioIAQ" onclick="heatmap(1)" checked>IAQ</label>
+        </div>
+        <div class="radio">
+            <label><input type="radio" name="optradio" id="radioCO" onclick="heatmap(2)">CO</label>
+        </div>
+        <div class="radio">
+            <label><input type="radio" name="optradio" id="radio" onclick="heatmap(3)">SO2</label>
+        </div>
+        <div class="radio">
+            <label><input type="radio" name="optradio" id="radio" onclick="heatmap(4)">O3</label>
+        </div>
+        <div class="radio">
+            <label><input type="radio" name="optradio" id="radio" onclick="heatmap(5)">NO2</label>
+        </div>
+        <div class="radio">
+            <label><input type="radio" name="optradio" id="radio" onclick="heatmap(6)">H2S</label>
+        </div>
+    </form>
 
     <div id="map"></div>
 
@@ -83,18 +103,8 @@
             })
         }
 
-        function heatmap() {
-            elProxy.buscarUnTipoDeMedidas(1, function(res) {
-                var heatmapData = {
-                    max: 100,
-                    data: res
-                }
-                heatmapLayer.setData(heatmapData);
-            })
-        }
-
-        function heatmap2() {
-            elProxy.buscarUnTipoDeMedidas(2, function(res) {
+        function heatmap(valor) {
+            elProxy.buscarUnTipoDeMedidas(valor, function(res) {
                 var heatmapData = {
                     max: 100,
                     data: res
