@@ -45,7 +45,7 @@
             <li class="nav-item">
                 <a href="admin.html" class="nav-link adminSidebar">
                     <i class="fa fa-home fa-lg adminIcon" style="margin-right: 0.5em"></i>
-                    Dashboard
+                    Medidas
                 </a>
             </li>
             <li class="nav-item current">
@@ -307,6 +307,13 @@
                                 function(res) {
                                     console.log(res)
                                 })
+                            
+                            elProxy.darSensorAUsuario({
+                                idSensor: 0,
+                                idUsuario: 8
+                            }, function(res) {
+                                console.log(res);
+                            })
                             location.reload();
                         } else {
                             //introducir contraseña sin coincidir alert

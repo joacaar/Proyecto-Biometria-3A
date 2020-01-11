@@ -48,16 +48,16 @@
             <label><input type="radio" name="optradio" id="radioCO" onclick="heatmap(2)">CO</label>
         </div>
         <div class="radio">
-            <label><input type="radio" name="optradio" id="radio" onclick="heatmap(3)">SO2</label>
+            <label><input type="radio" name="optradio" id="radioSO2" onclick="heatmap(3)">SO2</label>
         </div>
         <div class="radio">
-            <label><input type="radio" name="optradio" id="radio" onclick="heatmap(4)">O3</label>
+            <label><input type="radio" name="optradio" id="radioO3" onclick="heatmap(4)">O3</label>
         </div>
         <div class="radio">
-            <label><input type="radio" name="optradio" id="radio" onclick="heatmap(5)">NO2</label>
+            <label><input type="radio" name="optradio" id="radioNO2" onclick="heatmap(5)">NO2</label>
         </div>
         <div class="radio">
-            <label><input type="radio" name="optradio" id="radio" onclick="heatmap(6)">H2S</label>
+            <label><input type="radio" name="optradio" id="radioH2S" onclick="heatmap(6)">H2S</label>
         </div>
     </form>
 
@@ -70,6 +70,7 @@
     <script src="../leaflet-heatmap.js"></script>
 
     <script type="text/javascript" src="../proxy.js"></script>
+    <script src="../blundle.js"></script>
 
     <script>
         var elProxy = new Proxy()
@@ -112,6 +113,13 @@
                 heatmapLayer.setData(heatmapData);
             })
         }
+
+        var print = L.easyPrint({
+            tileLayer: baseLayer,
+            sizeModes: ['A4Landscape'],
+            filename: 'imagen',
+            exportOnly: true
+        }).addTo(map);
 
     </script>
 </body>
