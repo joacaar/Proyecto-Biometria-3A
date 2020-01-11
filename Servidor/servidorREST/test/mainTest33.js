@@ -1,5 +1,5 @@
 // ........................................................
-// Autor: Joan Calabuig Artes
+// Autor: Emilio Esteve Peiró
 // Fecha inicio: 9/1/2020
 // Última actualización: 9/1/2020
 // mainTest32.js

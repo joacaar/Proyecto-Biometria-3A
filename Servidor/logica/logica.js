@@ -853,6 +853,33 @@ module.exports = class Logica {
 
   }
 
+  //-----------------------------------------------------------------------
+  // idUsuario:N
+  // buscarIdSensorPorIdUsuario() -->
+  // N
+  //-----------------------------------------------------------------------
+  buscarIdSensorPorIdUsuario(idUsuario){
+    var textoSQL = "select * from UsuarioSensor where idUsuario=$idUsuario";
+    var valoresParaSQL = {
+      $idUsuario: idUsuario
+    }
+    return new Promise((resolver, rechazar) => {
+      this.laConexion.all(textoSQL, valoresParaSQL,
+        (err, res) => {
+          if(err){
+            rechazar(err)
+          }
+          console.log(res);
+          if(undefined){
+            resolver(-1)
+          } if( res.length == 0){
+            resolver(-1)
+          }
+          resolver(res[0].idSensor)
+        })
+    })
+  }
+
 
   //-----------------------------------------------------------------------
   // filtrarTaxistasQueNoHanEnviadoEn24H() -->
@@ -864,8 +891,6 @@ module.exports = class Logica {
 
     var losTaxistas = await this.getTaxistas();
 
-
-
     var taxistasFiltrados = [];
 
     for (var i = 0; i < losTaxistas.length; i++) {
@@ -873,13 +898,16 @@ module.exports = class Logica {
       var laMedida = await this.getUltimaMedidaDeUnUsuario(losTaxistas[i].idUsuario);
       if (laMedida != null) {
         console.log(now - laMedida.tiempo);
+        var idSensor = await this.buscarIdSensorPorIdUsuario(losTaxistas[i].idUsuario)
+        var idUsuario = await this.rela
         if ((now - laMedida.tiempo) > 86400000) {
 
           var json = {
             email: losTaxistas[i].email,
             telefono: losTaxistas[i].telefono,
             idUsuario: losTaxistas[i].idUsuario,
-            seHaPasado24HSinEnviar: true
+            seHaPasado24HSinEnviar: true,
+            idSensor: idSensor
           }
 
         } else {
@@ -888,7 +916,8 @@ module.exports = class Logica {
             email: losTaxistas[i].email,
             telefono: losTaxistas[i].telefono,
             idUsuario: losTaxistas[i].idUsuario,
-            seHaPasado24HSinEnviar: false
+            seHaPasado24HSinEnviar: false,
+            idSensor: idSensor
           }
         }
       } else {
@@ -896,7 +925,8 @@ module.exports = class Logica {
           email: losTaxistas[i].email,
           telefono: losTaxistas[i].telefono,
           idUsuario: losTaxistas[i].idUsuario,
-          seHaPasado24HSinEnviar: false
+          seHaPasado24HSinEnviar: false,
+          idSensor: idSensor
         }
       }
 
