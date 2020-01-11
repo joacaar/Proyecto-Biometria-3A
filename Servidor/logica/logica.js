@@ -558,6 +558,7 @@ module.exports = class Logica {
 
     }
     var distanciaEnKm = distancia / 1000;
+    console.log(distanciaEnKm);
     return distanciaEnKm;
 
   }
