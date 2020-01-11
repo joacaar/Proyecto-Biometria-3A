@@ -151,7 +151,7 @@
                     android:layout_marginRight="5dp"
                     android:fontFamily="sans-serif-light"
                     android:padding="10dp"
-                    android:text="Gas incoloro, irritante, no inflamable y con olor penetrante. Principalmente afecta a los pulmones, provocando ataques de tos. En dosis mayores puede provocar irritación del tracto respiratorio, bronquitis y congestión de los conductos bronquiales. Una exposición crónica puede provocar efectos adversos sobre la mortalidad y la función pulmonar." />
+                    android:text="La Calidad del aire interior puede ser afectada por gases, (incluyendo CO, Rn, humo del tabaco), material particulado, microbios contaminantes (moho, bacterias) o cualquier material o factor estresante de energía que puede inducir a condiciones adversas para la salud. Una mala calidad del aire se ha asociado con el SEE (síndrome del edifcio enfermo), una productividad menor y un aprendizaje dañado en escuelas." />
 
                 <TextView
                     android:id="@+id/textVie1"
@@ -161,7 +161,7 @@
                     android:layout_marginRight="5dp"
                     android:fontFamily="sans-serif-condensed-light"
                     android:gravity="center"
-                    android:text="Valor límite recomendado: 2ppm"
+                    android:text="Valor límite recomendado: 100 ppm"
                     android:textStyle="bold" />
 
             </LinearLayout>
