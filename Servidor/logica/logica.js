@@ -905,7 +905,8 @@ module.exports = class Logica {
             email: losTaxistas[i].email,
             telefono: losTaxistas[i].telefono,
             idUsuario: losTaxistas[i].idUsuario,
-            seHaPasado24HSinEnviar: true
+            seHaPasado24HSinEnviar: true,
+            idSensor: idSensor
           }
 
         } else {
@@ -914,7 +915,8 @@ module.exports = class Logica {
             email: losTaxistas[i].email,
             telefono: losTaxistas[i].telefono,
             idUsuario: losTaxistas[i].idUsuario,
-            seHaPasado24HSinEnviar: false
+            seHaPasado24HSinEnviar: false,
+            idSensor: idSensor
           }
         }
       } else {
@@ -922,7 +924,8 @@ module.exports = class Logica {
           email: losTaxistas[i].email,
           telefono: losTaxistas[i].telefono,
           idUsuario: losTaxistas[i].idUsuario,
-          seHaPasado24HSinEnviar: false
+          seHaPasado24HSinEnviar: false,
+          idSensor: idSensor
         }
       }
 
