@@ -1,4 +1,3 @@
-//var request = require ('request')
 const IP_PUERTO = "http://localhost:8080"
 
 // --------------------------------------------------------------------------
@@ -345,6 +344,33 @@ class Proxy {
   }
 
   //----------------------------------------------------------------------------
+  // getUltimoIdUsuario() -->
+  // [texto]
+  //----------------------------------------------------------------------------
+  getUltimoIdUsuario(callback) {
+
+    var myInit = {
+      method: 'GET',
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      },
+      mode: 'cors',
+      cache: 'default'
+    };
+
+
+    fetch(IP_PUERTO + "/ultimoIdUsuario", myInit)
+      .then((res) => {
+        return res.json();
+      })
+      .then((data) => {
+        callback(data);
+      })
+
+  }
+
+  //----------------------------------------------------------------------------
   // nombre:Texto -->
   // getMapa() -->
   // PDF
@@ -601,6 +627,30 @@ class Proxy {
   borrarSensor(idSensor, callback) {
 
     fetch(IP_PUERTO + "/borrarSensor/" + idSensor, {
+      method: 'POST', // or 'PUT'
+      headers: {
+        'User-Agent': 'jordi',
+        'Content-Type': 'application/json'
+      }
+    }).then((res) => {
+      return res.json()
+    }).catch((error) => {
+      return error
+    }).then((data) => {
+      callback(data)
+    })
+
+  }
+
+  //----------------------------------------------------------------------------
+  // idUsuario:N -->
+  // borrarRelacionUsuarioSensorPorIdUsuario() -->
+  //----------------------------------------------------------------------------
+  cambiarTelefono(idUsuario, callback) {
+
+
+
+    fetch(IP_PUERTO + "/borrarRelacionUsuarioSensorPorIdUsuario/" + idUsuario, {
       method: 'POST', // or 'PUT'
       headers: {
         'User-Agent': 'jordi',

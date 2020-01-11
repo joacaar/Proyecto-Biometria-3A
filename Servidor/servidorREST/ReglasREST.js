@@ -60,6 +60,18 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       respuesta.send(JSON.stringify(res))
     }) // get /medidasPorIdUsuario/<idUsuario>
 
+    // .......................................................
+    // GET /ultimoIdUsuario
+    // .......................................................
+    servidorExpress.get('/ultimoIdUsuario',
+      async function(peticion, respuesta) {
+        console.log(" * GET /ultimoIdUsuario ")
+
+        var res = await laLogica.getUltimoIDUsuario()
+
+        respuesta.send({ultimoIdUsuario: res})
+      }) // get /ultimoIdUsuario
+
   // .......................................................
   // GET /medidasPorIdUsuario/<idMedida>
   // .......................................................
@@ -478,6 +490,23 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       console.log("Peticion POST cambiarEmail recibido");
     }) // post / cambiarEmail
 
+    //-----------------------------------------------------------------------------
+    // POST /borrarRelacionUsuarioSensor/<idUsuario>
+    // peticion.body --> JSON
+    // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
+    //-----------------------------------------------------------------------------
+    servidorExpress.post('/borrarRelacionUsuarioSensorPorIdUsuario/:idUsuario',
+      async function(peticion, respuesta) {
+
+        var res = await laLogica.borrarRelacionUsuarioSensorPorIdUsuario(peticion.params.idUsuario);
+
+        respuesta.send({
+          respuesta: true
+        });
+
+        console.log("Peticion POST /borrarRelacionUsuarioSensor recibido");
+      }) // post /borrarRelacionUsuarioSensor/:idUsuario
+
   //-----------------------------------------------------------------------------
   // POST /cambiarEmail
   // peticion.body --> JSON
@@ -768,11 +797,11 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   //-----------------------------------------------------------------------------
   servidorExpress.post('/subirImagen',
     async function(peticion, respuesta) {
-      
+
       console.log(" * POST /subirImagen ")
-      
+
       var datos = JSON.parse(peticion.body)
-      
+
       let image = datos["file"];
 
     // luego extraes la cabecera del data url
@@ -782,7 +811,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
     fs.writeFile('../ux/images/imageContaminacion.jpg', base64Data, 'base64', function(err) {
         console.log(err);
     });
-      
+
     }) // post / subirImagen
 
 
