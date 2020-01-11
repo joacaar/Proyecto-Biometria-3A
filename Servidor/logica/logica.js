@@ -871,11 +871,12 @@ module.exports = class Logica {
           }
           console.log(res);
           if(undefined){
-            resolver(-1)
+            resolver(0)
           } if( res.length == 0){
-            resolver(-1)
+            resolver(0)
+          } else {
+            resolver(res[0].idSensor)
           }
-          resolver(res[0].idSensor)
         })
     })
   }

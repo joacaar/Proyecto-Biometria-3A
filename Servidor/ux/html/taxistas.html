@@ -305,15 +305,14 @@
                                     telefono: inputTelefono
                                 },
                                 function(res) {
-                                    console.log(res)
+                                    elProxy.getUltimoIdUsuario(function(res) {
+                                        elProxy.darSensorAUsuario({
+                                            idSensor: 0,
+                                            idUsuario: res.ultimoIdUsuario
+                                        }, function(res) {
+                                        })
+                                    })
                                 })
-                            
-                            elProxy.darSensorAUsuario({
-                                idSensor: 0,
-                                idUsuario: 8
-                            }, function(res) {
-                                console.log(res);
-                            })
                             location.reload();
                         } else {
                             //introducir contraseña sin coincidir alert
