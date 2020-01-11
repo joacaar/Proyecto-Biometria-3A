@@ -899,15 +899,13 @@ module.exports = class Logica {
       if (laMedida != null) {
         console.log(now - laMedida.tiempo);
         var idSensor = await this.buscarIdSensorPorIdUsuario(losTaxistas[i].idUsuario)
-        var idUsuario = await this.rela
         if ((now - laMedida.tiempo) > 86400000) {
 
           var json = {
             email: losTaxistas[i].email,
             telefono: losTaxistas[i].telefono,
             idUsuario: losTaxistas[i].idUsuario,
-            seHaPasado24HSinEnviar: true,
-            idSensor: idSensor
+            seHaPasado24HSinEnviar: true
           }
 
         } else {
@@ -916,8 +914,7 @@ module.exports = class Logica {
             email: losTaxistas[i].email,
             telefono: losTaxistas[i].telefono,
             idUsuario: losTaxistas[i].idUsuario,
-            seHaPasado24HSinEnviar: false,
-            idSensor: idSensor
+            seHaPasado24HSinEnviar: false
           }
         }
       } else {
@@ -925,8 +922,7 @@ module.exports = class Logica {
           email: losTaxistas[i].email,
           telefono: losTaxistas[i].telefono,
           idUsuario: losTaxistas[i].idUsuario,
-          seHaPasado24HSinEnviar: false,
-          idSensor: idSensor
+          seHaPasado24HSinEnviar: false
         }
       }
 
