@@ -86,7 +86,6 @@
         <thead>
           <tr>
             <th>Nombre del archivo</th>
-            <th>Fecha</th>
             <th>Descargar</th>
           </tr>
         </thead>
@@ -114,79 +113,45 @@
     var elProxy = new Proxy();
 
     // ------------------------------------------------------------------
-    // getUsuariosRegistrados
-    // ------------------------------------------------------------------
-
-    function getUsuariosRegistrados() {
-      elProxy.getUsuarios(function(res) {
-        var taxistas = [];
-        for (var i = 0; i < res.length; i++) {
-          if (res[i].email.includes("@taxista.com")) {
-            taxistas.push(res[i])
-          }
-        }
-        elProxy.getUsuarios(function(res) {
-          var usuariosNoTaxistas = res.length - taxistas.length;
-          document.getElementById("numeroUsuarios").innerHTML = usuariosNoTaxistas;
-        })
-      })
-    }
-
-    // ------------------------------------------------------------------
-    // getCuantosUsuariosHay()
-    // ------------------------------------------------------------------
-    function getCuantosUsuariosHay() {
-      elProxy.getUsuarios(function(res) {
-        var taxistas = [];
-        for (var i = 0; i < res.length; i++) {
-          if (res[i].email.includes("@taxista.com")) {
-            taxistas.push(res[i])
-          }
-        }
-        document.getElementById("numeroTaxistas").innerHTML = taxistas.length;
-      })
-    }
-
-    // ------------------------------------------------------------------
     // getOnLoad()
     // ------------------------------------------------------------------
     function getOnLoad() {
 
-      getUsuariosRegistrados();
-      getCuantosUsuariosHay();
-      getUltimaMedidaDeTodosLosUsuarios();
+      ponerEnElHTMlListaNombreMapas();
+
     }
 
     // ------------------------------------------------------------------
-    // getUltimaMedidaDeUnUsuario()
+    // ponerEnElHTMlListaNombreMapas()
     // ------------------------------------------------------------------
-    function getUltimaMedidaDeTodosLosUsuarios() {
+    function ponerEnElHTMlListaNombreMapas() {
 
-      elProxy.getListaNombresMapas(function(res) {
-          for (var i = 0; i < listaUsuarios.length; i++) {
+      elProxy.getListaNombresMapas(function(listaMapas) {
+        for (var i = 0; i < listaMapas.length; i++) {
+          var nombreMapa = listaMapas[i]
+          var newRow = $("<tr>");
+          var cols = "";
+          cols += '<td scope="row">' + listaMapas[i] + '</td>';
+          cols += '<td>  <button id="' + i + '" class="btn btn-primary ml-3"> <i class="fa fa-download"></i> </button>  </td>';
 
+          newRow.append(cols);
+          $("#tablaMapas").append(newRow);
 
-            var newRow = $("<tr>");
-            var cols = "";
-            cols += '<td scope="row">' + medida.latitud + '</td>';
-            cols += '<td>' + date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear() + '</td>';
-            cols += '<td>  <button class="btn btn-primary ml-3"> <i class="fa fa-download"></i> </button>  </td>';
-            var now = Date.now();
-
-            newRow.append(cols);
-            $("#tablaMapas").append(newRow);
-          })
+          document.getElementById(i).addEventListener("click", function(){
+            elProxy.descargarMapa(nombreMapa)
+          });
+        }
       })
     }
 
-      // ------------------------------------------------------------------
-      // logOut()
-      // --> Cookie
-      // ------------------------------------------------------------------
-      function logOut() {
-        document.cookie = "";
-        window.location.replace('index.html');
-      }
+    // ------------------------------------------------------------------
+    // logOut()
+    // --> Cookie
+    // ------------------------------------------------------------------
+    function logOut() {
+      document.cookie = "";
+      window.location.replace('index.html');
+    }
   </script>
 
 </body>
