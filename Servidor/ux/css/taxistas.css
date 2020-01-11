@@ -107,6 +107,28 @@ tr.filaDeTablaTaxistas:active {
     background-color: rgba(0, 0, 0, 0.4);
 }
 
+.cambiarContrasenya {
+    visibility: hidden;
+    position: absolute;
+    bottom: 0;
+}
+
+#botonCambiarContrasenya {
+    background-color: #00B49A;
+    border-radius: 2px;
+    color: #FFFFFF;
+    padding: 0 8px;
+    height: 1.5em;
+    width: auto;
+    text-decoration: none;
+}
+
+#botonCambiarContrasenya:hover,
+#botonCambiarContrasenya:focus,
+#botonCambiarContrasenya:active {
+    background-color: #00957f;
+}
+
 /* Modal Header */
 .modal-header {
     padding: 10px 16px;
