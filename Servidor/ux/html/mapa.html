@@ -114,10 +114,19 @@
             })
         }
 
+        function aQueEstamosHoy(){
+          var ahora = Date.now();
+          var hoy = new Date(ahora);
+          var dia = hoy.getDate();
+          var mes = hoy.getMonth() + 1;
+          var any = hoy.getFullYear();
+          return ("" + dia + "/" + mes + "/" + any);
+        }
+
         var print = L.easyPrint({
             tileLayer: baseLayer,
             sizeModes: ['A4Landscape'],
-            filename: 'imagen',
+            filename: aQueEstamosHoy(),
             exportOnly: true
         }).addTo(map);
 

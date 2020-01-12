@@ -60,7 +60,6 @@
     </div>
   </form>
 
-  <button style="z-index: 1000; position: absolute; right: 0" onclick="makeScreenshot()">Generar Mapa</button>
   <div id="map"></div>
 
   <!---------------------------------------------------------------------------->
@@ -115,6 +114,13 @@
         heatmapLayer.setData(heatmapData);
       })
     }
+
+    var now = Date.now();
+    var dia = Date.getDay();
+    var mes = Date.getMonth();
+    var any = Date.getYear();
+
+    console.log(dia+"/"+mes+"/"+any);
 
     var print = L.easyPrint({
       tileLayer: baseLayer,

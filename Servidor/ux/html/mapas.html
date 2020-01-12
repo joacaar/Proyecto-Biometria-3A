@@ -82,8 +82,6 @@
 
       <p>Histórico de mapas</p>
 
-       <input type="file" style="width: auto; margin-left:">
-
       <table class="table" id="tablaMapas">
         <thead>
           <tr>
@@ -122,28 +120,37 @@
 
     }
 
+    function descargarMapa(nombreMapa){
+      elProxy.descargarMapa(nombreMapa)
+    }
+
     // ------------------------------------------------------------------
     // ponerEnElHTMlListaNombreMapas()
     // ------------------------------------------------------------------
     function ponerEnElHTMlListaNombreMapas() {
 
-      elProxy.getListaNombresMapas(function(listaMapas) {
+      elProxy.getListaNombresMapas(function(res) {
+        var listaMapas = res;
         for (var i = 0; i < listaMapas.length; i++) {
+          console.log(listaMapas[i]);
           var nombreMapa = listaMapas[i]
           var newRow = $("<tr>");
           var cols = "";
-          cols += '<td scope="row">' + listaMapas[i] + '</td>';
-          cols += '<td>  <button id="' + i + '" class="btn btn-primary ml-3"> <i class="fa fa-download"></i> </button>  </td>';
+          cols += '<td scope="row">' + nombreMapa + '</td>';
+          cols += '<td>  <button onclick="' + "descargarMapa(" + "'" + nombreMapa+ "'"  + ')" id="' + i + '" class="btn btn-primary ml-3"> <i class="fa fa-download"></i> </button>  </td>';
 
           newRow.append(cols);
           $("#tablaMapas").append(newRow);
 
-          document.getElementById(i).addEventListener("click", function(){
-            elProxy.descargarMapa(nombreMapa)
-          });
+          /*document.getElementById(i).addEventListener("click", function() {
+            var nombreMapa2 = nombreMapa;
+            elProxy.descargarMapa(nombreMapa2)
+          });*/
         }
       })
     }
+
+
 
     // ------------------------------------------------------------------
     // logOut()
