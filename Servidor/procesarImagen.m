@@ -1,5 +1,5 @@
 function procesarImagen()
-image=imread('./Imagenes_A_Procesar/paraProcesar.png');
+image=imread('./Imagenes_A_Procesar/paraProcesar.jpg');
 
 %  Se comprueba si es escala de grises y si no lo es se vuelve escala de
 %  grises
@@ -12,5 +12,5 @@ T = graythresh(image);
 BW = imbinarize(image, T);
 BW2 = imcomplement(BW);
 
-imwrite(BW2, './Imagenes_Procesadas/binaria.bmp')
+imwrite(BW2, './Imagenes_Procesadas/binaria.jpg')
 end
