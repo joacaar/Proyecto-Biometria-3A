@@ -664,19 +664,28 @@ class Proxy {
 
   }
 
-  descargarArchivo(url, filename) {
+  //----------------------------------------------------------------------------
+  // url:Texto, nombreArchivo:Texto -->
+  // descargarArchivo() -->
+  //----------------------------------------------------------------------------
+  descargarArchivo(url, nombreArchivo) {
     fetch(url).then(function(t) {
       return t.blob().then((b) => {
         var a = document.createElement("a");
         a.href = URL.createObjectURL(b);
-        a.setAttribute("download", filename);
+        a.setAttribute("download", nombreArchivo);
         a.click();
       });
     });
   }
 
-  descargarMapa(nombre){
-    elProxy.descargarArchivo("http://localhost:8080/ux/mapas/" + nombre,"lol.pdf")
+  //----------------------------------------------------------------------------
+  // nombre:Texto
+  // descargarArchivo() -->
+  //----------------------------------------------------------------------------
+  descargarMapa(nombre) {
+    elProxy.descargarArchivo(IP_PUERTO + "/ux/mapas/" + nombre, nombre)
   }
+
 
 }
