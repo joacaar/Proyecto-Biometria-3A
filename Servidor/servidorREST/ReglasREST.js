@@ -10,12 +10,12 @@ const multer = require('multer')
 var fs = require('fs')
 
 
-module.exports.cargar = function(servidorExpress, laLogica) {
+module.exports.cargar = function (servidorExpress, laLogica) {
 
   // .......................................................
   // GET /prueba
   // .......................................................
-  servidorExpress.get('/prueba', function(peticion, respuesta) {
+  servidorExpress.get('/prueba', function (peticion, respuesta) {
     console.log(" * GET /prueba ")
     respuesta.send("¡Funciona!")
   }) // get /prueba
@@ -24,7 +24,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // GET /medidaPorIdMedida/<idMedida>
   // .......................................................
   servidorExpress.get('/medidaPorIdMedida/:idMedida',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * GET /medidasPorIdMedida ")
       // averiguo la fecha
       var idMedida = peticion.params.idMedida
@@ -44,7 +44,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // GET /medidasPorIdUsuario/<idMedida>
   // .......................................................
   servidorExpress.get('/medidasPorIdUsuario/:idUsuario',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * GET /medidasPorIdUsuario ")
       // averiguo la fecha
       var idUsuario = peticion.params.idUsuario
@@ -60,23 +60,23 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       respuesta.send(JSON.stringify(res))
     }) // get /medidasPorIdUsuario/<idUsuario>
 
-    // .......................................................
-    // GET /ultimoIdUsuario
-    // .......................................................
-    servidorExpress.get('/ultimoIdUsuario',
-      async function(peticion, respuesta) {
-        console.log(" * GET /ultimoIdUsuario ")
+  // .......................................................
+  // GET /ultimoIdUsuario
+  // .......................................................
+  servidorExpress.get('/ultimoIdUsuario',
+    async function (peticion, respuesta) {
+      console.log(" * GET /ultimoIdUsuario ")
 
-        var res = await laLogica.getUltimoIDUsuario()
+      var res = await laLogica.getUltimoIDUsuario()
 
-        respuesta.send({ultimoIdUsuario: res})
-      }) // get /ultimoIdUsuario
+      respuesta.send({ ultimoIdUsuario: res })
+    }) // get /ultimoIdUsuario
 
   // .......................................................
   // GET /medidasPorIdUsuario/<idMedida>
   // .......................................................
   servidorExpress.get('/ultimaMedida/:idUsuario',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * GET /ultimaMedida ")
       // averiguo la fecha
       var idUsuario = peticion.params.idUsuario
@@ -96,7 +96,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // GET /medidasPorIdUsuario/<idMedida>
   // .......................................................
   servidorExpress.get('/elUsuarioTieneMedidas/:idUsuario',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * GET /elUsuarioTieneMedidas ")
       // averiguo la fecha
       var idUsuario = peticion.params.idUsuario
@@ -120,7 +120,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // GET /medidasPorIdUsuario/<idMedida>
   // .......................................................
   servidorExpress.get('/buscarSensor/:idSensor',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * GET /buscarSensor ")
 
       var idSensor = peticion.params.idSensor
@@ -140,7 +140,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // GET /usuarios
   // .......................................................
   servidorExpress.get('/usuarios',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * GET /usuarios ")
       // busco los usuarios
       var res = await laLogica.getUsuarios()
@@ -159,14 +159,14 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // GET /relacionesUsuarioSensor
   // .......................................................
   servidorExpress.get('/relacionesUsuarioSensor',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * GET /usuarios ")
       // busco las relacionesUsuarioSensor
       var res = await laLogica.buscarRelacionesUsuarioSensor()
       // si no hay resultados...
       if (res == undefined) {
         // 404: not found
-        respuesta.status(404).send({respuesta:"No hay relacionesUsuarioSensor"})
+        respuesta.status(404).send({ respuesta: "No hay relacionesUsuarioSensor" })
         return
       }
       // todo ok
@@ -177,7 +177,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // GET /listaNombresMapas
   // .......................................................
   servidorExpress.get('/listaNombresMapas',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * GET /listaNombresMapas ")
       // busco las relacionesUsuarioSensor
       var res = await laLogica.buscarTodosLosMapas('../ux/mapas')
@@ -189,7 +189,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // GET /distanciaRecorridaEnUnDia/<idUsuario>
   // .......................................................
   servidorExpress.get('/distanciaRecorridaEnUnDia/:idUsuario',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * GET /distanciaRecorrida ")
 
       var idUsuario = peticion.params.idUsuario;
@@ -215,7 +215,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // GET /medidasDelUltimoDiaDeUnUsuario/<idUsuario>
   // .......................................................
   servidorExpress.get('/medidasDelUltimoDiaDeUnUsuario/:idUsuario',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * GET /distanciaRecorrida ")
 
       var idUsuario = peticion.params.idUsuario;
@@ -241,7 +241,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // GET /medidasDelUltimoDia
   // .......................................................
   servidorExpress.get('/medidasDelUltimoDia',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * GET /medidasDelUltimoDia ")
 
       // busco las relacionesUsuarioSensor
@@ -261,7 +261,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // GET /buscarMedidasDelUltimoDiaDeUnUsuario/<idUsuario>
   // .......................................................
   servidorExpress.get('/buscarMedidasDelUltimoDiaDeUnUsuario/:idUsuario',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * GET /buscarMedidasDelUltimoDiaDeUnUsuario ")
 
       var idUsuario = peticion.params.idUsuario;
@@ -282,7 +282,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // GET /calidadDelAireRespiradoEnElUltimo/<idUsuario>
   // .......................................................
   servidorExpress.get('/calidadDelAireRespiradoEnElUltimoDia/:idUsuario',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * GET /calidadDelAireRespiradoEnElUltimoDia ")
 
       var idUsuario = peticion.params.idUsuario;
@@ -304,7 +304,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // GET /getTodasLasMedidas
   // .......................................................
   servidorExpress.get('/getTodasLasMedidas',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * GET /getTodasLasMedidas ")
 
       var res = await laLogica.getTodasLasMedidas()
@@ -322,7 +322,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // GET /getTodasLasMedidasDeUnUsuarioPorEmail/<email>
   // .......................................................
   servidorExpress.get('/getTodasLasMedidasDeUnUsuarioPorEmail/:email',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * GET /getTodasLasMedidasDeUnUsuarioPorEmail ")
 
       var email = peticion.params.email
@@ -342,7 +342,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // GET /taxistasFiltradosQueNoHanEnviadoEn24H
   // .......................................................
   servidorExpress.get('/taxistasFiltradosQueNoHanEnviadoEn24H',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * GET /taxistasFiltradosQueNoHanEnviadoEn24H ")
 
       var res = await laLogica.filtrarTaxistasQueNoHanEnviadoEn24H()
@@ -354,7 +354,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // GET /getTodasLasMedidasDeUnUsuarioPorEmail/<email>
   // .......................................................
   servidorExpress.get('/buscarIDUsuarioQueTieneElSensor/:idSensor',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * GET /buscarIDUsuarioQueTieneElSensor ")
 
       var idSensor = peticion.params.idSensor
@@ -369,7 +369,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // GET /buscarUnTipoDeMedidas/<idTipoMedida>
   // .......................................................
   servidorExpress.get('/buscarUnTipoDeMedidas/:idTipoMedida',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * GET /buscarUnTipoDeMedidas ")
 
       var idTipoMedida = peticion.params.idTipoMedida
@@ -384,7 +384,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // GET /obtenerDatosEstacionGandia
   // .......................................................
   servidorExpress.get('/obtenerDatosEstacionGandia',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * GET /obtenerDatosEstacionGandia ")
 
       var res = await laLogica.getDatosEstacionGandia()
@@ -398,7 +398,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // GET /obtenerFactorCalibracion
   // .......................................................
   servidorExpress.get('/obtenerFactorCalibracion',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * GET /obtenerFactorCalibracion")
 
       var res = await laLogica.getDatosEstacionGandia()
@@ -410,7 +410,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // GET /mapa/<nombreMapa>
   // .......................................................
   servidorExpress.get('/mapa/:nombreMapa',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * GET /mapa")
 
       var data = fs.readFileSync('../ux/mapas/' + peticion.params.nombreMapa);
@@ -425,7 +425,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
   //-----------------------------------------------------------------------------
   servidorExpress.post('/insertarMedida',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * POST /insertarMedida ")
       var datos = JSON.parse(peticion.body)
       // supuesto procesamiento
@@ -447,7 +447,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
   //-----------------------------------------------------------------------------
   servidorExpress.post('/cambiarPassword',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * POST /cambiarPassword ")
       var datos = JSON.parse(peticion.body)
       // supuesto procesamiento
@@ -467,7 +467,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
   //-----------------------------------------------------------------------------
   servidorExpress.post('/cambiarEmail',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * POST /cambiarEmail ")
       var datos = JSON.parse(peticion.body)
       // supuesto procesamiento
@@ -490,22 +490,22 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       console.log("Peticion POST cambiarEmail recibido");
     }) // post / cambiarEmail
 
-    //-----------------------------------------------------------------------------
-    // POST /borrarRelacionUsuarioSensor/<idUsuario>
-    // peticion.body --> JSON
-    // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
-    //-----------------------------------------------------------------------------
-    servidorExpress.post('/borrarRelacionUsuarioSensorPorIdUsuario/:idUsuario',
-      async function(peticion, respuesta) {
+  //-----------------------------------------------------------------------------
+  // POST /borrarRelacionUsuarioSensor/<idUsuario>
+  // peticion.body --> JSON
+  // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
+  //-----------------------------------------------------------------------------
+  servidorExpress.post('/borrarRelacionUsuarioSensorPorIdUsuario/:idUsuario',
+    async function (peticion, respuesta) {
 
-        var res = await laLogica.borrarRelacionUsuarioSensorPorIdUsuario(peticion.params.idUsuario);
+      var res = await laLogica.borrarRelacionUsuarioSensorPorIdUsuario(peticion.params.idUsuario);
 
-        respuesta.send({
-          respuesta: true
-        });
+      respuesta.send({
+        respuesta: true
+      });
 
-        console.log("Peticion POST /borrarRelacionUsuarioSensor recibido");
-      }) // post /borrarRelacionUsuarioSensor/:idUsuario
+      console.log("Peticion POST /borrarRelacionUsuarioSensor recibido");
+    }) // post /borrarRelacionUsuarioSensor/:idUsuario
 
   //-----------------------------------------------------------------------------
   // POST /cambiarEmail
@@ -513,7 +513,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
   //-----------------------------------------------------------------------------
   servidorExpress.post('/cambiarTelefono',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * POST /cambiarTelefono ")
       var datos = JSON.parse(peticion.body)
       // supuesto procesamiento
@@ -534,7 +534,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
   //-----------------------------------------------------------------------------
   servidorExpress.post('/darAltaUsuario',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * POST /darAltaUsuario ")
       var datos = JSON.parse(peticion.body)
       // supuesto procesamiento
@@ -567,7 +567,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
   //-----------------------------------------------------------------------------
   servidorExpress.post('/insertarSensor',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * POST /insertarSensor ")
       var datos = JSON.parse(peticion.body)
       // supuesto procesamiento
@@ -587,7 +587,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
   //-----------------------------------------------------------------------------
   servidorExpress.post('/insertarTipoSensor',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * POST /insertarTipoSensor ")
       var datos = JSON.parse(peticion.body)
       // supuesto procesamiento
@@ -609,7 +609,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
   //-----------------------------------------------------------------------------
   servidorExpress.post('/iniciarSesion',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * POST /iniciarSesion ")
       var datos = JSON.parse(peticion.body)
       // supuesto procesamiento
@@ -642,7 +642,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
   //-----------------------------------------------------------------------------
   servidorExpress.post('/iniciarSesionAdmin',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
       console.log(" * POST /iniciarSesion ")
       var datos = JSON.parse(peticion.body)
       // supuesto procesamiento
@@ -668,7 +668,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
   //-----------------------------------------------------------------------------
   servidorExpress.post('/borrarFilasDe/:tabla',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
 
       var tabla = peticion.params.tabla;
 
@@ -684,7 +684,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
   //-----------------------------------------------------------------------------
   servidorExpress.post('/darSensorAUsuario',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
 
       console.log(" * POST /darSensorAUsuario ")
 
@@ -704,7 +704,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
   //-----------------------------------------------------------------------------
   servidorExpress.post('/borrarUsuario/:idUsuario',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
 
       console.log(" * POST /borrarUsuario ")
 
@@ -723,7 +723,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
   //-----------------------------------------------------------------------------
   servidorExpress.post('/borrarSensor/:idSensor',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
 
       console.log(" * POST /borrarSensor ")
 
@@ -742,7 +742,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
   //-----------------------------------------------------------------------------
   servidorExpress.post('/asociarSensorUsuario',
-    async function(peticion, respuesta) {
+    async function (peticion, respuesta) {
 
       console.log(" * POST /asociarSensorUsuario")
 
@@ -790,27 +790,23 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // peticion.body --> file
   // al llamarlo deberemos insertar una imagen en el body para que lo pueda procesar.
   //-----------------------------------------------------------------------------
-  //-----------------------------------------------------------------------------
-  // POST /subirImagen
-  // peticion.body --> file
-  // al llamarlo deberemos insertar una imagen en el body para que lo pueda procesar.
-  //-----------------------------------------------------------------------------
   servidorExpress.post('/subirImagen',
-    async function(peticion, respuesta) {
-
+    async function (peticion, respuesta) {
       console.log(" * POST /subirImagen ")
 
       var datos = JSON.parse(peticion.body)
 
       let image = datos["file"];
 
-    // luego extraes la cabecera del data url
-    var base64Data = image.replace(/^data:image\/jpeg;base64,/, "");
+      // extraer la cabecera de imagen url
+      var base64Data = image.replace(/^data:image\/jpeg;base64,/, "");
 
-    // grabas la imagen el disco
-    fs.writeFile('../ux/images/imageContaminacion.jpg', base64Data, 'base64', function(err) {
-        console.log(err);
-    });
+      // grabas la imagen el disco
+      fs.writeFile('../ux/images/imageContaminacion.jpg', base64Data, 'base64', function (err) {
+        if (err != null) {
+          console.log(err);
+        }
+      });
 
     }) // post / subirImagen
 
@@ -818,7 +814,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   //-----------------------------------------------------------------------------
   // GET /ux/<pagina>
   //-----------------------------------------------------------------------------
-  servidorExpress.get('/ux/:pagina', function(peticion, respuesta) {
+  servidorExpress.get('/ux/:pagina', function (peticion, respuesta) {
     console.log(" servint html normal: " + peticion.params.pagina)
 
     var elPath = path.join(__dirname, '..', 'ux');
@@ -828,7 +824,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   //-----------------------------------------------------------------------------
   // GET /ux/html/<pagina>
   //-----------------------------------------------------------------------------
-  servidorExpress.get('/ux/html/:pagina', function(peticion, respuesta) {
+  servidorExpress.get('/ux/html/:pagina', function (peticion, respuesta) {
     console.log(" servint html normal: " + peticion.params.pagina)
 
     var elPath = path.join(__dirname, '..', 'ux', 'html');
@@ -838,7 +834,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   //-----------------------------------------------------------------------------
   // GET /ux/css/<estilos>
   //-----------------------------------------------------------------------------
-  servidorExpress.get('/ux/css/:estilos', function(peticion, respuesta) {
+  servidorExpress.get('/ux/css/:estilos', function (peticion, respuesta) {
     console.log(" servint css: " + peticion.params.estilos)
 
     var elPath = path.join(__dirname, '..', 'ux', 'css');
@@ -848,7 +844,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   //-----------------------------------------------------------------------------
   // GET /ux/images/<imagen>
   //-----------------------------------------------------------------------------
-  servidorExpress.get('/ux/images/:imagen', function(peticion, respuesta) {
+  servidorExpress.get('/ux/images/:imagen', function (peticion, respuesta) {
     console.log(" servint imagenes: " + peticion.params.imagen)
 
     var elPath = path.join(__dirname, '..', 'ux', 'images');
@@ -858,7 +854,7 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   //-----------------------------------------------------------------------------
   // GET /ux/mapas/<mapa>
   //-----------------------------------------------------------------------------
-  servidorExpress.get('/ux/mapas/:mapa', function(peticion, respuesta) {
+  servidorExpress.get('/ux/mapas/:mapa', function (peticion, respuesta) {
     console.log(" servint mapa: " + peticion.params.mapa)
 
     var elPath = path.join(__dirname, '..', 'ux', 'mapas');
