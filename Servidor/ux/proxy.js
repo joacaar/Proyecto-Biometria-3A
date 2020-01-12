@@ -681,7 +681,7 @@ class Proxy {
 
   //----------------------------------------------------------------------------
   // nombre:Texto
-  // descargarArchivo() -->
+  // descargarMapa() -->
   //----------------------------------------------------------------------------
   descargarMapa(nombre) {
     elProxy.descargarArchivo(IP_PUERTO + "/ux/mapas/" + nombre, nombre)

@@ -884,7 +884,7 @@ module.exports = class Logica {
 
   //-----------------------------------------------------------------------
   // filtrarTaxistasQueNoHanEnviadoEn24H() -->
-  // [{email:Texto, telefono:Texto, idUsuario:N, seHaPasado24HSinEnviar:V/F}]
+  // [{email:Texto, telefono:Texto, idUsuario:N, seHaPasado24HSinEnviar:V/F}, idSensor:N]
   //-----------------------------------------------------------------------
   async filtrarTaxistasQueNoHanEnviadoEn24H() {
 
