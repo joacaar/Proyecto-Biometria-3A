@@ -73,7 +73,7 @@ module.exports = class Logica {
       $email: datos.email
     }
     return new Promise((resolver, rechazar) => {
-      this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+      this.laConexion.run(textoSQL, valoresParaSQL, function (err) {
         (err ? rechazar(err) : resolver())
       })
     })
@@ -93,7 +93,7 @@ module.exports = class Logica {
       $email: datos.email
     }
     return new Promise((resolver, rechazar) => {
-      this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+      this.laConexion.run(textoSQL, valoresParaSQL, function (err) {
         (err ? rechazar(err) : resolver())
       })
     })
@@ -115,7 +115,7 @@ module.exports = class Logica {
     }
 
     return new Promise((resolver, rechazar) => {
-      this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+      this.laConexion.run(textoSQL, valoresParaSQL, function (err) {
         (err ? rechazar(err) : resolver())
       })
     })
@@ -136,7 +136,7 @@ module.exports = class Logica {
     }
 
     return new Promise((resolver, rechazar) => {
-      this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+      this.laConexion.run(textoSQL, valoresParaSQL, function (err) {
         (err ? rechazar(err) : resolver())
       })
     })
@@ -158,7 +158,7 @@ module.exports = class Logica {
     }
 
     return new Promise((resolver, rechazar) => {
-      this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+      this.laConexion.run(textoSQL, valoresParaSQL, function (err) {
         (err ? rechazar(err) : resolver())
       })
     })
@@ -183,7 +183,7 @@ module.exports = class Logica {
     }
 
     return new Promise((resolver, rechazar) => {
-      this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+      this.laConexion.run(textoSQL, valoresParaSQL, function (err) {
         (err ? rechazar(err) : resolver())
       })
     })
@@ -204,7 +204,7 @@ module.exports = class Logica {
     }
 
     return new Promise((resolver, rechazar) => {
-      this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+      this.laConexion.run(textoSQL, valoresParaSQL, function (err) {
         (err ? rechazar(err) : resolver())
       })
     })
@@ -227,7 +227,7 @@ module.exports = class Logica {
     }
 
     return new Promise((resolver, rechazar) => {
-      this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+      this.laConexion.run(textoSQL, valoresParaSQL, function (err) {
         (err ? rechazar(err) : resolver())
       })
     })
@@ -253,7 +253,7 @@ module.exports = class Logica {
       $idMedida: res + 1
     }
     return new Promise((resolver, rechazar) => {
-      this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+      this.laConexion.run(textoSQL, valoresParaSQL, function (err) {
         (err ? rechazar(err) : resolver())
       })
     })
@@ -409,7 +409,7 @@ module.exports = class Logica {
   // .................................................................
   buscarTodosLosMapas(path) {
     var mapas = fs.readdirSync(path);
-    return new Promise(function(resolver, rechazar) {
+    return new Promise(function (resolver, rechazar) {
       resolver(mapas)
     });
   }
@@ -486,7 +486,7 @@ module.exports = class Logica {
 
     var medidas = await this.buscarMedidasDelUltimoDiaDeUnUsuario(idUsuario)
 
-    return new Promise(function(resolver, rechazar) {
+    return new Promise(function (resolver, rechazar) {
       if (medidas == false) {
         resolver(false)
       }
@@ -609,7 +609,7 @@ module.exports = class Logica {
 
     return new Promise((resolver, rechazar) => {
       if (!elUsuarioExiste) {
-        this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+        this.laConexion.run(textoSQL, valoresParaSQL, function (err) {
           if (err) {
             rechazar(err)
           }
@@ -635,7 +635,7 @@ module.exports = class Logica {
     var sqlText = "select idSensor from UsuarioSensor where idSensor=$idSensor";
 
     return new Promise((resolver, rechazar) => {
-      this.laConexion.all(sqlText, valoresSQL, function(err, res) {
+      this.laConexion.all(sqlText, valoresSQL, function (err, res) {
         console.log("En el callback de la promesa de comprobar: " + res.length);
         if (err) {
           rechazar(err);
@@ -682,7 +682,7 @@ module.exports = class Logica {
         }
         return new Promise((resolver, rechazar) => {
           console.log("Dentro de la promesa de darSensor");
-          this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+          this.laConexion.run(textoSQL, valoresParaSQL, function (err) {
             console.log("Dentro del callback de la promesa de dar sensor");
             (err ? rechazar(err) : resolver(200))
           })
@@ -703,7 +703,7 @@ module.exports = class Logica {
       $idSensor: datos.idSensor
     }
     return new Promise((resolver, rechazar) => {
-      this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+      this.laConexion.run(textoSQL, valoresParaSQL, function (err) {
         (err ? rechazar(err) : resolver())
       })
     })
@@ -721,7 +721,7 @@ module.exports = class Logica {
       $descripcion: datos.descripcion
     }
     return new Promise((resolver, rechazar) => {
-      this.laConexion.run(textoSQL, valoresParaSQL, function(err) {
+      this.laConexion.run(textoSQL, valoresParaSQL, function (err) {
         (err ? rechazar(err) : resolver())
       })
     })
@@ -836,7 +836,7 @@ module.exports = class Logica {
     var res = await this.getUsuarios();
     var taxistas = [];
 
-    return new Promise(function(resolver, rechazar) {
+    return new Promise(function (resolver, rechazar) {
 
       if (res != undefined) {
         for (var i = 0; i < res.length; i++) {
@@ -858,7 +858,7 @@ module.exports = class Logica {
   // buscarIdSensorPorIdUsuario() -->
   // N
   //-----------------------------------------------------------------------
-  buscarIdSensorPorIdUsuario(idUsuario){
+  buscarIdSensorPorIdUsuario(idUsuario) {
     var textoSQL = "select * from UsuarioSensor where idUsuario=$idUsuario";
     var valoresParaSQL = {
       $idUsuario: idUsuario
@@ -866,13 +866,13 @@ module.exports = class Logica {
     return new Promise((resolver, rechazar) => {
       this.laConexion.all(textoSQL, valoresParaSQL,
         (err, res) => {
-          if(err){
+          if (err) {
             rechazar(err)
           }
           console.log(res);
-          if(undefined){
+          if (undefined) {
             resolver(0)
-          } if( res.length == 0){
+          } if (res.length == 0) {
             resolver(0)
           } else {
             resolver(res[0].idSensor)
@@ -934,7 +934,7 @@ module.exports = class Logica {
       taxistasFiltrados.push(json)
     }
 
-    return new Promise(function(resolver, rechazar) {
+    return new Promise(function (resolver, rechazar) {
       if (taxistasFiltrados.length == 0) {
         rechazar()
       }
@@ -1039,6 +1039,24 @@ module.exports = class Logica {
         rechazar(error)
       }
     })
+  }
+
+  // .................................................................
+  //   {file:String} --> guardarImagenEnCarpeta()
+  // .................................................................
+  async guardarImagenEnCarpeta(datos) {
+
+    let image = datos["file"];
+
+    // extraer la cabecera de imagen url
+    var base64Data = image.replace(/^data:image\/jpeg;base64,/, "");
+
+    // grabas la imagen el disco
+    fs.writeFile('../ux/images/imageContaminacion.jpg', base64Data, 'base64', function (err) {
+      if (err != null) {
+        console.log(err);
+      }
+    });
   }
 
   // .................................................................

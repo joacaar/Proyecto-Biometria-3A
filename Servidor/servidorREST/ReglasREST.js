@@ -769,25 +769,9 @@ module.exports.cargar = function (servidorExpress, laLogica) {
 
     }) // post / asociarSensorUsuario
 
-  // .......................................................
-  // Guardar fotos en ux/images
-  // .......................................................
-  let storage = multer.diskStorage({
-    destination: (req, file, cb) => {
-      cb(null, '../ux/images')
-    },
-    filename: (req, file, cb) => {
-      cb(null, 'fotosubida' + '-' + Date.now() + path.extname(file.originalname));
-    }
-  })
-
-  const upload = multer({
-    storage: storage
-  })
-
   //-----------------------------------------------------------------------------
   // POST /subirImagen
-  // peticion.body --> file
+  // peticion.body --> JSON{file: String}
   // al llamarlo deberemos insertar una imagen en el body para que lo pueda procesar.
   //-----------------------------------------------------------------------------
   servidorExpress.post('/subirImagen',
@@ -796,17 +780,7 @@ module.exports.cargar = function (servidorExpress, laLogica) {
 
       var datos = JSON.parse(peticion.body)
 
-      let image = datos["file"];
-
-      // extraer la cabecera de imagen url
-      var base64Data = image.replace(/^data:image\/jpeg;base64,/, "");
-
-      // grabas la imagen el disco
-      fs.writeFile('../ux/images/imageContaminacion.jpg', base64Data, 'base64', function (err) {
-        if (err != null) {
-          console.log(err);
-        }
-      });
+      guardarImagenEnCarpeta(datos);
 
     }) // post / subirImagen
 
