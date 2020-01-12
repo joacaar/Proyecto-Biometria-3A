@@ -145,17 +145,19 @@ public class ReceptorBLE {
                 @Override //cada vez que descubre un dispositivo ejecuta la fucnion onLeScan
                 public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
 
-                    /*Log.e(TAG, "Dentro de onLeScan");
+                    Log.e(TAG, "Dentro de onLeScan");
                     Log.e(TAG, time + "");
-                    Log.e(TAG, System.currentTimeMillis() + "");*/
+                    Log.e(TAG, System.currentTimeMillis() + "");
 
                     long timer = time + SCAN_PERIOD;
 
-                    //Log.e(TAG, timer + "");
+                    Log.e(TAG, timer + "");
 
                     if(System.currentTimeMillis() > time+SCAN_PERIOD){
                         stopScan();
                     }
+
+                    Log.d(TAG,device.toString());
 
                     TramaIBeacon tramaAux = filtrarPorUUID(MI_UUID, scanRecord);
 
