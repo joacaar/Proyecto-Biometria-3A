@@ -1052,7 +1052,7 @@ module.exports = class Logica {
     var base64Data = image.replace(/^data:image\/jpeg;base64,/, "");
 
     // grabas la imagen el disco
-    fs.writeFile('../ux/images/imageContaminacion.jpg', base64Data, 'base64', function (err) {
+    fs.writeFile('../ux/images/paraProcesar.jpg', base64Data, 'base64', function (err) {
       if (err != null) {
         console.log(err);
       }

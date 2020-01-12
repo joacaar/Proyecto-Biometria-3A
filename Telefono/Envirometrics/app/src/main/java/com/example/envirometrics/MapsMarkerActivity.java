@@ -3,6 +3,7 @@ package com.example.envirometrics;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Criteria;
@@ -48,6 +49,7 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
     Criteria criteria;
     private LogicaFake laLogica;
     private LocationManager locationManager;
+    SharedPreferences preferences;
 
 
     public MapsMarkerActivity(Context context_, LocationManager locationManager_){
@@ -61,11 +63,18 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
 
         map = googleMap;
 
-        laLogica.getTodasLasMedidas( new PeticionarioREST.Callback () {
+        preferences = context.getSharedPreferences("Ajustes", MODE_PRIVATE);
+
+        //Log.d("tipo de medida",preferences.getString("tipoMedida","1"));
+
+        String tipoMedida = preferences.getString("tipoMedida","1");
+
+        laLogica.getTodasLasMedidas(tipoMedida, new PeticionarioREST.Callback () {
             @Override
             public void respuestaRecibida(int codigo, String cuerpo) {
                 try {
                     if(codigo==200) {
+
                         JSONArray jsonObject = new JSONArray(cuerpo);
                         mostrarDatosContaminacion(jsonObject);
                     }
@@ -154,6 +163,7 @@ public class MapsMarkerActivity extends Activity implements OnMapReadyCallback {
             double lat = object.getDouble("latitud");
             double lng = object.getDouble("longitud");
             double medida = object.getDouble("valorMedida");
+            Log.d("MEDIDA", String.valueOf(medida));
             listValorMedida.add(new WeightedLatLng(new LatLng(lat, lng), medida));
         }
 

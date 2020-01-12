@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -54,6 +55,13 @@ public class HomeFragment extends Fragment {
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
 
         mapFragment.getMapAsync(mapa);
+
+/*
+        WebView myWebView = (WebView) root.findViewById(R.id.webview);
+
+        myWebView.clearCache(true);
+        myWebView.getSettings().setJavaScriptEnabled(true);
+        myWebView.loadUrl("http://192.168.1.139:8080/ux/html/mapa.html");*/
 
 
         return root;

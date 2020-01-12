@@ -94,9 +94,9 @@ public class ReceptorBLE {
     // obtener la medida mediante bluetooth
     public void obtenerCO(){
         time = System.currentTimeMillis();
-        Log.e(TAG, "Dentro de obtenerCO()");
+        //Log.e(TAG, "Dentro de obtenerCO()");
             mBluetoothAdapter.startLeScan(mLeScanCallback);
-        Log.e(TAG, "DEspues de llamar al callback");
+        //Log.e(TAG, "DEspues de llamar al callback");
     }
 
     //Metodo que se llama en el callback y se ejecuta cada vez que se encuentra una trama
@@ -145,13 +145,13 @@ public class ReceptorBLE {
                 @Override //cada vez que descubre un dispositivo ejecuta la fucnion onLeScan
                 public void onLeScan(final BluetoothDevice device, int rssi, byte[] scanRecord) {
 
-                    Log.e(TAG, "Dentro de onLeScan");
+                    /*Log.e(TAG, "Dentro de onLeScan");
                     Log.e(TAG, time + "");
-                    Log.e(TAG, System.currentTimeMillis() + "");
+                    Log.e(TAG, System.currentTimeMillis() + "");*/
 
                     long timer = time + SCAN_PERIOD;
 
-                    Log.e(TAG, timer + "");
+                    //Log.e(TAG, timer + "");
 
                     if(System.currentTimeMillis() > time+SCAN_PERIOD){
                         stopScan();

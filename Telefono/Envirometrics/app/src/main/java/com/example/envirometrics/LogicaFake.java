@@ -37,7 +37,7 @@ public class LogicaFake {
     } // interface
 
 
-    private String urlServidor = "http://192.168.1.139:8080/";
+    private String urlServidor = "http://192.168.0.115:8080/";
 
     public LogicaFake(Context context){
             Hawk.init(context).build();
@@ -168,15 +168,16 @@ public class LogicaFake {
     // -------------------------------------------------------------------------------
     //                    --> getTodasLasMedidas() --> elCallback: Callback
     // -------------------------------------------------------------------------------
-    public void getTodasLasMedidas(PeticionarioREST.Callback elCallback) {
+    public void getTodasLasMedidas(String idTipoMedida,PeticionarioREST.Callback elCallback) {
 
         PeticionarioREST elPeticionario = new PeticionarioREST();
 
         Map<String, String> params = new HashMap<String, String>();
+        params.put("idTipoMedida",idTipoMedida.toString());
 
         JSONObject eljson = new JSONObject(params);
 
-        elPeticionario.hacerPeticionREST("GET", this.urlServidor + "getTodasLasMedidas", eljson.toString(), elCallback,
+        elPeticionario.hacerPeticionREST("GET", this.urlServidor + "buscarUnTipoDeMedidas/" + idTipoMedida, eljson.toString(), elCallback,
                 "application/json; charset=utf-8"
         );
     }
