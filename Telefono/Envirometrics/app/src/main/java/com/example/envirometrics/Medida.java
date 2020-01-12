@@ -1,5 +1,9 @@
 package com.example.envirometrics;
 
+import android.util.Log;
+
+import com.orhanobut.hawk.Hawk;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -12,19 +16,25 @@ public class Medida {
 
 
     private long tiempo;
-    private int medidaCO;
+    private double medidaCO;
     private double latitud;
     private double longitud;
     private int idTipoMedida;
 
+    private static double factorCalibracion;
+
 
     public Medida(){
-
+        if(Hawk.contains("calibracion")){
+            Medida.setFactorCalibracion(Double.parseDouble(Hawk.get("calibracion").toString()));
+        }else{
+            Medida.setFactorCalibracion(1.0);
+        }
     }
     //-----------------------------------
     // Z, Texto, Texto --> Medida()
     //-----------------------------------
-    public Medida(int _medidaCO, double latitud, double longitud){
+    public Medida(double _medidaCO, double latitud, double longitud){
 
         Date date = new Date();
 
@@ -33,12 +43,18 @@ public class Medida {
         this.latitud = latitud;
         this.longitud = longitud;
         this.idTipoMedida = 1;
+
+        if(Hawk.contains("calibracion")){
+            Medida.setFactorCalibracion(Double.parseDouble(Hawk.get("calibracion").toString()));
+        }else{
+            Medida.setFactorCalibracion(1.0);
+        }
     }
 
     //-----------------------------------
     // setFecha() --> Z
     //-----------------------------------
-    public int getMedidaCO() {
+    public double getMedidaCO() {
         return medidaCO;
     }
 
@@ -67,6 +83,17 @@ public class Medida {
         String tiempo = hora + ":" + minutos;
         return tiempo;
 
+    }
+
+    public static void calcularFactorCalibracion(double medida, double medidaEstacion){
+        double res = (medidaEstacion/medida);
+        Log.d("Calibracion", "Valor nuevo de calibracion: " + res);
+        Medida.setFactorCalibracion(res);
+    }
+
+    public static double convertirPpmToMg(double medida){
+
+        return medida;
     }
 
     //-----------------------------------
@@ -113,6 +140,19 @@ public class Medida {
         this.idTipoMedida = idTipoMedida;
     }
 
+    public static double getFactorCalibracion() {
+        return factorCalibracion;
+    }
+
+    public static void setFactorCalibracion(double factorCalibracion) {
+        Log.d("Calibracion", "Guardamos factor calibracion");
+        Medida.factorCalibracion = factorCalibracion;
+        Log.d("Calibracion", "El factor de calibracion es: " + factorCalibracion);
+        Hawk.put("calibracion", factorCalibracion);
+    }
+
+
+
     //-----------------------------------
     // getHora() --> Texto
     //-----------------------------------
@@ -144,6 +184,7 @@ public class Medida {
     // Z --> setMedidaCO()
     //-----------------------------------
     public void setMedidaCO(int medidaCO) {
+        Log.d("Calibracion", "El factor de calibracion de esta medida es: " + factorCalibracion);
         this.medidaCO = medidaCO;
     }
 

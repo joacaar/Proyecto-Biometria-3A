@@ -55,3 +55,20 @@ exports.obtenerDatosEstacionGandia = async function () {
   })
   //console.log(JSON.stringify(data));
 }
+
+exports.obtenerDatoCalidadAire = async function(){
+  // Array donde guardaremos las medidas
+  let data = [];
+
+  // Primera petición para obtener las cookies
+  await JSDOM.fromURL(urlDatosGandia, options);
+
+  // Petición para obtener datos contaminación
+  await JSDOM.fromURL(urlDatos, options).then(dom => {
+
+    // Tabla de contaminación
+    let tabla = dom.window.document.getElementsByClassName("tablaPar");
+    console.log(tabla);
+    //console.log(tabla.innerHTML)
+  })
+}

@@ -30,6 +30,15 @@ public class LocalizadorGPS {
 
     private ReceptorBLE receptorBLE;
 
+    //Coordendas del rango de la estacion de medida
+        //Coordenadas del punto superior izquierdo
+    public static final double latNorte = 38.969056;
+    public static final double longOeste = -0.191337;
+        //Coordenadas del punto inferior derecho
+    public static final double latSur = 38.967404;
+    public static final double longEste = -0.188657;
+
+
 
     //Minimo tiempo para updates en Milisegundos
     private static final long MIN_CAMBIO_DISTANCIA_PARA_UPDATES = 0; // 10 metros

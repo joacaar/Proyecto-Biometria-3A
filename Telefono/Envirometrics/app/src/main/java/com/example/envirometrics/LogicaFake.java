@@ -1,7 +1,7 @@
 // .....................................................................
 // Autor: Santiago Pérez Torres
 // Fecha inicio: 24/10/2019
-// Última actualización: 11/12/2019
+// Última actualización: 29/12/2019
 // LogicaFake.js
 // .....................................................................
 
@@ -15,12 +15,15 @@ import com.orhanobut.hawk.Hawk;
 
 import org.json.JSONObject;
 
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
 public class LogicaFake {
 
     private final String TAG = "---LogicaDebug---";
+    private Medidas medidas;
 
     // -------------------------------------------------------------------------------
     // -------------------------------------------------------------------------------
@@ -30,17 +33,37 @@ public class LogicaFake {
     } // interface
 
 
-    private String urlServidor = "http://192.168.1.110:8080/";
+    private String urlServidor = "http://192.168.1.14:8080/";
 
     public LogicaFake(Context context){
             Hawk.init(context).build();
+            medidas = new Medidas();
         }
 
 
     // -------------------------------------------------------------------------------
     //                        medicion: Medida --> anunciarCO()
     // -------------------------------------------------------------------------------
-    public void anunciarCO( Medida medicion) {
+    public void anunciarCO(Medida medicion) {
+
+        Medida medidaAux = new Medida(medicion.getMedidaCO(), medicion.getLatitud(), medicion.getLongitud());
+
+        medidas.anadirMedida(medidaAux);
+
+        Log.d("Calibracion", "Iniciamos el anuncio");
+        Log.d("Calibracion", "Cantidad de medidas actualmente: " + medidas.obtenerCantidadMedidas());
+        Log.d("Calibracion", "tiempo medida actual: " + medicion.getTiempo() + " Tiempo de la primera medida: " + medidas.obtenerPrimeraMedida().getTiempo());
+        //Al pasar 8 horas hacemos la media de las medidas y con la media calculamos la calibracion 28800000
+        if(medicion.getTiempo() > medidas.obtenerPrimeraMedida().getTiempo() + 180000){
+            Log.d("Calibracion", "Han pasado 8 horas desde la primera medida");
+            Log.d("Calibracion", "Añadimos la media de las medidas a la clase medidas");
+            medidas.setMediaMedidas(medidas.calcularMediaMedidas());
+            Log.d("Calibracion", "obtenerFactorDeCalibracion Llamado");
+            //Pedimos al servidor que nos de la medida de la estacion oficial
+            obtenerFactorCalibracion(medidas.getMediaMedidas());
+            Log.d("Calibracion", "Eliminamos todas las medidas");
+            medidas.eliminarTodasMedidas();
+        }
 
         PeticionarioREST elPeticionario = new PeticionarioREST();
 
@@ -64,8 +87,41 @@ public class LogicaFake {
                 },
                 "application/json; charset=utf-8"
         );
+
+        Log.d("Calibracion", "Comprobamos si estamos cerca de la estacion oficial");
+        //Comprobamos si la ubicacion esta dentro del rango de calibracion
+        if(medicion.getLatitud() <= LocalizadorGPS.latNorte && medicion.getLongitud() >= LocalizadorGPS.longOeste){
+            if(medicion.getLatitud() >= LocalizadorGPS.latSur && medicion.getLongitud() <= LocalizadorGPS.longEste){
+                Log.d("Calibracion", "Ubicacion dentro del rango, Pedimos la medida de calibracion al servidor");
+                //Hacemos la peticion del factor de calibracion
+                    obtenerFactorCalibracion(medicion.getMedidaCO());
+            }
+        }
     }
 
+    // ----------------------------------------------------------------------------------------
+    // obtenerFactorCalibracion
+    // ----------------------------------------------------------------------------------------
+    public void obtenerFactorCalibracion(final double medida){
+
+        PeticionarioREST elPeticionario = new PeticionarioREST();
+
+        elPeticionario.hacerPeticionREST("GET", this.urlServidor + "obtenerFactorCalibracion", "" ,
+                new PeticionarioREST.Callback() {
+                    @Override
+                    public void respuestaRecibida(int codigo, String cuerpo){
+                        Log.d("RESPUESTA RECIBIDA", "Logica.anunciarCO() respuestaRecibida: codigo = "
+                                + codigo + " cuerpo=" + cuerpo);
+                        Log.d("Calibracion", "Calculamos factor calibracion");
+                        // calculamos el factor de calibracion con la medida o media de las medidas y la medida proporcionada por la estacion oficial
+                        double value = Double.parseDouble(cuerpo.substring(1,4));
+                        Medida.calcularFactorCalibracion(medida, value);
+                        Log.d("Calibracion", "La medida de la estacion es: " + cuerpo);
+                    }
+                },
+                "application/json; charset=utf-8"
+        );
+    }
     // ----------------------------------------------------------------------------------------
     //                  usuario: Usuario --> darAltaUsuario() --> elCallback: Callback
     // ----------------------------------------------------------------------------------------
