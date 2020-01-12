@@ -45,7 +45,7 @@
             <li class="nav-item current">
                 <a href="admin.html" class="nav-link adminSidebar">
                     <i class="fa fa-home fa-lg adminIcon" style="margin-right: 0.5em"></i>
-                    Dashboard
+                    Medidas
                 </a>
             </li>
             <li class="nav-item">
@@ -58,6 +58,12 @@
                 <a href="sensores.html" class="nav-link adminSidebar">
                     <i class="fa fa-balance-scale fa-sm adminIcon"></i>
                     Sensores
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="mapas.html" class="nav-link adminSidebar">
+                    <i class="fa fa-map fa-sm adminIcon"></i>
+                    Mapas
                 </a>
             </li>
         </ul>
@@ -254,11 +260,11 @@
                         if ((now - medida.tiempo) > 86400000) {
 
                             cols += '<td>' + '<i class="fa fa-exclamation-triangle" id="alerta24horas" style="margin: 0 0 0 2.1em"></i>' + '</td>';
-                            
+
                         } else {
                             cols += '<td>' + '</td>';
                         }
-                        
+
                         newRow.append(cols);
                         $("#tablaMedidas").append(newRow);
                     })

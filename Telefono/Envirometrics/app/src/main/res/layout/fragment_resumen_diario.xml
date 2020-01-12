@@ -65,7 +65,7 @@
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
         android:padding="10dp"
-        app:cardBackgroundColor="#009C85"
+        app:background="@drawable/cardviewstyle"
         app:cardCornerRadius="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -88,6 +88,7 @@
                 android:layout_marginLeft="10dp"
                 android:fontFamily="sans-serif-condensed-light"
                 android:text="Distancia recorrida:"
+                android:textColor="#FFFFFF"
                 android:textSize="24sp" />
 
             <TextView
@@ -97,6 +98,7 @@
                 android:fontFamily="sans-serif-condensed-light"
                 android:paddingLeft="5dp"
                 android:text="6 km"
+                android:textColor="#FFFFFF"
                 android:textSize="24sp"
                 android:textStyle="bold" />
 
@@ -115,18 +117,38 @@
                 android:fontFamily="sans-serif-condensed-light"
                 android:gravity="center"
                 android:text="Media de contaminación respirada"
+                android:textColor="#FFFFFF"
                 android:textSize="26dp" />
 
-            <TextView
-                android:id="@+id/textoMediaContaminacion"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:fontFamily="sans-serif-condensed-light"
+                android:layout_height="match_parent"
                 android:gravity="center"
-                android:text="50 ppm"
-                android:textSize="40dp"
-                android:textStyle="bold" />
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:id="@+id/imgAdvertencia"
+                    android:layout_width="185dp"
+                    android:layout_height="86dp"
+                    android:layout_weight="1"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="20dp"
+                    android:paddingBottom="20dp"
+                    app:srcCompat="@drawable/media" />
+
+                <TextView
+                    android:id="@+id/textoMediaContaminacion"
+                    android:layout_width="258dp"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-condensed-light"
+                    android:paddingLeft="18dp"
+                    android:text="50 ppm"
+                    android:textColor="#FFFFFF"
+                    android:textSize="40dp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

@@ -45,7 +45,7 @@
             <li class="nav-item">
                 <a href="admin.html" class="nav-link adminSidebar">
                     <i class="fa fa-home fa-lg adminIcon" style="margin-right: 0.5em"></i>
-                    Dashboard
+                    Medidas
                 </a>
             </li>
             <li class="nav-item current">
@@ -58,6 +58,12 @@
                 <a href="sensores.html" class="nav-link adminSidebar">
                     <i class="fa fa-balance-scale fa-sm adminIcon"></i>
                     Sensores
+                </a>
+            </li>
+            <li class="nav-item">
+                <a href="mapas.html" class="nav-link adminSidebar">
+                    <i class="fa fa-map fa-sm adminIcon"></i>
+                    Mapas
                 </a>
             </li>
         </ul>
@@ -75,7 +81,7 @@
         <div class="modal" id="nuevoTaxistaModal">
 
             <div class="row modal-content">
-                <div class="modal-header">
+                <div class="modal-header">Registro taxista
                     <span class="close" onclick="cerrarModal()">&times;</span>
                 </div>
 
@@ -151,18 +157,19 @@
                             Introduce un número de teléfono
                         </div>
 
-                        <div class="form-label-group row">
-                            <label for="" style="padding: 1em 15px 0 15px">Introducir solo si se quiere cambiar la contraseña:</label>
-                        </div>
+                        <hr />
 
                         <div class="form-label-group row">
+                            <a class="" id="botonCambiarContrasenya" onclick="mostrarCambiarContrasenya()">Cambiar contraseña</a>
+                        </div>
+                        <div class="form-label-group row cambiarContrasenya">
                             <label for="" class="password col-6">Cambiar contraseña:</label>
-                            <input type="password" id="cambiarPassword" class="form-control col-6" placeholder="Cambiar contraseña" required="" autofocus="">
+                            <input type="password" id="cambiarPassword" class="form-control col-6" placeholder="Cambiar contraseña" autofocus="">
                         </div>
 
-                        <div class="form-label-group row">
+                        <div class="form-label-group row cambiarContrasenya">
                             <label for="" class="repetirPassword col-6">Repetir Contraseña:</label>
-                            <input type="password" id="cambiarRepetirPassword" class="form-control col-6" placeholder="Repetir contraseña" required="">
+                            <input type="password" id="cambiarRepetirPassword" class="form-control col-6" placeholder="Repetir contraseña">
                         </div>
 
                         <div class="alert alert-danger" role="alert" id="errorEditarPassword">
@@ -186,12 +193,12 @@
             </div>
 
             <div class="row datos">
-                <label for="" class="id ">ID:</label>
+                <label for="" class="id">ID:</label>
                 <label for="" class="id" id="idLabel"></label>
             </div>
 
             <div class="row datos">
-                <label for="" class="email ">E-mail:</label>
+                <label for="" class="email">E-mail:</label>
                 <label for="" class="email" id="emailLabel"></label>
             </div>
 
@@ -261,7 +268,7 @@
                         cols += '<td scope="row">' + res[i].idUsuario + '</td>';
                         cols += '<td>' + res[i].email + '</td>';
                         cols += '<td>' + res[i].telefono + '</td>';
-                        cols += '<td>' + (i+1) + '</td>';
+                        cols += '<td>' + res[i].idSensor + '</td>';
 
                         if (res[i].seHaPasado24HSinEnviar) {
                             cols += '<td>' + '<i class="fa fa-exclamation-triangle" id="alerta24horas" style="margin: 0 0 0 2.1em"></i>' + '</td>';
@@ -298,7 +305,13 @@
                                     telefono: inputTelefono
                                 },
                                 function(res) {
-                                    console.log(res)
+                                    elProxy.getUltimoIdUsuario(function(res) {
+                                        elProxy.darSensorAUsuario({
+                                            idSensor: 0,
+                                            idUsuario: res.ultimoIdUsuario
+                                        }, function(res) {
+                                        })
+                                    })
                                 })
                             location.reload();
                         } else {
@@ -323,7 +336,7 @@
 
         // ------------------------------------------------------------------
         // borrarTaxista()
-        // 
+        //
         // Borra al taxista "seleccionado"
         // ------------------------------------------------------------------
         function borrarTaxista() {
@@ -336,7 +349,7 @@
 
         // ------------------------------------------------------------------
         // editarTaxista()
-        // 
+        //
         // edita al taxista "seleccionado"
         // ------------------------------------------------------------------
 
@@ -369,7 +382,7 @@
                             location.reload();
 
                         } else {
-                            //contraseñas no coinciden 
+                            //contraseñas no coinciden
                             setAlertHide()
                             $('#errorEditarPassword').show();
                         }
@@ -394,7 +407,6 @@
         // getInformacionTaxista()
         // ------------------------------------------------------------------
         function getInformacionTaxista(orden) {
-            console.log(orden)
             elProxy.taxistasFiltradosQueNoHanEnviadoEn24H(function(res) {
                 document.getElementById("idLabel").innerHTML = res[orden].idUsuario;
                 document.getElementById("emailLabel").innerHTML = res[orden].email;
@@ -468,6 +480,16 @@
         function cerrarModal() {
             modalNuevoTaxista.style.display = "none";
             modalEditarTaxista.style.display = "none";
+            esconderCambiarContrasenya()
+        }
+
+        // Al pulsar fuera del modal se cierra
+        window.onclick = function(event) {
+            if (event.target == modalNuevoTaxista || event.target == modalEditarTaxista) {
+                modalNuevoTaxista.style.display = "none";
+                modalEditarTaxista.style.display = "none";
+                esconderCambiarContrasenya();
+            }
         }
 
         btnNuevoTaxista.onclick = function() {
@@ -481,15 +503,33 @@
             document.getElementById('cambiarEmail').value = document.getElementById("emailLabel").innerHTML;
             document.getElementById('cambiarTelefono').value = document.getElementById("telefonoLabel").innerHTML;
         }
-
         //-------------------------------------------------------------------
-        // Cerrar modal al pulsar fuera de la ventana
+        //  mostrarCambiarContrasenya()        
         //-------------------------------------------------------------------
-        window.onclick = function(event) {
-            if (event.target == modalNuevoTaxista || event.target == modalEditarTaxista) {
-                modalNuevoTaxista.style.display = "none";
-                modalEditarTaxista.style.display = "none";
+        function mostrarCambiarContrasenya() {
+            console.log("mostrando")
+            for (var i = 0; i < document.getElementsByClassName('cambiarContrasenya').length; i++) {
+                document.getElementsByClassName('cambiarContrasenya')[i].style.visibility = "visible";
+                document.getElementsByClassName('cambiarContrasenya')[i].style.position = "relative";
+                document.getElementsByClassName('cambiarContrasenya')[i].style.bottom = "auto";
             }
+
+            document.getElementById("botonCambiarContrasenya").style.visibility = "hidden";
+            document.getElementById("botonCambiarContrasenya").style.position = "absolute";
+            document.getElementById("botonCambiarContrasenya").style.bottom = "0";
+        }
+
+        function esconderCambiarContrasenya() {
+            console.log("escondiendo")
+            for (var i = 0; i < document.getElementsByClassName('cambiarContrasenya').length; i++) {
+                document.getElementsByClassName('cambiarContrasenya')[i].style.visibility = "hidden";
+                document.getElementsByClassName('cambiarContrasenya')[i].style.position = "absolute";
+                document.getElementsByClassName('cambiarContrasenya')[i].style.bottom = "0";
+            }
+
+            document.getElementById("botonCambiarContrasenya").style.visibility = "visible";
+            document.getElementById("botonCambiarContrasenya").style.position = "relative";
+            document.getElementById("botonCambiarContrasenya").style.bottom = "auto";
         }
 
     </script>

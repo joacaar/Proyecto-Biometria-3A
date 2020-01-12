@@ -81,32 +81,18 @@ tr.selected {
     color: #FAFAFA;
 }
 
-tr.selected a {
-    color: #FAFAFA;
-    text-decoration: underline;
+tr.selected:hover,
+tr.selected:focus,
+tr.selected:active {
+    background-color: #00B49A !important;
+    color: #FAFAFA !important;
 }
 
-tr.selected a:hover,
-tr.selected a:focus,
-tr.selected a:active {
-    color: #F0F0F0;
-    text-decoration: underline;
+tr.filaDeTablaTaxistas:hover,
+tr.filaDeTablaTaxistas:focus,
+tr.filaDeTablaTaxistas:active {
+    background-color: #e3e3e3
 }
-
-tr a {
-    color: #000000;
-    text-decoration: underline;
-}
-
-tr a:hover,
-tr a:focus,
-tr a:active {
-    color: #393946;
-    text-decoration: underline;
-}
-
-
-
 
 /*                   Modal Taxistas                   */
 
@@ -119,6 +105,28 @@ tr a:active {
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.4);
+}
+
+.cambiarContrasenya {
+    visibility: hidden;
+    position: absolute;
+    bottom: 0;
+}
+
+#botonCambiarContrasenya {
+    background-color: #00B49A;
+    border-radius: 2px;
+    color: #FFFFFF;
+    padding: 0 8px;
+    height: 1.5em;
+    width: auto;
+    text-decoration: none;
+}
+
+#botonCambiarContrasenya:hover,
+#botonCambiarContrasenya:focus,
+#botonCambiarContrasenya:active {
+    background-color: #00957f;
 }
 
 /* Modal Header */

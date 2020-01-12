@@ -9,6 +9,8 @@ package com.example.envirometrics;
 
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.media.Image;
 import android.util.Log;
 
 import com.orhanobut.hawk.Hawk;
@@ -19,6 +21,8 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
+
+import static java.lang.System.out;
 
 public class LogicaFake {
 
@@ -33,7 +37,7 @@ public class LogicaFake {
     } // interface
 
 
-    private String urlServidor = "http://192.168.1.14:8080/";
+    private String urlServidor = "http://192.168.1.139:8080/";
 
     public LogicaFake(Context context){
             Hawk.init(context).build();
@@ -295,6 +299,22 @@ public class LogicaFake {
         JSONObject eljson = new JSONObject(params);
 
         elPeticionario.hacerPeticionREST("GET", this.urlServidor + "calidadDelAireRespiradoEnElUltimoDia/" + idUsuario, eljson.toString(), elCallback,
+                "application/json; charset=utf-8"
+        );
+    }
+
+    // -------------------------------------------------------------------------------------------------------
+    //                    String:imagen --> subirImagen() --> elCallback: Callback
+    // -------------------------------------------------------------------------------------------------------
+    public void subirImagen(String imagen, PeticionarioREST.Callback elCallback) {
+
+        PeticionarioREST elPeticionario = new PeticionarioREST();
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("file",imagen);
+        JSONObject eljson = new JSONObject(params);
+
+        elPeticionario.hacerPeticionREST("POST", this.urlServidor + "subirImagen" , eljson.toString(), elCallback,
                 "application/json; charset=utf-8"
         );
     }

@@ -1,6 +1,7 @@
 package com.example.envirometrics.ui.resumenDia;
 
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -9,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -19,6 +21,7 @@ import com.example.envirometrics.LogicaFake;
 import com.example.envirometrics.PeticionarioREST;
 import com.example.envirometrics.R;
 import com.github.rahatarmanahmed.cpv.CircularProgressView;
+import com.google.android.gms.common.server.converter.StringToIntConverter;
 import com.orhanobut.hawk.Hawk;
 
 import org.json.JSONArray;
@@ -45,6 +48,8 @@ public class ResumenDiaFragment extends Fragment {
     private TextView textoMediaContaminacion;
     private int numberOfPoints = 5;
     private CircularProgressView progressView;
+    private ImageView imagenAdvertencia;
+
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
@@ -64,6 +69,7 @@ public class ResumenDiaFragment extends Fragment {
         chart = root.findViewById(R.id.chart);
         distancia = root.findViewById(R.id.textViewDistancia);
         textoMediaContaminacion = root.findViewById(R.id.textoMediaContaminacion);
+        imagenAdvertencia = root.findViewById(R.id.imgAdvertencia);
 
         obtenerDistanciaRecorrida();
         empezarHacerDibujoContaminacionDiaria();
@@ -239,6 +245,16 @@ public class ResumenDiaFragment extends Fragment {
                                 DecimalFormat df = new DecimalFormat("#.#");
                                 JSONObject jsonObject = new JSONObject(cuerpo);
                                 textoMediaContaminacion.setText(df.format(jsonObject.get("respuesta"))+ " ppm");
+                                Double contaminacion = Double.parseDouble(df.format(jsonObject.get("respuesta")));
+
+                                if(contaminacion >= 120.0){
+                                    imagenAdvertencia.setImageResource(R.drawable.grave);
+                                }
+                                if(contaminacion >= 50.0){
+                                    imagenAdvertencia.setImageResource(R.drawable.media);
+                                }else{
+                                    imagenAdvertencia.setImageResource(R.drawable.buena);
+                                }
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

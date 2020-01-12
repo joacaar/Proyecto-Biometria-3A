@@ -6,6 +6,9 @@
 // .....................................................................
 
 const path = require('path')
+const multer = require('multer')
+var fs = require('fs')
+
 
 module.exports.cargar = function(servidorExpress, laLogica) {
 
@@ -57,6 +60,18 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       respuesta.send(JSON.stringify(res))
     }) // get /medidasPorIdUsuario/<idUsuario>
 
+    // .......................................................
+    // GET /ultimoIdUsuario
+    // .......................................................
+    servidorExpress.get('/ultimoIdUsuario',
+      async function(peticion, respuesta) {
+        console.log(" * GET /ultimoIdUsuario ")
+
+        var res = await laLogica.getUltimoIDUsuario()
+
+        respuesta.send({ultimoIdUsuario: res})
+      }) // get /ultimoIdUsuario
+
   // .......................................................
   // GET /medidasPorIdUsuario/<idMedida>
   // .......................................................
@@ -77,25 +92,29 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       respuesta.send(JSON.stringify(res))
     }) // get /medida/<idMedida>
 
-    // .......................................................
-    // GET /medidasPorIdUsuario/<idMedida>
-    // .......................................................
-    servidorExpress.get('/elUsuarioTieneMedidas/:idUsuario',
-      async function(peticion, respuesta) {
-        console.log(" * GET /elUsuarioTieneMedidas ")
-        // averiguo la fecha
-        var idUsuario = peticion.params.idUsuario
-        // llamo a la función adecuada de la lógica
-        var res = await laLogica.elUsuarioTieneMedidas(idUsuario)
-        // si no hay resultados...
-        if (res == false) {
-          // 404: not found
-          respuesta.send({respuesta:false})
-          return
-        }
-        // todo ok
-        respuesta.send({respuesta:true})
-      }) // get /medida/<idMedida>
+  // .......................................................
+  // GET /medidasPorIdUsuario/<idMedida>
+  // .......................................................
+  servidorExpress.get('/elUsuarioTieneMedidas/:idUsuario',
+    async function(peticion, respuesta) {
+      console.log(" * GET /elUsuarioTieneMedidas ")
+      // averiguo la fecha
+      var idUsuario = peticion.params.idUsuario
+      // llamo a la función adecuada de la lógica
+      var res = await laLogica.elUsuarioTieneMedidas(idUsuario)
+      // si no hay resultados...
+      if (res == false) {
+        // 404: not found
+        respuesta.send({
+          respuesta: false
+        })
+        return
+      }
+      // todo ok
+      respuesta.send({
+        respuesta: true
+      })
+    }) // get /medida/<idMedida>
 
   // .......................................................
   // GET /medidasPorIdUsuario/<idMedida>
@@ -145,14 +164,26 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       // busco las relacionesUsuarioSensor
       var res = await laLogica.buscarRelacionesUsuarioSensor()
       // si no hay resultados...
-      if (res.length == 0) {
+      if (res == undefined) {
         // 404: not found
-        respuesta.status(404).send("No encontré relacionesUsuarioSensor")
+        respuesta.status(404).send({respuesta:"No hay relacionesUsuarioSensor"})
         return
       }
       // todo ok
       respuesta.send(JSON.stringify(res))
     }) // get /relacionesUsuarioSensor
+
+  // ......................................................
+  // GET /listaNombresMapas
+  // .......................................................
+  servidorExpress.get('/listaNombresMapas',
+    async function(peticion, respuesta) {
+      console.log(" * GET /listaNombresMapas ")
+      // busco las relacionesUsuarioSensor
+      var res = await laLogica.buscarTodosLosMapas('../ux/mapas')
+      // todo ok
+      respuesta.send(JSON.stringify(res))
+    }) // get /listaNombresMapas
 
   // ......................................................
   // GET /distanciaRecorridaEnUnDia/<idUsuario>
@@ -180,51 +211,51 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       })
     }) // get /distanciaRecorridaEnUnDia
 
-    // ......................................................
-    // GET /medidasDelUltimoDiaDeUnUsuario/<idUsuario>
-    // .......................................................
-    servidorExpress.get('/medidasDelUltimoDiaDeUnUsuario/:idUsuario',
-      async function(peticion, respuesta) {
-        console.log(" * GET /distanciaRecorrida ")
+  // ......................................................
+  // GET /medidasDelUltimoDiaDeUnUsuario/<idUsuario>
+  // .......................................................
+  servidorExpress.get('/medidasDelUltimoDiaDeUnUsuario/:idUsuario',
+    async function(peticion, respuesta) {
+      console.log(" * GET /distanciaRecorrida ")
 
-        var idUsuario = peticion.params.idUsuario;
+      var idUsuario = peticion.params.idUsuario;
 
-        // busco las relacionesUsuarioSensor
-        var res = await laLogica.buscarMedidasDelUltimoDiaDeUnUsuario(idUsuario)
+      // busco las relacionesUsuarioSensor
+      var res = await laLogica.buscarMedidasDelUltimoDiaDeUnUsuario(idUsuario)
 
-        // si no hay resultados...
-        if (res == false) {
-          // 404: not found
-          respuesta.status(404).send("No hay medidas suficientes")
-          return
-        }
+      // si no hay resultados...
+      if (res == false) {
+        // 404: not found
+        respuesta.status(404).send("No hay medidas suficientes")
+        return
+      }
 
-        //console.log("distancia " + res);
-        // todo ok
-        respuesta.send({
-          respuesta: res
-        })
-      }) // get /medidasDelUltimoDiaDeUnUsuario
+      //console.log("distancia " + res);
+      // todo ok
+      respuesta.send({
+        respuesta: res
+      })
+    }) // get /medidasDelUltimoDiaDeUnUsuario
 
-    // ......................................................
-    // GET /medidasDelUltimoDia
-    // .......................................................
-    servidorExpress.get('/medidasDelUltimoDia',
-      async function(peticion, respuesta) {
-        console.log(" * GET /medidasDelUltimoDia ")
+  // ......................................................
+  // GET /medidasDelUltimoDia
+  // .......................................................
+  servidorExpress.get('/medidasDelUltimoDia',
+    async function(peticion, respuesta) {
+      console.log(" * GET /medidasDelUltimoDia ")
 
-        // busco las relacionesUsuarioSensor
-        var res = await laLogica.buscarMedidasDelUltimoDia()
+      // busco las relacionesUsuarioSensor
+      var res = await laLogica.buscarMedidasDelUltimoDia()
 
-        // si no hay resultados...
-        if (res == false) {
-          // 404: not found
-          respuesta.status(404).send("No hay medidas suficientes")
-          return
-        }
+      // si no hay resultados...
+      if (res == false) {
+        // 404: not found
+        respuesta.status(404).send("No hay medidas suficientes")
+        return
+      }
 
-        respuesta.send(res)
-      }) // get /medidasDelUltimoDia
+      respuesta.send(res)
+    }) // get /medidasDelUltimoDia
 
   // ......................................................
   // GET /buscarMedidasDelUltimoDiaDeUnUsuario/<idUsuario>
@@ -247,25 +278,27 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       respuesta.send(res)
     }) // get /relacionesUsuarioSensor
 
-    // ......................................................
-    // GET /calidadDelAireRespiradoEnElUltimo/<idUsuario>
-    // .......................................................
-    servidorExpress.get('/calidadDelAireRespiradoEnElUltimoDia/:idUsuario',
-      async function(peticion, respuesta) {
-        console.log(" * GET /calidadDelAireRespiradoEnElUltimoDia ")
+  // ......................................................
+  // GET /calidadDelAireRespiradoEnElUltimo/<idUsuario>
+  // .......................................................
+  servidorExpress.get('/calidadDelAireRespiradoEnElUltimoDia/:idUsuario',
+    async function(peticion, respuesta) {
+      console.log(" * GET /calidadDelAireRespiradoEnElUltimoDia ")
 
-        var idUsuario = peticion.params.idUsuario;
-        // busco las relacionesUsuarioSensor
-        var res = await laLogica.calidadDelAireRespiradoEnElUltimoDiaPorUnUsuario(idUsuario)
-        // si no hay resultados...
-        if (res == false) {
-          // 404: not found
-          respuesta.status(404).send("No hay medidas suficientes")
-          return
-        }
-        // todo ok
-        respuesta.send({respuesta:res})
-      }) // get /relacionesUsuarioSensor
+      var idUsuario = peticion.params.idUsuario;
+      // busco las relacionesUsuarioSensor
+      var res = await laLogica.calidadDelAireRespiradoEnElUltimoDiaPorUnUsuario(idUsuario)
+      // si no hay resultados...
+      if (res == false) {
+        // 404: not found
+        respuesta.status(404).send("No hay medidas suficientes")
+        return
+      }
+      // todo ok
+      respuesta.send({
+        respuesta: res
+      })
+    }) // get /relacionesUsuarioSensor
 
   // .......................................................
   // GET /getTodasLasMedidas
@@ -305,17 +338,17 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       respuesta.send(JSON.stringify(res))
     }) // get /getTodasLasMedidas
 
-    // .......................................................
-    // GET /taxistasFiltradosQueNoHanEnviadoEn24H
-    // .......................................................
-    servidorExpress.get('/taxistasFiltradosQueNoHanEnviadoEn24H',
-      async function(peticion, respuesta) {
-        console.log(" * GET /taxistasFiltradosQueNoHanEnviadoEn24H ")
+  // .......................................................
+  // GET /taxistasFiltradosQueNoHanEnviadoEn24H
+  // .......................................................
+  servidorExpress.get('/taxistasFiltradosQueNoHanEnviadoEn24H',
+    async function(peticion, respuesta) {
+      console.log(" * GET /taxistasFiltradosQueNoHanEnviadoEn24H ")
 
-        var res = await laLogica.filtrarTaxistasQueNoHanEnviadoEn24H()
-        // todo ok
-        respuesta.send(JSON.stringify(res))
-      }) // get /taxistasFiltradosQueNoHanEnviadoEn24H
+      var res = await laLogica.filtrarTaxistasQueNoHanEnviadoEn24H()
+      // todo ok
+      respuesta.send(JSON.stringify(res))
+    }) // get /taxistasFiltradosQueNoHanEnviadoEn24H
 
   // .......................................................
   // GET /getTodasLasMedidasDeUnUsuarioPorEmail/<email>
@@ -347,31 +380,44 @@ module.exports.cargar = function(servidorExpress, laLogica) {
       respuesta.send(JSON.stringify(res))
     }) // get /getTodasLasMedidas
 
-    // .......................................................
+  // .......................................................
   // GET /obtenerDatosEstacionGandia
   // .......................................................
   servidorExpress.get('/obtenerDatosEstacionGandia',
-  async function(peticion, respuesta) {
-    console.log(" * GET /obtenerDatosEstacionGandia ")
+    async function(peticion, respuesta) {
+      console.log(" * GET /obtenerDatosEstacionGandia ")
 
-    var res = await laLogica.getDatosEstacionGandia()
+      var res = await laLogica.getDatosEstacionGandia()
 
-    //console.log(res)
-    // todo ok
-    respuesta.send(JSON.stringify(res))
-  }) // get /obtenerDatosEstacionGandia
+      //console.log(res)
+      // todo ok
+      respuesta.send(JSON.stringify(res))
+    }) // get /obtenerDatosEstacionGandia
 
   // .......................................................
   // GET /obtenerFactorCalibracion
   // .......................................................
   servidorExpress.get('/obtenerFactorCalibracion',
-  async function(peticion, respuesta) {
-    console.log(" * GET /obtenerFactorCalibracion")
+    async function(peticion, respuesta) {
+      console.log(" * GET /obtenerFactorCalibracion")
 
-    var res = await laLogica.getDatosEstacionGandia()
+      var res = await laLogica.getDatosEstacionGandia()
 
-    respuesta.send(JSON.stringify(res[res.length-1].co))
-  }) // get /obtenerFactorCalibracion
+      respuesta.send(JSON.stringify(res[res.length - 1].co))
+    }) // get /obtenerFactorCalibracion
+
+  // .......................................................
+  // GET /mapa/<nombreMapa>
+  // .......................................................
+  servidorExpress.get('/mapa/:nombreMapa',
+    async function(peticion, respuesta) {
+      console.log(" * GET /mapa")
+
+      var data = fs.readFileSync('../ux/mapas/' + peticion.params.nombreMapa);
+      respuesta.contentType("application/pdf");
+      respuesta.send(data);
+
+    }) // get /mapa/<nombreMapa>
 
   //-----------------------------------------------------------------------------
   // POST /insertarMedida
@@ -443,6 +489,23 @@ module.exports.cargar = function(servidorExpress, laLogica) {
 
       console.log("Peticion POST cambiarEmail recibido");
     }) // post / cambiarEmail
+
+    //-----------------------------------------------------------------------------
+    // POST /borrarRelacionUsuarioSensor/<idUsuario>
+    // peticion.body --> JSON
+    // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
+    //-----------------------------------------------------------------------------
+    servidorExpress.post('/borrarRelacionUsuarioSensorPorIdUsuario/:idUsuario',
+      async function(peticion, respuesta) {
+
+        var res = await laLogica.borrarRelacionUsuarioSensorPorIdUsuario(peticion.params.idUsuario);
+
+        respuesta.send({
+          respuesta: true
+        });
+
+        console.log("Peticion POST /borrarRelacionUsuarioSensor recibido");
+      }) // post /borrarRelacionUsuarioSensor/:idUsuario
 
   //-----------------------------------------------------------------------------
   // POST /cambiarEmail
@@ -679,32 +742,78 @@ module.exports.cargar = function(servidorExpress, laLogica) {
   // al llamarlo deberemos insertar un JSON en el body para que lo pueda procesar.
   //-----------------------------------------------------------------------------
   servidorExpress.post('/asociarSensorUsuario',
-  async function(peticion, respuesta) {
+    async function(peticion, respuesta) {
 
-    console.log(" * POST /asociarSensorUsuario")
+      console.log(" * POST /asociarSensorUsuario")
 
-    var datos = JSON.parse(peticion.body)
+      var datos = JSON.parse(peticion.body)
 
-    console.log("datos" + peticion.body);
+      console.log("datos" + peticion.body);
 
-    var res = await laLogica.asociarSensorUsuario(datos);
+      var res = await laLogica.asociarSensorUsuario(datos);
 
-    if(res == 200){
-      //respuesta.send("OK")
-      respuesta.sendStatus(200);
-    }else if(res == 404){
-      //respuesta.send("No OK, sensor no existe en DB");
-      respuesta.sendStatus(404);
-    }else if(res == 300){
-      //respuesta.send("No Ok, sensor ya pertenece a otra persona")
-      respuesta.sendStatus(300);
-    }else{
-      respuesta.send(res);
+      if (res == 200) {
+        //respuesta.send("OK")
+        respuesta.sendStatus(200);
+      } else if (res == 404) {
+        //respuesta.send("No OK, sensor no existe en DB");
+        respuesta.sendStatus(404);
+      } else if (res == 300) {
+        //respuesta.send("No Ok, sensor ya pertenece a otra persona")
+        respuesta.sendStatus(300);
+      } else {
+        respuesta.send(res);
+      }
+
+      console.log("Peticion POST asociarSensorUsuario recibida");
+
+    }) // post / asociarSensorUsuario
+
+  // .......................................................
+  // Guardar fotos en ux/images
+  // .......................................................
+  let storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+      cb(null, '../ux/images')
+    },
+    filename: (req, file, cb) => {
+      cb(null, 'fotosubida' + '-' + Date.now() + path.extname(file.originalname));
     }
+  })
 
-    console.log("Peticion POST asociarSensorUsuario recibida");
+  const upload = multer({
+    storage: storage
+  })
 
-  }) // post / asociarSensorUsuario
+  //-----------------------------------------------------------------------------
+  // POST /subirImagen
+  // peticion.body --> file
+  // al llamarlo deberemos insertar una imagen en el body para que lo pueda procesar.
+  //-----------------------------------------------------------------------------
+  //-----------------------------------------------------------------------------
+  // POST /subirImagen
+  // peticion.body --> file
+  // al llamarlo deberemos insertar una imagen en el body para que lo pueda procesar.
+  //-----------------------------------------------------------------------------
+  servidorExpress.post('/subirImagen',
+    async function(peticion, respuesta) {
+
+      console.log(" * POST /subirImagen ")
+
+      var datos = JSON.parse(peticion.body)
+
+      let image = datos["file"];
+
+    // luego extraes la cabecera del data url
+    var base64Data = image.replace(/^data:image\/jpeg;base64,/, "");
+
+    // grabas la imagen el disco
+    fs.writeFile('../ux/images/imageContaminacion.jpg', base64Data, 'base64', function(err) {
+        console.log(err);
+    });
+
+    }) // post / subirImagen
+
 
   //-----------------------------------------------------------------------------
   // GET /ux/<pagina>
@@ -744,6 +853,16 @@ module.exports.cargar = function(servidorExpress, laLogica) {
 
     var elPath = path.join(__dirname, '..', 'ux', 'images');
     respuesta.sendFile(elPath + "/" + peticion.params.imagen);
+  });
+
+  //-----------------------------------------------------------------------------
+  // GET /ux/mapas/<mapa>
+  //-----------------------------------------------------------------------------
+  servidorExpress.get('/ux/mapas/:mapa', function(peticion, respuesta) {
+    console.log(" servint mapa: " + peticion.params.mapa)
+
+    var elPath = path.join(__dirname, '..', 'ux', 'mapas');
+    respuesta.sendFile(elPath + "/" + peticion.params.mapa);
   });
 
 } // cargar()
