@@ -19,6 +19,8 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.github.rahatarmanahmed.cpv.CircularProgressView;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 
@@ -30,7 +32,7 @@ public class FotoActivity extends Activity {
     private ImageView foto;
     private ImageView salir;
     private LogicaFake laLogica;
-
+    private CircularProgressView progressView;
 
 
     @Override
@@ -59,6 +61,11 @@ public class FotoActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
 
+            //Empieza la animación de cargar
+            progressView = (CircularProgressView) findViewById(R.id.progress_viewFoto);
+            progressView.setVisibility(View.VISIBLE);
+            progressView.startAnimation();
+
             Bitmap imageBitmap = (Bitmap)data.getExtras().get("data");
             foto.setImageBitmap(imageBitmap);
 
@@ -69,7 +76,8 @@ public class FotoActivity extends Activity {
             laLogica.subirImagen(image ,new PeticionarioREST.Callback () {
                         @Override
                         public void respuestaRecibida(int codigo, String cuerpo) {
-                            Log.d("HOLAAAA", cuerpo);
+                            progressView.stopAnimation();
+                            progressView.setVisibility(View.INVISIBLE);
                             Bitmap imagenProcesada = StringToBitMap(cuerpo);
                             foto.setImageBitmap(imagenProcesada);
                         }
