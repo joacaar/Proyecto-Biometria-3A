@@ -69,7 +69,9 @@ public class FotoActivity extends Activity {
             laLogica.subirImagen(image ,new PeticionarioREST.Callback () {
                         @Override
                         public void respuestaRecibida(int codigo, String cuerpo) {
-
+                            Log.d("HOLAAAA", cuerpo);
+                            Bitmap imagenProcesada = StringToBitMap(cuerpo);
+                            foto.setImageBitmap(imagenProcesada);
                         }
             });
 
@@ -84,6 +86,19 @@ public class FotoActivity extends Activity {
         String encodedImage = Base64.encodeToString(imageBytes, Base64.DEFAULT);
         return encodedImage;
     }
+
+    public Bitmap StringToBitMap(String encodedString){
+        try{
+            byte [] encodeByte = Base64.decode(encodedString,Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(encodeByte, 0, encodeByte.length);
+            return bitmap;
+        }
+        catch(Exception e){
+            e.getMessage();
+            return null;
+        }
+    }
+
 
     @Override
     public void onRequestPermissionsResult(int respuesta, String[] permissions, int[]grantResult){

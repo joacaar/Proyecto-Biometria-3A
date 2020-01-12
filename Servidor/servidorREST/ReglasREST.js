@@ -780,7 +780,9 @@ module.exports.cargar = function (servidorExpress, laLogica) {
 
       var datos = JSON.parse(peticion.body)
 
-      guardarImagenEnCarpeta(datos);
+      var res = await laLogica.guardarImagenEnCarpeta(datos);
+      
+      respuesta.send( Buffer(res).toString('base64'));
 
     }) // post / subirImagen
 

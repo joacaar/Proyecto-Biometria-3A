@@ -1052,17 +1052,36 @@ module.exports = class Logica {
     var base64Data = image.replace(/^data:image\/jpeg;base64,/, "");
 
     // grabas la imagen el disco
-    fs.writeFile('../ux/images/paraProcesar.jpg', base64Data, 'base64', function (err) {
+    fs.writeFile('../Imagenes_A_Procesar/paraProcesar.jpg', base64Data, 'base64', function (err) {
       if (err != null) {
         console.log(err);
       }
     });
+
+    const res = await this.obtenerImagenProcesada()
+    //console.log("String imagen: " + res)
+
+    return new Promise((resolver, rechazar) => {
+      try {
+        resolver(res)
+      } catch (error) {
+        rechazar(error)
+      }
+    })
   }
 
   // .................................................................
-  // subirImagen()
-  // -->
+  //   obtenerImagenProcesada() --> imagenProcesada
   // .................................................................
+  async obtenerImagenProcesada (){
+    return new Promise((resolver, rechazar) => {
+      setTimeout(function(){
+        var res = fs.readFileSync('../Imagenes_Procesadas/binaria.jpg')
+        resolver(res)
+      }, 3000);
+    });
+  }
+
 
   // .................................................................
   // cerrar() -->
