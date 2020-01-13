@@ -1078,7 +1078,7 @@ module.exports = class Logica {
       setTimeout(function(){
         var res = fs.readFileSync('../Imagenes_Procesadas/binaria.jpg')
         resolver(res)
-      }, 3000);
+      }, 5000);
     });
   }
 

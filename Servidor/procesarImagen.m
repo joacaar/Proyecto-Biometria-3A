@@ -1,3 +1,8 @@
+%------------------------------------------------------------
+% Imagen ->
+%   procesarImagen()
+% Imagen <-
+%------------------------------------------------------------
 function procesarImagen()
 image=imread('./Imagenes_A_Procesar/paraProcesar.jpg');
 
